@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\C00273530\\Desktop\\asm-9.7-20231221.122101-11.jar",
+        "c:\\Users\\C00273530\\Desktop\\asm-util-9.7-20231221.122101-11.jar",
+        "c:\\Users\\C00273530\\Desktop\\jboss-javassist-javassist-7302b8b\\javassist.jar"
+    ]
+}
