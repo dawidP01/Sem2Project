@@ -8,6 +8,8 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
@@ -18,13 +20,11 @@ import java.util.spi.ToolProvider;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
-import javassist.NotFoundException;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.CodeIterator;
 import javassist.bytecode.ConstPool;
 import javassist.bytecode.MethodInfo;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 /**
  *
@@ -68,7 +68,7 @@ public class NewJFrame extends javax.swing.JFrame {
         displayBytecode();
         setCtClass();  
         setMethods();  
-        
+        redirectSystemOutput();
         test();
     }
     public void copyToWorkingDirectory() {
@@ -151,6 +151,20 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         }
     }
+    // Redirects output to the terminal text area
+    // FIX: THE OUTPUT DOESNT FULLY REDIRECT
+    private void redirectSystemOutput() {
+    OutputStream outputStream = new OutputStream() {
+        @Override
+        public void write(int b) throws IOException {
+            terminalTextArea.append(String.valueOf((char) b));
+            terminalTextArea.setCaretPosition(terminalTextArea.getDocument().getLength());
+        }
+    };
+
+    System.setOut(new PrintStream(outputStream));
+}
+        
     public void test(){
         try {
             CtMethod method = methods[0];
@@ -174,10 +188,14 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
+        stackFrame = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         stackTextArea = new javax.swing.JTextArea();
+        helpFrame = new javax.swing.JFrame();
+        jPanel2 = new javax.swing.JPanel();
+        optionsFrame = new javax.swing.JFrame();
+        jPanel3 = new javax.swing.JPanel();
         FilePanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         OptionsButton = new javax.swing.JButton();
@@ -191,15 +209,17 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         CentrePanel = new javax.swing.JPanel();
-        Terminal = new javax.swing.JTabbedPane();
+        terminalPane = new javax.swing.JTabbedPane();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        terminalTextArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         constPoolTextArea = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         testArea = new javax.swing.JTextArea();
         testLabel = new javax.swing.JLabel();
+
+        stackFrame.setTitle("Stack");
 
         stackTextArea.setColumns(20);
         stackTextArea.setRows(5);
@@ -222,15 +242,74 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout stackFrameLayout = new javax.swing.GroupLayout(stackFrame.getContentPane());
+        stackFrame.getContentPane().setLayout(stackFrameLayout);
+        stackFrameLayout.setHorizontalGroup(
+            stackFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        stackFrameLayout.setVerticalGroup(
+            stackFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        helpFrame.setTitle("Manual");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 371, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 282, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout helpFrameLayout = new javax.swing.GroupLayout(helpFrame.getContentPane());
+        helpFrame.getContentPane().setLayout(helpFrameLayout);
+        helpFrameLayout.setHorizontalGroup(
+            helpFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(helpFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        helpFrameLayout.setVerticalGroup(
+            helpFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(helpFrameLayout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        optionsFrame.setTitle("Options");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 388, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 288, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout optionsFrameLayout = new javax.swing.GroupLayout(optionsFrame.getContentPane());
+        optionsFrame.getContentPane().setLayout(optionsFrameLayout);
+        optionsFrameLayout.setHorizontalGroup(
+            optionsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        optionsFrameLayout.setVerticalGroup(
+            optionsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsFrameLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -250,6 +329,7 @@ public class NewJFrame extends javax.swing.JFrame {
         OptionsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 OptionsButtonActionPerformed(evt);
+                OptionsButtonActionPerformed1(evt);
             }
         });
 
@@ -302,7 +382,6 @@ public class NewJFrame extends javax.swing.JFrame {
         StackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 StackButtonActionPerformed(evt);
-                StackButtonActionPerformed1(evt);
             }
         });
 
@@ -360,21 +439,21 @@ public class NewJFrame extends javax.swing.JFrame {
 
         CentrePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0)));
 
-        Terminal.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        Terminal.setDoubleBuffered(true);
+        terminalPane.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        terminalPane.setDoubleBuffered(true);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane4.setViewportView(jTextArea1);
+        terminalTextArea.setColumns(20);
+        terminalTextArea.setRows(5);
+        jScrollPane4.setViewportView(terminalTextArea);
 
-        Terminal.addTab("Terminal", jScrollPane4);
-        Terminal.addTab("Tutorial", jLabel1);
+        terminalPane.addTab("Terminal", jScrollPane4);
+        terminalPane.addTab("Tutorial", jLabel1);
 
         constPoolTextArea.setColumns(20);
         constPoolTextArea.setRows(5);
         jScrollPane1.setViewportView(constPoolTextArea);
 
-        Terminal.addTab("Constants Pool", jScrollPane1);
+        terminalPane.addTab("Constants Pool", jScrollPane1);
 
         testArea.setColumns(20);
         testArea.setRows(5);
@@ -386,7 +465,7 @@ public class NewJFrame extends javax.swing.JFrame {
         CentrePanel.setLayout(CentrePanelLayout);
         CentrePanelLayout.setHorizontalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Terminal)
+            .addComponent(terminalPane)
             .addGroup(CentrePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -404,7 +483,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(testLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Terminal))
+                .addComponent(terminalPane))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -489,20 +568,20 @@ public class NewJFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_RunButtonActionPerformed
 
-    private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
-        JFrame helpFrame = new JFrame("Help Frame");
-        helpFrame.setSize(200,200);
-        helpFrame.setVisible(true);
-    }//GEN-LAST:event_helpButtonActionPerformed
-
     private void StackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StackButtonActionPerformed
-        
+        stackFrame.setVisible(true);
+        stackFrame.setSize(200,200);
     }//GEN-LAST:event_StackButtonActionPerformed
 
-    private void StackButtonActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StackButtonActionPerformed1
-        jFrame1.setVisible(true);
-        jFrame1.setSize(200,200);
-    }//GEN-LAST:event_StackButtonActionPerformed1
+    private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
+        helpFrame.setVisible(true);
+        helpFrame.setSize(200,200);
+    }//GEN-LAST:event_helpButtonActionPerformed
+
+    private void OptionsButtonActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OptionsButtonActionPerformed1
+        optionsFrame.setVisible(true);
+        optionsFrame.setSize(200,200);
+    }//GEN-LAST:event_OptionsButtonActionPerformed1
 
     /**
      * @param args the command line arguments
@@ -547,23 +626,27 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton RunButton;
     private javax.swing.JPanel RunPanel;
     private javax.swing.JButton StackButton;
-    private javax.swing.JTabbedPane Terminal;
     private javax.swing.JTextArea constPoolTextArea;
     private javax.swing.JButton helpButton;
+    private javax.swing.JFrame helpFrame;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
-    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JFrame optionsFrame;
+    private javax.swing.JFrame stackFrame;
     private javax.swing.JTextArea stackTextArea;
+    private javax.swing.JTabbedPane terminalPane;
+    private javax.swing.JTextArea terminalTextArea;
     private javax.swing.JTextArea testArea;
     private javax.swing.JLabel testLabel;
     // End of variables declaration//GEN-END:variables
