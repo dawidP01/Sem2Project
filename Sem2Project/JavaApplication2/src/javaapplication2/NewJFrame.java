@@ -12,10 +12,12 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Stack;
 import java.util.spi.ToolProvider;
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -24,6 +26,7 @@ import javassist.bytecode.ClassFile;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.CodeIterator;
 import javassist.bytecode.ConstPool;
+import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
 import javax.swing.JOptionPane;
 /**
@@ -41,6 +44,11 @@ public class NewJFrame extends javax.swing.JFrame {
     ConstPool constantsPool;
     java.util.List<MethodInfo> methodNames;
     CtMethod[] methods;
+    
+    String classString;
+    String code;
+    Stack<stackEntry> stack = new Stack();
+    stackEntry[] localVariableArray = new stackEntry[100];
     /**
      * Creates new form NewJFrame
      */
@@ -66,10 +74,14 @@ public class NewJFrame extends javax.swing.JFrame {
         setMethodNames();
         setConstantsPoolTab();
         displayBytecode();
+        setOutputText();
+        setClassString();
         setCtClass();  
         setMethods();  
         redirectSystemOutput();
         test();
+        
+        runInterpreter();
     }
     public void copyToWorkingDirectory() {
         String destinationDirectory = System.getProperty("user.dir");
@@ -131,6 +143,21 @@ public class NewJFrame extends javax.swing.JFrame {
             "-v", "-p", sourceFilePath);
         testArea.setText(out.toString());
     }
+    public void setOutputText(){
+        String classText = testArea.getText();
+        Path workingDir = Paths.get("Output.txt");
+        workingDir = workingDir.toAbsolutePath();
+        try {
+            Files.writeString(workingDir, classText,
+                              StandardCharsets.UTF_8);
+        }
+        catch (IOException ex) {
+            System.out.print("Invalid Path");
+        }
+    }
+    public void setClassString(){
+        this.classString = testArea.getText();
+    }
     public void setCtClass(){
         ctClass = pool.makeClass(classFile); 
     }
@@ -154,30 +181,40 @@ public class NewJFrame extends javax.swing.JFrame {
     // Redirects output to the terminal text area
     // FIX: THE OUTPUT DOESNT FULLY REDIRECT
     private void redirectSystemOutput() {
-    OutputStream outputStream = new OutputStream() {
-        @Override
-        public void write(int b) throws IOException {
-            terminalTextArea.append(String.valueOf((char) b));
-            terminalTextArea.setCaretPosition(terminalTextArea.getDocument().getLength());
-        }
-    };
-
-    System.setOut(new PrintStream(outputStream));
-}
+        OutputStream outputStream = new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                terminalTextArea.append(String.valueOf((char) b));
+                terminalTextArea.setCaretPosition(terminalTextArea.getDocument().getLength());
+            }
+        };
+        System.setOut(new PrintStream(outputStream));
+    }
         
     public void test(){
-        try {
-            CtMethod method = methods[0];
-            method.insertBefore("{ Thread.dumpStack(); }");
-
-            // Step 5: Convert the modified class back into a class
-            ctClass.toClass();
-
-            // Step 6: Instantiate and execute the modified class
-        
-        } catch (Exception e) {
-            e.printStackTrace();
+        CtMethod method = methods[0];
+        MethodInfo methodInfo = method.getMethodInfo();
+        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
+        LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
+        if (attr != null) {
+            for (int i = 0; i < attr.tableLength(); i++) {
+                System.out.println("Local variable #" + i);
+                System.out.println("Name: " + attr.variableName(i));
+                System.out.println("Index: " + attr.index(i));
+                System.out.println("Descriptor: " + attr.descriptor(i));
+                System.out.println();
+            }
+        } else {
+            System.out.println("null");
         }
+        System.out.println("hi");
+    }
+    
+    public void runInterpreter(){
+        setCode();
+    }
+    public void setCode(){
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.

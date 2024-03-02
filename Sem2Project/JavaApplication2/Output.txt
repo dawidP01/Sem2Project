@@ -1,0 +1,64 @@
+Classfile /C:/Users/C00273530/Desktop/TESTING/Vibes.class
+  Last modified 2 Mar 2024; size 309 bytes
+  SHA-256 checksum 29689063c1246e2ac33dfd67fa6c41be00f1253983dd4ce497729720ed6672ec
+  Compiled from "Vibes.java"
+public class Vibes
+  minor version: 0
+  major version: 65
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #7                          // Vibes
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Class              #8             // Vibes
+   #8 = Utf8               Vibes
+   #9 = Utf8               Code
+  #10 = Utf8               LineNumberTable
+  #11 = Utf8               main
+  #12 = Utf8               ([Ljava/lang/String;)V
+  #13 = Utf8               StackMapTable
+  #14 = Utf8               SourceFile
+  #15 = Utf8               Vibes.java
+{
+  public Vibes();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 1: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=2, args_size=1
+         0: iconst_0
+         1: istore_1
+         2: iload_1
+         3: iconst_5
+         4: if_icmpge     13
+         7: iinc          1, 1
+        10: goto          2
+        13: return
+      LineNumberTable:
+        line 3: 0
+        line 4: 2
+        line 5: 7
+        line 7: 13
+      StackMapTable: number_of_entries = 2
+        frame_type = 252 /* append */
+          offset_delta = 2
+          locals = [ int ]
+        frame_type = 10 /* same */
+}
+SourceFile: "Vibes.java"
