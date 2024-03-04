@@ -47,8 +47,8 @@ public class NewJFrame extends javax.swing.JFrame {
     
     String classString;
     String code;
-    Stack<stackEntry> stack = new Stack();
-    stackEntry[] localVariableArray = new stackEntry[100];
+    Opicodes op;
+    int currentLine;
     /**
      * Creates new form NewJFrame
      */
@@ -205,15 +205,23 @@ public class NewJFrame extends javax.swing.JFrame {
                 System.out.println();
             }
         } else {
-            System.out.println("null");
+      //      System.out.println("null");
         }
-        System.out.println("hi");
     }
     
     public void runInterpreter(){
         setCode();
+        testLabel.setText(classString);
+        op = new Opicodes(classString);
+        String[] a = op.getInstructions();
+      //  op.setParameters(a, a[13]);
+      //  System.out.println(a[13]);
+      //  System.out.println(a[8]);
     }
     public void setCode(){
+        
+    }
+    public void updateStackTable(){
         
     }
     /**
@@ -227,8 +235,10 @@ public class NewJFrame extends javax.swing.JFrame {
 
         stackFrame = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        stackTextArea = new javax.swing.JTextArea();
+        stackTable = new javax.swing.JTable();
         helpFrame = new javax.swing.JFrame();
         jPanel2 = new javax.swing.JPanel();
         optionsFrame = new javax.swing.JFrame();
@@ -240,7 +250,7 @@ public class NewJFrame extends javax.swing.JFrame {
         helpButton = new javax.swing.JButton();
         RunPanel = new javax.swing.JPanel();
         RunButton = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
         StackButton = new javax.swing.JButton();
         LeftPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -258,32 +268,58 @@ public class NewJFrame extends javax.swing.JFrame {
 
         stackFrame.setTitle("Stack");
 
-        stackTextArea.setColumns(20);
-        stackTextArea.setRows(5);
-        jScrollPane5.setViewportView(stackTextArea);
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Method A", "Method B" }));
+
+        jLabel2.setText("Choose Stack Frame:");
+
+        stackTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Operand Stack", "LVA", "Frame Data"
+            }
+        ));
+        jScrollPane5.setViewportView(stackTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout stackFrameLayout = new javax.swing.GroupLayout(stackFrame.getContentPane());
         stackFrame.getContentPane().setLayout(stackFrameLayout);
         stackFrameLayout.setHorizontalGroup(
             stackFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(stackFrameLayout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         stackFrameLayout.setVerticalGroup(
             stackFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,7 +449,12 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("Next Instruction");
+        nextButton.setText("Next Instruction");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
 
         StackButton.setText("Stack");
         StackButton.addActionListener(new java.awt.event.ActionListener() {
@@ -430,7 +471,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(RunButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
+                .addComponent(nextButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(StackButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -441,7 +482,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap(11, Short.MAX_VALUE)
                 .addGroup(RunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RunButton)
-                    .addComponent(jButton6)
+                    .addComponent(nextButton)
                     .addComponent(StackButton))
                 .addContainerGap())
         );
@@ -607,7 +648,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void StackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StackButtonActionPerformed
         stackFrame.setVisible(true);
-        stackFrame.setSize(200,200);
+        stackFrame.setSize(280,200);
     }//GEN-LAST:event_StackButtonActionPerformed
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
@@ -619,6 +660,16 @@ public class NewJFrame extends javax.swing.JFrame {
         optionsFrame.setVisible(true);
         optionsFrame.setSize(200,200);
     }//GEN-LAST:event_OptionsButtonActionPerformed1
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        if(op != null){
+            op.runInstructions();
+            op.setCurrentLine(op.getCurrentLine()+1);
+            updateStackTable();
+        } else {
+            errorPopUp("Please select a class file first");
+        }
+    }//GEN-LAST:event_nextButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -668,8 +719,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JFrame helpFrame;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -679,9 +731,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTree jTree1;
+    private javax.swing.JButton nextButton;
     private javax.swing.JFrame optionsFrame;
     private javax.swing.JFrame stackFrame;
-    private javax.swing.JTextArea stackTextArea;
+    private javax.swing.JTable stackTable;
     private javax.swing.JTabbedPane terminalPane;
     private javax.swing.JTextArea terminalTextArea;
     private javax.swing.JTextArea testArea;
