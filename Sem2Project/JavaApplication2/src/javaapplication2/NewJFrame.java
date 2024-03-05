@@ -29,6 +29,8 @@ import javassist.bytecode.ConstPool;
 import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author C00273530
@@ -55,6 +57,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
         initComponents();
         setTerminal();
+        setTextTable();
     }
     // Sets the terminal window at the bottom of the screen
     public void setTerminal(){
@@ -80,7 +83,7 @@ public class NewJFrame extends javax.swing.JFrame {
         setMethods();  
         redirectSystemOutput();
         test();
-        
+        setTextTable();
         runInterpreter();
     }
     public void copyToWorkingDirectory() {
@@ -141,10 +144,10 @@ public class NewJFrame extends javax.swing.JFrame {
             stdout,
             stderr,
             "-v", "-p", sourceFilePath);
-        testArea.setText(out.toString());
+        classString = out.toString();
     }
     public void setOutputText(){
-        String classText = testArea.getText();
+        String classText = classString;
         Path workingDir = Paths.get("Output.txt");
         workingDir = workingDir.toAbsolutePath();
         try {
@@ -156,7 +159,7 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
     public void setClassString(){
-        this.classString = testArea.getText();
+       // this.classString = testArea.getText();
     }
     public void setCtClass(){
         ctClass = pool.makeClass(classFile); 
@@ -211,7 +214,6 @@ public class NewJFrame extends javax.swing.JFrame {
     
     public void runInterpreter(){
         setCode();
-        testLabel.setText(classString);
         op = new Opicodes(classString);
         String[] a = op.getInstructions();
       //  op.setParameters(a, a[13]);
@@ -244,6 +246,30 @@ public class NewJFrame extends javax.swing.JFrame {
         clearStackTable();
         updateOperandStack();
         updateLVA();
+    }
+    public void textTableRemoveAllRows(){
+        DefaultTableModel model = (DefaultTableModel) textTable.getModel();
+        model.getDataVector().removeAllElements();
+    }
+    public void setTextTableRows(){
+        if (classString != null){
+            DefaultTableModel model = (DefaultTableModel) textTable.getModel();
+            Object[] lines = classString.lines().toArray();
+            for(int i=0;i<lines.length;i++){
+                model.addRow(new Object[]{i, lines[i]});
+            }
+        }
+    }
+    public void setTextTable(){
+        // Makes the title of columns invisible
+        textTable.getTableHeader().setVisible(false);
+        // Turns off resize mode for the table
+        textTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        // Makes the column containing numbers as small as possible
+        textTable.getColumnModel().getColumn(0).setMinWidth(0);
+        textTable.getColumnModel().getColumn(0).setMaxWidth(30);
+        textTableRemoveAllRows();
+        setTextTableRows();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -283,9 +309,10 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         constPoolTextArea = new javax.swing.JTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        testArea = new javax.swing.JTextArea();
-        testLabel = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        textTable = new javax.swing.JTable();
 
         stackFrame.setTitle("Stack");
 
@@ -477,7 +504,7 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        StackButton.setText("Stack");
+        StackButton.setText("Stack Frame");
         StackButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 StackButtonActionPerformed(evt);
@@ -529,7 +556,10 @@ public class NewJFrame extends javax.swing.JFrame {
         LeftPanel.setLayout(LeftPanelLayout);
         LeftPanelLayout.setHorizontalGroup(
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+            .addGroup(LeftPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                .addContainerGap())
         );
         LeftPanelLayout.setVerticalGroup(
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -554,11 +584,21 @@ public class NewJFrame extends javax.swing.JFrame {
 
         terminalPane.addTab("Constants Pool", jScrollPane1);
 
-        testArea.setColumns(20);
-        testArea.setRows(5);
-        jScrollPane3.setViewportView(testArea);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane6.setViewportView(jTextArea1);
 
-        testLabel.setText("testLabel");
+        terminalPane.addTab("Call Stack", jScrollPane6);
+
+        textTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2"
+            }
+        ));
+        jScrollPane7.setViewportView(textTable);
 
         javax.swing.GroupLayout CentrePanelLayout = new javax.swing.GroupLayout(CentrePanel);
         CentrePanel.setLayout(CentrePanelLayout);
@@ -566,23 +606,17 @@ public class NewJFrame extends javax.swing.JFrame {
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(terminalPane)
             .addGroup(CentrePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(CentrePanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(testLabel))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43))
         );
         CentrePanelLayout.setVerticalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CentrePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(testLabel)
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(terminalPane))
+                .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -593,8 +627,9 @@ public class NewJFrame extends javax.swing.JFrame {
             .addComponent(RunPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(LeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -748,9 +783,11 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
     private javax.swing.JButton nextButton;
     private javax.swing.JFrame optionsFrame;
@@ -758,7 +795,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTable stackTable;
     private javax.swing.JTabbedPane terminalPane;
     private javax.swing.JTextArea terminalTextArea;
-    private javax.swing.JTextArea testArea;
-    private javax.swing.JLabel testLabel;
+    private javax.swing.JTable textTable;
     // End of variables declaration//GEN-END:variables
 }
