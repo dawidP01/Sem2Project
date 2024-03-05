@@ -221,8 +221,29 @@ public class NewJFrame extends javax.swing.JFrame {
     public void setCode(){
         
     }
+    public void clearStackTable(){
+        int rowCount = stackTable.getRowCount();
+        for (int i=0;i<rowCount;i++){
+            stackTable.setValueAt(null,i,0);
+            stackTable.setValueAt(null,i,1);
+        }
+    }
+    public void updateOperandStack(){
+        Stack<Object> stack = op.getStack();
+        for(int i=0;i<stack.size();i++){
+            stackTable.setValueAt(stack.get(i), i, 0);
+        }
+    }
+    public void updateLVA(){
+        Object[] LVA = op.getLVA();
+        for(int i=0;i<LVA.length;i++){
+            stackTable.setValueAt(LVA[i], i, 1);
+        }
+    }
     public void updateStackTable(){
-        
+        clearStackTable();
+        updateOperandStack();
+        updateLVA();
     }
     /**
      * This method is called from within the constructor to initialize the form.
