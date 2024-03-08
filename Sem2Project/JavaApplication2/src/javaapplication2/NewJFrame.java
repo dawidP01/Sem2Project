@@ -233,7 +233,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public void updateOperandStack(){
         Stack<Object> stack = op.getStack();
         for(int i=0;i<stack.size();i++){
-            stackTable.setValueAt(stack.get(i), i, 0);
+            stackTable.setValueAt(stack.get(i), stack.size()-1-i, 0);
         }
     }
     public void updateLVA(){
@@ -247,10 +247,12 @@ public class NewJFrame extends javax.swing.JFrame {
         updateOperandStack();
         updateLVA();
     }
+    // Removes all rows in the text table
     public void textTableRemoveAllRows(){
         DefaultTableModel model = (DefaultTableModel) textTable.getModel();
         model.getDataVector().removeAllElements();
     }
+    // Assigns each row a corresponding line from the bytecode
     public void setTextTableRows(){
         if (classString != null){
             DefaultTableModel model = (DefaultTableModel) textTable.getModel();
@@ -311,8 +313,11 @@ public class NewJFrame extends javax.swing.JFrame {
         constPoolTextArea = new javax.swing.JTextArea();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane7 = new javax.swing.JScrollPane();
         textTable = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         stackFrame.setTitle("Stack");
 
@@ -600,21 +605,34 @@ public class NewJFrame extends javax.swing.JFrame {
         ));
         jScrollPane7.setViewportView(textTable);
 
+        jTabbedPane1.addTab("Bytecode", jScrollPane7);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        jTabbedPane1.addTab("Java", jScrollPane3);
+
         javax.swing.GroupLayout CentrePanelLayout = new javax.swing.GroupLayout(CentrePanel);
         CentrePanel.setLayout(CentrePanelLayout);
         CentrePanelLayout.setHorizontalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(terminalPane)
-            .addGroup(CentrePanelLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43))
+            .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         CentrePanelLayout.setVerticalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CentrePanelLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
         );
@@ -628,8 +646,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(LeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -783,10 +800,13 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
     private javax.swing.JButton nextButton;
