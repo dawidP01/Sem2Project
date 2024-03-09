@@ -44,7 +44,6 @@ public class NewJFrame extends javax.swing.JFrame {
     ClassPool pool = ClassPool.getDefault();
     CtClass ctClass;
     ClassFile classFile;
-    ConstPool constantsPool;
     java.util.List<MethodInfo> methodNames;
     CtMethod[] methods;
     
@@ -77,7 +76,6 @@ public class NewJFrame extends javax.swing.JFrame {
         copyToWorkingDirectory();
         setClassFileAndConstantPool();
         setMethodNames();
-        setConstantsPoolTab();
         displayCode();
         setOutputText();
         setClassString();
@@ -106,10 +104,8 @@ public class NewJFrame extends javax.swing.JFrame {
             FileInputStream fileInputStream = new FileInputStream(sourceFilePath);
             DataInputStream dataInputStream = new DataInputStream(fileInputStream);
             ClassFile classFile = new ClassFile(dataInputStream);
-            ConstPool table = classFile.getConstPool();
             
             this.classFile = classFile;
-            this.constantsPool = table;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,24 +114,6 @@ public class NewJFrame extends javax.swing.JFrame {
     public void setMethodNames(){  
         methodNames = classFile.getMethods();
        // testLabel.setText(methodNames.get(0).toString());
-    }
-    /* Sets the 3rd tab at the bottom of the screen to display the
-       constants table */
-    public void setConstantsPoolTab(){
-        try{
-            ConstPool constPool = classFile.getConstPool();
-            StringWriter stringWriter = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(stringWriter);
-            constPool.print(printWriter);
-            printWriter.flush();
-            String constantPoolString = stringWriter.toString();
-            printWriter.close();
-            stringWriter.close();
-            this.constPoolTextArea.setText(constantPoolString);
-        } catch (IOException e){
-            e.printStackTrace();
-            errorPopUp("Error with setting the Constants Pool Table");
-        }
     }
     public void displayBytecode(){
         ToolProvider javap = ToolProvider.findFirst("javap").orElseThrow();
@@ -329,11 +307,21 @@ public class NewJFrame extends javax.swing.JFrame {
         for(int i=0;i<classString.length();i++){
             if(classString.substring(i, i+13).compareTo("Constant pool")==0){
                 // Removes the class info from the central text table
-                setTextTableRows(classString.substring(i));
+                setConstantsPoolTab(classString.substring(i));
+                
                 break;
             }else{
                 text = jTextArea2.getText();
                 jTextArea2.setText(text+classString.charAt(i));
+            }
+        }
+    }
+    public void setConstantsPoolTab(String text){
+        for(int i=0;i<text.length();i++){
+            if(text.charAt(i)=='{'){
+                constPoolTextArea.setText(text.substring(0,i));
+                setTextTableRows(text.substring(i));
+                break;
             }
         }
     }
@@ -704,9 +692,10 @@ public class NewJFrame extends javax.swing.JFrame {
         CentrePanelLayout.setVerticalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CentrePanelLayout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(terminalPane, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(terminalPane, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
