@@ -31,6 +31,7 @@ import javassist.bytecode.MethodInfo;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.tools.JavaCompiler;
 /**
  *
  * @author C00273530
@@ -48,6 +49,7 @@ public class NewJFrame extends javax.swing.JFrame {
     CtMethod[] methods;
     
     String classString;
+    String javaFilePath;
     String code;
     Opicodes op;
     int currentLine;
@@ -76,7 +78,7 @@ public class NewJFrame extends javax.swing.JFrame {
         setClassFileAndConstantPool();
         setMethodNames();
         setConstantsPoolTab();
-        displayBytecode();
+        displayCode();
         setOutputText();
         setClassString();
         setCtClass();  
@@ -145,6 +147,14 @@ public class NewJFrame extends javax.swing.JFrame {
             stderr,
             "-v", "-p", sourceFilePath);
         classString = out.toString();
+    }
+    public void displayJava(){
+        
+    }
+    public void displayCode(){
+        displayBytecode();
+        displayJava();
+        setTextJavaTable();
     }
     public void setOutputText(){
         String classText = classString;
@@ -273,6 +283,38 @@ public class NewJFrame extends javax.swing.JFrame {
         textTableRemoveAllRows();
         setTextTableRows();
     }
+    public void textJavaTableRemoveAllRows(){
+        DefaultTableModel model = (DefaultTableModel) textJavaTable.getModel();
+        model.getDataVector().removeAllElements();
+    }
+    public void setTextJavaTableRows(){
+        System.out.println("Hello");
+        if (javaFilePath != null){
+            DefaultTableModel model = (DefaultTableModel) textJavaTable.getModel();
+            try{
+                String content = Files.readString(Paths.get(javaFilePath), StandardCharsets.UTF_8);
+                Object[] lines = content.lines().toArray();
+                System.out.println("Hello");
+                System.out.println(content);
+                for(int i=0;i<lines.length;i++){
+                    model.addRow(new Object[]{i, lines[i]});
+                }
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public void setTextJavaTable(){
+        // Makes the title of columns invisible
+        textJavaTable.getTableHeader().setVisible(false);
+        // Turns off resize mode for the table
+        textJavaTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        // Makes the column containing numbers as small as possible
+        textJavaTable.getColumnModel().getColumn(0).setMinWidth(0);
+        textJavaTable.getColumnModel().getColumn(0).setMaxWidth(30);
+        textJavaTableRemoveAllRows();
+        setTextJavaTableRows();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -317,7 +359,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane7 = new javax.swing.JScrollPane();
         textTable = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        textJavaTable = new javax.swing.JTable();
 
         stackFrame.setTitle("Stack");
 
@@ -607,7 +649,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Bytecode", jScrollPane7);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        textJavaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -618,7 +660,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(textJavaTable);
 
         jTabbedPane1.addTab("Java", jScrollPane3);
 
@@ -668,19 +710,61 @@ public class NewJFrame extends javax.swing.JFrame {
         ch.showOpenDialog(null);
         File f = ch.getSelectedFile(); // Sets the class file that will be used
         String filePath = f.getAbsolutePath(); // Sets the path to that file
-        
         String fileName = f.getName();      
         int dotIndex = fileName.lastIndexOf(".");
         if (dotIndex != -1 && dotIndex < fileName.length() - 1) {
             // Extract the extension
+            String shortName = fileName.substring(0, dotIndex);
             String extension = fileName.substring(dotIndex + 1);
             // Checks if the selected file is a class file
             if(extension.compareTo("class") == 0){
+                /*
                 this.f = f;
                 this.sourceFilePath = filePath;
                 initClassComponents();
-            } else {
-                errorPopUp("Please Select a class File");
+                */
+                errorPopUp("Please select a java File");
+                // Below compiles the file
+            } else if(extension.compareTo("java") == 0){
+                // Path to the directory where you want to place the compiled .class file
+                String outputDirectoryPath = System.getProperty("user.dir");
+                // Create a ProcessBuilder instance for executing the javac command
+                ProcessBuilder processBuilder = new ProcessBuilder();
+
+                // Set the command and arguments
+                java.util.List<String> command = new java.util.ArrayList<>();
+                command.add("javac");
+                command.add("-d");
+                command.add(outputDirectoryPath);
+                command.add(filePath);
+                processBuilder.command(command);
+
+                // Set the working directory (optional)
+                File workingDirectory = new File(System.getProperty("user.dir"));
+                processBuilder.directory(workingDirectory);
+
+                try {
+                    // Start the process
+                    Process process = processBuilder.start();
+
+                    // Wait for the process to finish
+                    int exitCode = process.waitFor();
+
+                    // Check the exit code
+                    if (exitCode == 0) {
+                        this.javaFilePath = filePath;
+                        this.f = new File(shortName+".class");
+                        this.sourceFilePath = shortName+".class";
+                        initClassComponents();
+                    } else {
+                        errorPopUp("Compilation Failed!");
+                    }
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                errorPopUp("Please Select a java File");
             }
         } else {
             errorPopUp("File has no extension");
@@ -806,7 +890,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTree1;
     private javax.swing.JButton nextButton;
@@ -815,6 +898,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTable stackTable;
     private javax.swing.JTabbedPane terminalPane;
     private javax.swing.JTextArea terminalTextArea;
+    private javax.swing.JTable textJavaTable;
     private javax.swing.JTable textTable;
     // End of variables declaration//GEN-END:variables
 }

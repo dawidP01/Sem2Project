@@ -19,7 +19,6 @@ public class JavaApplication2 {
         f.setTitle("ByteLibrary");
         f.setSize(640, 650);
         f.setVisible(true);
-        f.setResizable(false);
     }
     
 }
