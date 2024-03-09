@@ -87,6 +87,7 @@ public class NewJFrame extends javax.swing.JFrame {
         test();
         setTextTable();
         runInterpreter();
+        setFileInfoTextArea();
     }
     public void copyToWorkingDirectory() {
         String destinationDirectory = System.getProperty("user.dir");
@@ -272,6 +273,14 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         }
     }
+    public void setTextTableRows(String text){
+        textTableRemoveAllRows();
+        DefaultTableModel model = (DefaultTableModel) textTable.getModel();
+        Object[] lines = text.lines().toArray();
+        for(int i=0;i<lines.length;i++){
+            model.addRow(new Object[]{i, lines[i]});
+        }
+    }
     public void setTextTable(){
         // Makes the title of columns invisible
         textTable.getTableHeader().setVisible(false);
@@ -288,14 +297,11 @@ public class NewJFrame extends javax.swing.JFrame {
         model.getDataVector().removeAllElements();
     }
     public void setTextJavaTableRows(){
-        System.out.println("Hello");
         if (javaFilePath != null){
             DefaultTableModel model = (DefaultTableModel) textJavaTable.getModel();
             try{
                 String content = Files.readString(Paths.get(javaFilePath), StandardCharsets.UTF_8);
                 Object[] lines = content.lines().toArray();
-                System.out.println("Hello");
-                System.out.println(content);
                 for(int i=0;i<lines.length;i++){
                     model.addRow(new Object[]{i, lines[i]});
                 }
@@ -314,6 +320,22 @@ public class NewJFrame extends javax.swing.JFrame {
         textJavaTable.getColumnModel().getColumn(0).setMaxWidth(30);
         textJavaTableRemoveAllRows();
         setTextJavaTableRows();
+    }
+    // Sets the details of the file info tab
+    public void setFileInfoTextArea(){
+        String classString = this.classString;
+        String text = "";
+        jTextArea2.setText(text);
+        for(int i=0;i<classString.length();i++){
+            if(classString.substring(i, i+13).compareTo("Constant pool")==0){
+                // Removes the class info from the central text table
+                setTextTableRows(classString.substring(i));
+                break;
+            }else{
+                text = jTextArea2.getText();
+                jTextArea2.setText(text+classString.charAt(i));
+            }
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -355,6 +377,8 @@ public class NewJFrame extends javax.swing.JFrame {
         constPoolTextArea = new javax.swing.JTextArea();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane7 = new javax.swing.JScrollPane();
         textTable = new javax.swing.JTable();
@@ -606,7 +630,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(LeftPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
         LeftPanelLayout.setVerticalGroup(
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -636,6 +660,12 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane6.setViewportView(jTextArea1);
 
         terminalPane.addTab("Call Stack", jScrollPane6);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane8.setViewportView(jTextArea2);
+
+        terminalPane.addTab("File Info", jScrollPane8);
 
         textTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -668,15 +698,15 @@ public class NewJFrame extends javax.swing.JFrame {
         CentrePanel.setLayout(CentrePanelLayout);
         CentrePanelLayout.setHorizontalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+            .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         CentrePanelLayout.setVerticalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CentrePanelLayout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(terminalPane, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -687,7 +717,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addComponent(RunPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(LeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -889,8 +919,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTree jTree1;
     private javax.swing.JButton nextButton;
     private javax.swing.JFrame optionsFrame;
