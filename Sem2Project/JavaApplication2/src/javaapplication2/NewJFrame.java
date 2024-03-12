@@ -4,9 +4,7 @@
  */
 package javaapplication2;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -17,21 +15,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Stack;
 import java.util.spi.ToolProvider;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import javassist.bytecode.ClassFile;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.CodeIterator;
-import javassist.bytecode.ConstPool;
-import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.tools.JavaCompiler;
 /**
  *
  * @author C00273530
@@ -41,16 +30,11 @@ public class NewJFrame extends javax.swing.JFrame {
     // Global Variables
     File f;
     String sourceFilePath;
-    ClassPool pool = ClassPool.getDefault();
-    CtClass ctClass;
-    ClassFile classFile;
-    java.util.List<MethodInfo> methodNames;
-    CtMethod[] methods;
-    
-    String classString;
+    String classString; // Contains the contents of the javap command 
     String javaFilePath;
     String code;
-    Opicodes op;
+    StackFrame op; 
+    ArrayList<StackFrame> stackFrames;
     int currentLine;
     /**
      * Creates new form NewJFrame
@@ -74,18 +58,12 @@ public class NewJFrame extends javax.swing.JFrame {
     // Initialises certain components after a class file is selected
     public void initClassComponents(){
         copyToWorkingDirectory();
-        setClassFileAndConstantPool();
-        setMethodNames();
         displayCode();
-        setOutputText();
-        setClassString();
-        setCtClass();  
-        setMethods();  
+        setOutputText(); 
         redirectSystemOutput();
-        test();
         setTextTable();
         runInterpreter();
-        setFileInfoTextArea();
+        setBottomSection();
     }
     public void copyToWorkingDirectory() {
         String destinationDirectory = System.getProperty("user.dir");
@@ -96,24 +74,6 @@ public class NewJFrame extends javax.swing.JFrame {
         } catch (IOException e){
             e.printStackTrace();
         }
-    }
-    // The below needs to be split into two different methods!!!
-    // Sets the class file and constants Pool variables
-    public void setClassFileAndConstantPool(){
-        try {
-            FileInputStream fileInputStream = new FileInputStream(sourceFilePath);
-            DataInputStream dataInputStream = new DataInputStream(fileInputStream);
-            ClassFile classFile = new ClassFile(dataInputStream);
-            
-            this.classFile = classFile;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    // Sets the list of the method names in the class file
-    public void setMethodNames(){  
-        methodNames = classFile.getMethods();
-       // testLabel.setText(methodNames.get(0).toString());
     }
     public void displayBytecode(){
         ToolProvider javap = ToolProvider.findFirst("javap").orElseThrow();
@@ -127,12 +87,8 @@ public class NewJFrame extends javax.swing.JFrame {
             "-v", "-p", sourceFilePath);
         classString = out.toString();
     }
-    public void displayJava(){
-        
-    }
     public void displayCode(){
         displayBytecode();
-        displayJava();
         setTextJavaTable();
     }
     public void setOutputText(){
@@ -147,29 +103,6 @@ public class NewJFrame extends javax.swing.JFrame {
             System.out.print("Invalid Path");
         }
     }
-    public void setClassString(){
-       // this.classString = testArea.getText();
-    }
-    public void setCtClass(){
-        ctClass = pool.makeClass(classFile); 
-    }
-    public void setMethods(){
-        methods = ctClass.getDeclaredMethods();
-    }
-    public void addPauseStatements(){
-        for (CtMethod method : methods){
-            CodeAttribute codeAttribute = method.getMethodInfo().getCodeAttribute();
-            CodeIterator iterator = codeAttribute.iterator();
-            while (iterator.hasNext()){
-                try{
-                    int index = iterator.next();
-                    method.insertAt(index, "Thread.sleep(1000)");
-                } catch(Exception e){
-                    e.printStackTrace();
-                }    
-            }
-        }
-    }
     // Redirects output to the terminal text area
     // FIX: THE OUTPUT DOESNT FULLY REDIRECT
     private void redirectSystemOutput() {
@@ -182,35 +115,35 @@ public class NewJFrame extends javax.swing.JFrame {
         };
         System.setOut(new PrintStream(outputStream));
     }
-        
-    public void test(){
-        CtMethod method = methods[0];
-        MethodInfo methodInfo = method.getMethodInfo();
-        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
-        LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
-        if (attr != null) {
-            for (int i = 0; i < attr.tableLength(); i++) {
-                System.out.println("Local variable #" + i);
-                System.out.println("Name: " + attr.variableName(i));
-                System.out.println("Index: " + attr.index(i));
-                System.out.println("Descriptor: " + attr.descriptor(i));
-                System.out.println();
+    public void setStackFrames(){
+        stackFrames = new ArrayList<>();
+        String classString = this.classString;
+        while(classString.indexOf("Code:")!= -1){
+            int i = classString.indexOf("Code:");
+            i = classString.indexOf("\n", i) + 1;
+            i = classString.indexOf("\n", i) + 1;
+            int end = classString.indexOf("LineNumberTable:", i);
+            String result = "";
+            for(;i<end;i++){
+                result += classString.charAt(i);
+                // Removes comments
+                if(classString.charAt(i+1) == '/' && classString.charAt(i+2)=='/'){
+                    i = classString.indexOf("\n", i);
+                    result += "\n";
+                }
             }
-        } else {
-      //      System.out.println("null");
+            classString = classString.substring(i);
+            stackFrames.add(new StackFrame(result));
+            result = "";
         }
     }
-    
     public void runInterpreter(){
-        setCode();
-        op = new Opicodes(classString);
+        setStackFrames();
+        op = new StackFrame(classString);
         String[] a = op.getInstructions();
       //  op.setParameters(a, a[13]);
       //  System.out.println(a[13]);
       //  System.out.println(a[8]);
-    }
-    public void setCode(){
-        
     }
     public void clearStackTable(){
         int rowCount = stackTable.getRowCount();
@@ -299,6 +232,9 @@ public class NewJFrame extends javax.swing.JFrame {
         textJavaTableRemoveAllRows();
         setTextJavaTableRows();
     }
+    public void setBottomSection(){
+        setFileInfoTextArea();
+    }
     // Sets the details of the file info tab
     public void setFileInfoTextArea(){
         String classString = this.classString;
@@ -307,7 +243,12 @@ public class NewJFrame extends javax.swing.JFrame {
         for(int i=0;i<classString.length();i++){
             if(classString.substring(i, i+13).compareTo("Constant pool")==0){
                 // Removes the class info from the central text table
-                setConstantsPoolTab(classString.substring(i));
+                int lastLineIndex = classString.lastIndexOf("}");
+                text = jTextArea2.getText();
+                // Adds the source file to the class info tab
+                text += classString.substring(lastLineIndex+3);
+                jTextArea2.setText(text);
+                setConstantsPoolTab(classString.substring(i,lastLineIndex+1));
                 
                 break;
             }else{
@@ -320,10 +261,14 @@ public class NewJFrame extends javax.swing.JFrame {
         for(int i=0;i<text.length();i++){
             if(text.charAt(i)=='{'){
                 constPoolTextArea.setText(text.substring(0,i));
+                setStackMapTableTextArea(text.substring(i));
                 setTextTableRows(text.substring(i));
                 break;
             }
         }
+    }
+    public void setStackMapTableTextArea(String text){
+        stackMapTableTextArea.setText(text);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -367,6 +312,8 @@ public class NewJFrame extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        stackMapTableTextArea = new javax.swing.JTextArea();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane7 = new javax.swing.JScrollPane();
         textTable = new javax.swing.JTable();
@@ -622,7 +569,7 @@ public class NewJFrame extends javax.swing.JFrame {
         );
         LeftPanelLayout.setVerticalGroup(
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
         );
 
         CentrePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0)));
@@ -655,6 +602,12 @@ public class NewJFrame extends javax.swing.JFrame {
 
         terminalPane.addTab("File Info", jScrollPane8);
 
+        stackMapTableTextArea.setColumns(20);
+        stackMapTableTextArea.setRows(5);
+        jScrollPane9.setViewportView(stackMapTableTextArea);
+
+        terminalPane.addTab("StackMapTable", jScrollPane9);
+
         textTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -686,7 +639,7 @@ public class NewJFrame extends javax.swing.JFrame {
         CentrePanel.setLayout(CentrePanelLayout);
         CentrePanelLayout.setHorizontalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE)
+            .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         CentrePanelLayout.setVerticalGroup(
@@ -694,8 +647,9 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CentrePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(terminalPane, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(terminalPane, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -717,8 +671,10 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(RunPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(LeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(CentrePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 10, Short.MAX_VALUE))))
         );
 
         pack();
@@ -795,6 +751,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_OptionsButtonActionPerformed
 
     private void RunButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunButtonActionPerformed
+       /*
         try {
             // Specify the class name you want to run
             String className = classFile.getName();
@@ -819,7 +776,7 @@ public class NewJFrame extends javax.swing.JFrame {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
+*/
     }//GEN-LAST:event_RunButtonActionPerformed
 
     private void StackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StackButtonActionPerformed
@@ -909,6 +866,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
@@ -916,6 +874,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton nextButton;
     private javax.swing.JFrame optionsFrame;
     private javax.swing.JFrame stackFrame;
+    private javax.swing.JTextArea stackMapTableTextArea;
     private javax.swing.JTable stackTable;
     private javax.swing.JTabbedPane terminalPane;
     private javax.swing.JTextArea terminalTextArea;

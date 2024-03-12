@@ -11,14 +11,14 @@ import java.util.Stack;
  *
  * @author C00273530
  */
-public class Opicodes {
+public class StackFrame {
     Stack<Object> stack = new Stack();
     Object[] LVA = new Object[100];
     String classString;
     String[] instructions = new String[100];
     int currentLine;
     
-    public Opicodes(String classString){
+    public StackFrame(String classString){
         setStack();
         setLVA();
         setClassString(classString);
