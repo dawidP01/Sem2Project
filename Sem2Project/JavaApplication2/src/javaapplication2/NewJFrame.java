@@ -21,6 +21,8 @@ import java.util.spi.ToolProvider;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeModel;
 /**
  *
  * @author C00273530
@@ -32,6 +34,8 @@ public class NewJFrame extends javax.swing.JFrame {
     String sourceFilePath;
     String classString; // Contains the contents of the javap command 
     String javaFilePath;
+    String className; // String that contains the name of the class
+    ArrayList<String> methodNames; // Contains all of the methods in the file
     String code;
     StackFrame op; 
     ArrayList<StackFrame> stackFrames;
@@ -61,9 +65,11 @@ public class NewJFrame extends javax.swing.JFrame {
         displayCode();
         setOutputText(); 
         redirectSystemOutput();
-        setTextTable();
+        setClassName();
+        getMethodNamesString();
         runInterpreter();
         setBottomSection();
+        setLeftSide();
     }
     public void copyToWorkingDirectory() {
         String destinationDirectory = System.getProperty("user.dir");
@@ -87,9 +93,11 @@ public class NewJFrame extends javax.swing.JFrame {
             "-v", "-p", sourceFilePath);
         classString = out.toString();
     }
+    // Displays code in the centre of the app
     public void displayCode(){
         displayBytecode();
         setTextJavaTable();
+        setTextTable();
     }
     public void setOutputText(){
         String classText = classString;
@@ -139,8 +147,9 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     public void runInterpreter(){
         setStackFrames();
-        op = new StackFrame(classString);
-        String[] a = op.getInstructions();
+        ArrayList<String> s = stackFrames.get(0).getInstructions();
+        System.out.println(s.get(0));
+
       //  op.setParameters(a, a[13]);
       //  System.out.println(a[13]);
       //  System.out.println(a[8]);
@@ -270,6 +279,55 @@ public class NewJFrame extends javax.swing.JFrame {
     public void setStackMapTableTextArea(String text){
         stackMapTableTextArea.setText(text);
     }
+    // Gets all the methods present in the file and places them in a string
+    public void getMethodNamesString(){
+        ToolProvider javap = ToolProvider.findFirst("javap").orElseThrow();
+        StringWriter out = new StringWriter();
+        PrintWriter stdout = new PrintWriter(out);
+        StringWriter err = new StringWriter();
+        PrintWriter stderr = new PrintWriter(err);
+        int exitCode = javap.run(
+            stdout,
+            stderr,
+            sourceFilePath);
+        String methodNamesString = out.toString();
+        setMethodNames(methodNamesString);
+    }
+    // Sets the methodNames array and fills it with entries
+    public void setMethodNames(String methodNamesString){
+        methodNames = new ArrayList<String>();
+        int startIndex = methodNamesString.indexOf("{");
+        startIndex = methodNamesString.indexOf("\n ", startIndex);
+        String name = "";
+        for(int i=startIndex;i<methodNamesString.indexOf("}");i++){
+            if(methodNamesString.charAt(i) != '\n')
+                name += methodNamesString.charAt(i);
+            if(methodNamesString.charAt(i)=='\n')
+                if(name.compareTo("")!=0){
+                methodNames.add(name.strip());
+                name="";
+            }
+        }
+    }
+    public void setClassName(){
+        int start = classString.indexOf(" class ");
+        start = classString.indexOf(" ", start);
+        int end = classString.indexOf("\n", start);
+        className = classString.substring(start, end);
+    }
+    // Sets the left panel of the screen
+    public void setLeftSide(){
+        setMethodTree();
+    }
+    // Set the method tree on the left side of the screen with the methodNames
+    public void setMethodTree(){
+        javax.swing.tree.DefaultMutableTreeNode classNode = new javax.swing.tree.DefaultMutableTreeNode(className);
+        for(int i=0;i<methodNames.size();i++){
+            javax.swing.tree.DefaultMutableTreeNode node = new javax.swing.tree.DefaultMutableTreeNode(methodNames.get(i));
+            classNode.add(node);
+        }
+        methodTree.setModel(new javax.swing.tree.DefaultTreeModel(classNode));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -289,6 +347,12 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         optionsFrame = new javax.swing.JFrame();
         jPanel3 = new javax.swing.JPanel();
+        lineNumberTableFrame = new javax.swing.JFrame();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        lineNumberTable = new javax.swing.JTable();
         FilePanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         OptionsButton = new javax.swing.JButton();
@@ -298,9 +362,10 @@ public class NewJFrame extends javax.swing.JFrame {
         RunButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         StackButton = new javax.swing.JButton();
+        lineNumberTableBtn = new javax.swing.JButton();
         LeftPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        methodTree = new javax.swing.JTree();
         CentrePanel = new javax.swing.JPanel();
         terminalPane = new javax.swing.JTabbedPane();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -315,10 +380,10 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane9 = new javax.swing.JScrollPane();
         stackMapTableTextArea = new javax.swing.JTextArea();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        textTable = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         textJavaTable = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        textTable = new javax.swing.JTable();
 
         stackFrame.setTitle("Stack");
 
@@ -439,6 +504,56 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel3.setText("Choose Method:");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lineNumberTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Java Line", "Bytecode Line"
+            }
+        ));
+        jScrollPane10.setViewportView(lineNumberTable);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout lineNumberTableFrameLayout = new javax.swing.GroupLayout(lineNumberTableFrame.getContentPane());
+        lineNumberTableFrame.getContentPane().setLayout(lineNumberTableFrameLayout);
+        lineNumberTableFrameLayout.setHorizontalGroup(
+            lineNumberTableFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        lineNumberTableFrameLayout.setVerticalGroup(
+            lineNumberTableFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         FilePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -517,6 +632,14 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        lineNumberTableBtn.setText("Line Number Tables");
+        lineNumberTableBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lineNumberTableBtnActionPerformed(evt);
+                lineNumberTableBtnActionPerformed1(evt);
+            }
+        });
+
         javax.swing.GroupLayout RunPanelLayout = new javax.swing.GroupLayout(RunPanel);
         RunPanel.setLayout(RunPanelLayout);
         RunPanelLayout.setHorizontalGroup(
@@ -528,6 +651,8 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(nextButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(StackButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lineNumberTableBtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         RunPanelLayout.setVerticalGroup(
@@ -537,14 +662,15 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(RunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RunButton)
                     .addComponent(nextButton)
-                    .addComponent(StackButton))
+                    .addComponent(StackButton)
+                    .addComponent(lineNumberTableBtn))
                 .addContainerGap())
         );
 
         LeftPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 1, new java.awt.Color(0, 0, 0)));
 
-        jTree1.setBackground(new java.awt.Color(242, 242, 242));
-        jTree1.setBorder(null);
+        methodTree.setBackground(new java.awt.Color(242, 242, 242));
+        methodTree.setBorder(null);
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Method1");
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Additional Info Here");
@@ -554,9 +680,9 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Additional Info Here");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jTree1.setAutoscrolls(true);
-        jScrollPane2.setViewportView(jTree1);
+        methodTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        methodTree.setAutoscrolls(true);
+        jScrollPane2.setViewportView(methodTree);
 
         javax.swing.GroupLayout LeftPanelLayout = new javax.swing.GroupLayout(LeftPanel);
         LeftPanel.setLayout(LeftPanelLayout);
@@ -608,18 +734,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
         terminalPane.addTab("StackMapTable", jScrollPane9);
 
-        textTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Title 1", "Title 2"
-            }
-        ));
-        jScrollPane7.setViewportView(textTable);
-
-        jTabbedPane1.addTab("Bytecode", jScrollPane7);
-
         textJavaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -634,6 +748,18 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane3.setViewportView(textJavaTable);
 
         jTabbedPane1.addTab("Java", jScrollPane3);
+
+        textTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2"
+            }
+        ));
+        jScrollPane7.setViewportView(textTable);
+
+        jTabbedPane1.addTab("Bytecode", jScrollPane7);
 
         javax.swing.GroupLayout CentrePanelLayout = new javax.swing.GroupLayout(CentrePanel);
         CentrePanel.setLayout(CentrePanelLayout);
@@ -659,7 +785,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addComponent(FilePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(RunPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(LeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(LeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -804,6 +930,15 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
+    private void lineNumberTableBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineNumberTableBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lineNumberTableBtnActionPerformed
+
+    private void lineNumberTableBtnActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineNumberTableBtnActionPerformed1
+        lineNumberTableFrame.setVisible(true);
+        lineNumberTableFrame.setSize(300,300);
+    }//GEN-LAST:event_lineNumberTableBtnActionPerformed1
+
     /**
      * @param args the command line arguments
      */
@@ -853,12 +988,16 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -870,7 +1009,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTree jTree1;
+    private javax.swing.JTable lineNumberTable;
+    private javax.swing.JButton lineNumberTableBtn;
+    private javax.swing.JFrame lineNumberTableFrame;
+    private javax.swing.JTree methodTree;
     private javax.swing.JButton nextButton;
     private javax.swing.JFrame optionsFrame;
     private javax.swing.JFrame stackFrame;

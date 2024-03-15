@@ -1,5 +1,6 @@
 package javaapplication2;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /*
@@ -12,18 +13,26 @@ import java.util.Stack;
  * @author C00273530
  */
 public class StackFrame {
-    Stack<Object> stack = new Stack();
-    Object[] LVA = new Object[100];
-    String classString;
-    String[] instructions = new String[100];
-    int currentLine;
+    String methodName;
+    Stack<Object> stack; // Operand Stack
+    Object[] LVA; // Locla Variable Array
+    String classString; // The string of all the code in this frame
+    ArrayList<String> instructions; // Array of all the instructions
+    int currentLine; // Current line of execution
     
     public StackFrame(String classString){
+        setMethodName("");
         setStack();
         setLVA();
         setClassString(classString);
         setCurrentLine(8);
         setInstructions();
+    }
+    public void setMethodName(String methodName){
+        this.methodName = methodName;
+    }
+    public String getMethodName(){
+        return methodName;
     }
     public void setCurrentLine(int currentLine){
         this.currentLine = currentLine;
@@ -32,14 +41,14 @@ public class StackFrame {
         return currentLine;
     }
     public void setStack(){
-        
+        stack = new Stack();
     }
     public Stack getStack(){
         return stack;
     }
     
     public void setLVA(){
-    
+        LVA = new Object[100];
     }
     public Object[] getLVA(){
         return LVA;
@@ -53,56 +62,21 @@ public class StackFrame {
     }
     
     public void setInstructions(){
-        String instruction = "";
-        int instructionCount = 0;
-        int lineCount = 0;
-        boolean add = false;
+        instructions = new ArrayList<>();
+        String text = "";
         for(int i=0;i<classString.length();i++){
-            // checks if linebreak
-            if(classString.charAt(i)=='\n'){
-                lineCount++;
-            }
-            // Checks to look for start of code section
-            if(classString.charAt(i)=='C' )
-                if(classString.charAt(i+1)=='o')
-                    if(classString.charAt(i+2)=='d')
-                        if(classString.charAt(i+3)=='e'){
-                            add=true;
-                        }
-            // Checks if end of code section
-            if(add){
-                if(classString.charAt(i)=='L'){
-                    if(classString.charAt(i+1)=='i')
-                        if(classString.charAt(i+2)=='n')
-                            if(classString.charAt(i+3)=='e')
-                                if(classString.charAt(i+4)=='N'){
-                                    add = false;
-                                    instruction = "";
-                                }
+            if(classString.charAt(i)!= ' '){
+                if(classString.charAt(i) == '\n'){
+                    instructions.add(text);
+                    text = "";
                 }
-                
-                else{
-                    // Checks if add Instruction
-                    if(classString.charAt(i)=='\n'){
-                        instructions[instructionCount] = instruction.strip();
-                        // Removes line number
-                        for(int j=0;j<instructions[instructionCount].length();j++){
-                            if(instructions[instructionCount].charAt(j)==':'){
-                                instructions[instructionCount] = instructions[instructionCount].substring(j+1);
-                                instructions[instructionCount] = instructions[instructionCount].strip();
-                            }
-                        }
-                        instructionCount++;
-                        instruction="";
-                    // Checks if add letter to instruction entry
-                    } else {
-                        instruction+=classString.charAt(i);
-                    }
+                else {
+                    text += classString.charAt(i);
                 }
             }
         }
     }
-    public String[] getInstructions(){
+    public ArrayList getInstructions(){
         return instructions;
     }
     public String stripInstruction(String instruction){
@@ -144,25 +118,25 @@ public class StackFrame {
     }
     // For demo start has to be 8 minimum, and end has to be 16 max
     public void runInstructions(){
-        String instruction = stripInstruction(instructions[currentLine]);
+        String instruction = stripInstruction(instructions.get(currentLine));
         String[] parameters = new String[10];
-        setParameters(parameters,instructions[currentLine].strip());
-        if(instructions[currentLine].compareTo("iconst_0")==0){
+        setParameters(parameters,instructions.get(currentLine).strip());
+        if(instructions.get(currentLine).compareTo("iconst_0")==0){
             iconst_0();
         }
-        else if(instructions[currentLine].compareTo("iconst_5")==0){
+        else if(instructions.get(currentLine).compareTo("iconst_5")==0){
             iconst_5();
         }
-        else if(instructions[currentLine].compareTo("iload_1")==0){
+        else if(instructions.get(currentLine).compareTo("iload_1")==0){
             iload_1();
         }
-        else if(instructions[currentLine].compareTo("aload_0")==0){
+        else if(instructions.get(currentLine).compareTo("aload_0")==0){
             aload_0();
         }
-        else if(instructions[currentLine].compareTo("istore_1")==0){
+        else if(instructions.get(currentLine).compareTo("istore_1")==0){
             istore_1();
         }
-        else if(instructions[currentLine].compareTo("iconst_5")==0){
+        else if(instructions.get(currentLine).compareTo("iconst_5")==0){
             iconst_5();
         }
         else if(instruction.compareTo("iinc")==0){
