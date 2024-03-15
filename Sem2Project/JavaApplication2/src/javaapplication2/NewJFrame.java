@@ -21,8 +21,7 @@ import java.util.spi.ToolProvider;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeSelectionModel;
 /**
  *
  * @author C00273530
@@ -62,14 +61,15 @@ public class NewJFrame extends javax.swing.JFrame {
     // Initialises certain components after a class file is selected
     public void initClassComponents(){
         copyToWorkingDirectory();
-        displayCode();
-        setOutputText(); 
+        setClassString();
         redirectSystemOutput();
         setClassName();
         getMethodNamesString();
-        runInterpreter();
         setBottomSection();
+        runInterpreter();
         setLeftSide();
+        displayCode();
+        setOutputText(); 
     }
     public void copyToWorkingDirectory() {
         String destinationDirectory = System.getProperty("user.dir");
@@ -81,7 +81,8 @@ public class NewJFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    public void displayBytecode(){
+    // Sets the class string by running the javap command
+    public void setClassString(){
         ToolProvider javap = ToolProvider.findFirst("javap").orElseThrow();
         StringWriter out = new StringWriter();
         PrintWriter stdout = new PrintWriter(out);
@@ -95,7 +96,6 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     // Displays code in the centre of the app
     public void displayCode(){
-        displayBytecode();
         setTextJavaTable();
         setTextTable();
     }
@@ -186,19 +186,29 @@ public class NewJFrame extends javax.swing.JFrame {
     // Assigns each row a corresponding line from the bytecode
     public void setTextTableRows(){
         if (classString != null){
+            textTableRemoveAllRows();
             DefaultTableModel model = (DefaultTableModel) textTable.getModel();
-            Object[] lines = classString.lines().toArray();
+            Object[] lines = stackFrames.get(0).getClassString().lines().toArray();
             for(int i=0;i<lines.length;i++){
-                model.addRow(new Object[]{i, lines[i]});
+                int index = lines[i].toString().indexOf(":");
+                String lineOffset = lines[i].toString().substring(0, index).strip();
+                String code = lines[i].toString().substring(index+1).strip();
+                model.addRow(new Object[]{lineOffset, code});
             }
         }
     }
-    public void setTextTableRows(String text){
-        textTableRemoveAllRows();
-        DefaultTableModel model = (DefaultTableModel) textTable.getModel();
-        Object[] lines = text.lines().toArray();
-        for(int i=0;i<lines.length;i++){
-            model.addRow(new Object[]{i, lines[i]});
+    // Sets the text table rows depending on the method selected in the Method tree
+    public void setTextTableRows(int selectedIndex){
+        if (classString != null){
+            textTableRemoveAllRows();
+            DefaultTableModel model = (DefaultTableModel) textTable.getModel();
+            Object[] lines = stackFrames.get(selectedIndex).getClassString().lines().toArray();
+            for(int i=0;i<lines.length;i++){
+                int index = lines[i].toString().indexOf(":");
+                String lineOffset = lines[i].toString().substring(0, index).strip();
+                String code = lines[i].toString().substring(index+1).strip();
+                model.addRow(new Object[]{lineOffset, code});
+            }
         }
     }
     public void setTextTable(){
@@ -271,7 +281,6 @@ public class NewJFrame extends javax.swing.JFrame {
             if(text.charAt(i)=='{'){
                 constPoolTextArea.setText(text.substring(0,i));
                 setStackMapTableTextArea(text.substring(i));
-                setTextTableRows(text.substring(i));
                 break;
             }
         }
@@ -321,6 +330,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     // Set the method tree on the left side of the screen with the methodNames
     public void setMethodTree(){
+        methodTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         javax.swing.tree.DefaultMutableTreeNode classNode = new javax.swing.tree.DefaultMutableTreeNode(className);
         for(int i=0;i<methodNames.size();i++){
             javax.swing.tree.DefaultMutableTreeNode node = new javax.swing.tree.DefaultMutableTreeNode(methodNames.get(i));
@@ -682,6 +692,11 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode1.add(treeNode2);
         methodTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         methodTree.setAutoscrolls(true);
+        methodTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                methodTreeValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(methodTree);
 
         javax.swing.GroupLayout LeftPanelLayout = new javax.swing.GroupLayout(LeftPanel);
@@ -736,10 +751,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         textJavaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2"
@@ -938,6 +950,15 @@ public class NewJFrame extends javax.swing.JFrame {
         lineNumberTableFrame.setVisible(true);
         lineNumberTableFrame.setSize(300,300);
     }//GEN-LAST:event_lineNumberTableBtnActionPerformed1
+// Below is a tree selection event listener, it sets the bytecode text table
+// when a tree node is selected
+    private void methodTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_methodTreeValueChanged
+        javax.swing.tree.DefaultMutableTreeNode selectedNode = (javax.swing.tree.DefaultMutableTreeNode) methodTree.getLastSelectedPathComponent();
+        if (selectedNode != null) {
+            int index = selectedNode.getParent().getIndex(selectedNode);
+            setTextTableRows(index);
+        }
+    }//GEN-LAST:event_methodTreeValueChanged
 
     /**
      * @param args the command line arguments
