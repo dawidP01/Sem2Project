@@ -369,10 +369,19 @@ public class NewJFrame extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jScrollPane10 = new javax.swing.JScrollPane();
         lineNumberTable = new javax.swing.JTable();
+        tutorialFrame = new javax.swing.JFrame();
+        tutorialSelectPanel = new javax.swing.JPanel();
+        tutorialFrameTitle = new javax.swing.JTextField();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        tutorialFrameTextArea = new javax.swing.JTextArea();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        tutorialTree = new javax.swing.JTree();
+        jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         FilePanel = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         OptionsButton = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tutorialBtn = new javax.swing.JButton();
         helpButton = new javax.swing.JButton();
         RunPanel = new javax.swing.JPanel();
         RunButton = new javax.swing.JButton();
@@ -386,7 +395,6 @@ public class NewJFrame extends javax.swing.JFrame {
         terminalPane = new javax.swing.JTabbedPane();
         jScrollPane4 = new javax.swing.JScrollPane();
         terminalTextArea = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         constPoolTextArea = new javax.swing.JTextArea();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -570,6 +578,94 @@ public class NewJFrame extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        tutorialFrameTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        tutorialFrameTitle.setText("AddIntegers.java");
+        tutorialFrameTitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tutorialFrameTitleActionPerformed(evt);
+            }
+        });
+
+        tutorialFrameTextArea.setColumns(20);
+        tutorialFrameTextArea.setRows(5);
+        tutorialFrameTextArea.setText("class Main {\n\n  public static void main(String[] args) {\n    \n    int first = 10;\n    int second = 20;\n\n    // add two numbers\n    int sum = first + second;\n    System.out.println(first + \" + \" + second + \" = \"  + sum);\n  }\n}\n\nEnter two numbers\n10 20\nThe sum is: 30\n\nIn this program, two integers 10 and 20 are stored in integer variables first and second respectively.\n\nThen, first and second are added using the + operator, and its result is stored in another variable sum.\n\nFinally, sum is printed on the screen using println() function.");
+        jScrollPane12.setViewportView(tutorialFrameTextArea);
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Tutorials");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("AddIntegers");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("BinToDecimal");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("CheckPrime");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Fibonacci");
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("ReverseNumber");
+        treeNode1.add(treeNode2);
+        tutorialTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane11.setViewportView(tutorialTree);
+
+        jButton1.setText("Confirm");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        javax.swing.GroupLayout tutorialSelectPanelLayout = new javax.swing.GroupLayout(tutorialSelectPanel);
+        tutorialSelectPanel.setLayout(tutorialSelectPanelLayout);
+        tutorialSelectPanelLayout.setHorizontalGroup(
+            tutorialSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tutorialSelectPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(tutorialSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(tutorialSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(tutorialSelectPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                        .addGap(6, 6, 6))
+                    .addGroup(tutorialSelectPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, 0)
+                        .addComponent(tutorialFrameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        tutorialSelectPanelLayout.setVerticalGroup(
+            tutorialSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tutorialSelectPanelLayout.createSequentialGroup()
+                .addGroup(tutorialSelectPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(tutorialSelectPanelLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(tutorialFrameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
+                    .addGroup(tutorialSelectPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)))
+                .addContainerGap())
+            .addComponent(jSeparator1)
+        );
+
+        javax.swing.GroupLayout tutorialFrameLayout = new javax.swing.GroupLayout(tutorialFrame.getContentPane());
+        tutorialFrame.getContentPane().setLayout(tutorialFrameLayout);
+        tutorialFrameLayout.setHorizontalGroup(
+            tutorialFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tutorialFrameLayout.createSequentialGroup()
+                .addComponent(tutorialSelectPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+        tutorialFrameLayout.setVerticalGroup(
+            tutorialFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tutorialSelectPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         FilePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -591,7 +687,12 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Tutorial");
+        tutorialBtn.setText("Tutorial");
+        tutorialBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tutorialBtnActionPerformed(evt);
+            }
+        });
 
         helpButton.setText("Help");
         helpButton.addActionListener(new java.awt.event.ActionListener() {
@@ -610,7 +711,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(OptionsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(tutorialBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(helpButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -622,7 +723,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGroup(FilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(OptionsButton)
-                    .addComponent(jButton4)
+                    .addComponent(tutorialBtn)
                     .addComponent(helpButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -686,8 +787,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
         methodTree.setBackground(new java.awt.Color(242, 242, 242));
         methodTree.setBorder(null);
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Method1");
+        treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Method1");
         javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Additional Info Here");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
@@ -728,7 +829,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane4.setViewportView(terminalTextArea);
 
         terminalPane.addTab("Terminal", jScrollPane4);
-        terminalPane.addTab("Tutorial", jLabel1);
 
         constPoolTextArea.setColumns(20);
         constPoolTextArea.setRows(5);
@@ -959,6 +1059,20 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_methodTreeValueChanged
 
+    private void tutorialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tutorialBtnActionPerformed
+        tutorialFrame.setVisible(true);
+        tutorialFrame.setSize(200, 200);
+        tutorialFrame.setTitle("Tutorial");
+    }//GEN-LAST:event_tutorialBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tutorialFrameTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tutorialFrameTitleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tutorialFrameTitleActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1005,11 +1119,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea constPoolTextArea;
     private javax.swing.JButton helpButton;
     private javax.swing.JFrame helpFrame;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
@@ -1018,6 +1131,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1026,6 +1141,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
@@ -1042,5 +1158,11 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea terminalTextArea;
     private javax.swing.JTable textJavaTable;
     private javax.swing.JTable textTable;
+    private javax.swing.JButton tutorialBtn;
+    private javax.swing.JFrame tutorialFrame;
+    private javax.swing.JTextArea tutorialFrameTextArea;
+    private javax.swing.JTextField tutorialFrameTitle;
+    private javax.swing.JPanel tutorialSelectPanel;
+    private javax.swing.JTree tutorialTree;
     // End of variables declaration//GEN-END:variables
 }
