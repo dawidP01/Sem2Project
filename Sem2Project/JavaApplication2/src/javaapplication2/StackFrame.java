@@ -17,13 +17,14 @@ import java.util.Stack;
 public class StackFrame {
     String methodName;
     Stack<Object> stack; // Operand Stack
-    Object[] LVA; // Locla Variable Array
+    ArrayList<Object> LVA; // Locla Variable Array
     String classString; // The string of all the code in this frame
     ArrayList<String> instructions; // Array of all the instructions
     int currentLine; // Current line of execution
     int lastLine; // Contains the last line of the instructions set
     String currentInstruction; // Current Instruction
     Map<Integer, String> instructionsMap; // A key value pair -> line : instruction
+    boolean finished; // If true, execution has ended
     
     public StackFrame(String classString){
         setMethodName("");
@@ -35,6 +36,7 @@ public class StackFrame {
         setCurrentInstruction();
         setInstructionsMap();
         setLastLine();
+        setFinished();
     }
     public void setMethodName(String methodName){
         this.methodName = methodName;
@@ -67,9 +69,12 @@ public class StackFrame {
     }
     
     public void setLVA(){
-        LVA = new Object[100];
+        LVA = new ArrayList<>();
+        for(int i=0;i<100;i++){
+            LVA.add(null);
+        }
     }
-    public Object[] getLVA(){
+    public ArrayList getLVA(){
         return LVA;
     }
     
@@ -117,6 +122,15 @@ public class StackFrame {
             instructionsMap.put(Integer.parseInt(sections[0]), sections[1]);
         }
     }
+    public Map getInstructionsMap(){
+        return instructionsMap;
+    }
+    public void setFinished(){
+        finished = false;
+    }
+    public boolean getFinished(){
+        return finished;
+    }
     public String stripInstruction(String instruction){
         for(int i=0;i<instruction.length();i++){
             if(instruction.charAt(i)==' '){
@@ -162,6 +176,7 @@ public class StackFrame {
             currentLine++;
         }
         if(currentLine <= lastLine){
+            System.out.println("test: " + currentLine + ", Inst: " + currentInstruction);
             String[] parameters = new String[10];
             if(currentInstruction != null){
                 setParameters(parameters,currentInstruction);
@@ -207,6 +222,8 @@ public class StackFrame {
                 else if(currentInstruction.compareTo("return")==0){
 
                 }
+            } else {
+                finished = true;
             }
             System.out.print("Line: "+ currentLine);
             System.out.println(", Instruction: " +currentInstruction + ", ");
@@ -310,103 +327,103 @@ public class StackFrame {
     }
     // 15
     public void iload(int index){
-        stack.push((int) LVA[index]);
+        stack.push((int) LVA.get(index));
     }
     // 16
     public void lload(int index){
-        stack.push((long) LVA[index]); 
+        stack.push((long) LVA.get(index)); 
     }
     // 17
     public void fload(int index){
-        stack.push((float) LVA[index]);
+        stack.push((float) LVA.get(index));
     }
     // 18
     public void dload(int index){
-        stack.push((double) LVA[index]);
+        stack.push((double) LVA.get(index));
     }
     // 19
     public void aload(int index){
-        stack.push(LVA[index]);
+        stack.push(LVA.get(index));
     }
     // 1a
     public void iload_0(){
-        stack.push((int) LVA[0]);
+        stack.push((int) LVA.get(0));
     }
     // 1b
     public void iload_1(){
-        stack.push((int) LVA[1]);
+        stack.push((int) LVA.get(1));
     }
     // 1c
     public void iload_2(){
-        stack.push((int) LVA[2]);
+        stack.push((int) LVA.get(2));
     }
     // 1d
     public void iload_3(){
-        stack.push((int) LVA[3]);
+        stack.push((int) LVA.get(3));
     }
     // 1e
     public void lload_0(){
-        stack.push((long) LVA[0]);
+        stack.push((long) LVA.get(0));
     }
     // 1f
     public void lload_1(){
-        stack.push((long) LVA[1]);
+        stack.push((long) LVA.get(1));
     }
     // 20
     public void lload_2(){
-        stack.push((long) LVA[2]);
+        stack.push((long) LVA.get(2));
     }
     // 21
     public void lload_3(){
-        stack.push((long) LVA[3]);
+        stack.push((long) LVA.get(3));
     }
     // 22
     public void fload_0(){
-        stack.push((float) LVA[0]);
+        stack.push((float) LVA.get(0));
     }
     // 23
     public void fload_1(){
-        stack.push((float) LVA[1]);
+        stack.push((float) LVA.get(1));
     }
     // 24
     public void fload_2(){
-        stack.push((float) LVA[2]);
+        stack.push((float) LVA.get(2));
     }
     // 25
     public void fload_3(){
-        stack.push((float) LVA[3]);
+        stack.push((float) LVA.get(3));
     }
     // 26
     public void dload_0(){
-        stack.push((double) LVA[0]);
+        stack.push((double) LVA.get(0));
     }
     // 27
     public void dload_1(){
-        stack.push((double) LVA[1]);
+        stack.push((double) LVA.get(1));
     }
     // 28
     public void dload_2(){
-        stack.push((double) LVA[2]);
+        stack.push((double) LVA.get(2));
     }
     // 29
     public void dload_3(){
-        stack.push((double) LVA[3]);
+        stack.push((double) LVA.get(3));
     }
     // 2a
     public void aload_0(){
-        stack.push(LVA[0]);
+        stack.push(LVA.get(0));
     }
     // 2b
     public void aload_1(){
-        stack.push(LVA[1]);
+        stack.push(LVA.get(1));
     }
     // 2c
     public void aload_2(){
-        stack.push(LVA[2]);
+        stack.push(LVA.get(2));
     }
     // 2d
     public void aload_3(){
-        stack.push(LVA[3]);
+        stack.push(LVA.get(3));
     }
     // 2e -- NEEDS WORK!!!!!!!!!!!
     public void iaload(){
@@ -443,127 +460,127 @@ public class StackFrame {
     // 36
     public void istore(int index){
         Object entry = stack.pop();
-        LVA[index] = (int) entry;
+        LVA.add(index, (int) entry);
     }
     // 37
     public void lstore(int index){
         Object entry = stack.pop();
-        LVA[index] = (long) entry;
+        LVA.add(index, (long) entry);
     }
     // 38
     public void fstore(int index){
         Object entry = stack.pop();
-        LVA[index] = (float) entry;
+        LVA.add(index,(float) entry);
     }
     // 39
     public void dstore(int index){
         Object entry = stack.pop();
-        LVA[index] = (double) entry;
+        LVA.add(index, (double) entry);
     }
     // 3a
     public void astore(int index){
         Object entry = stack.pop();
-        LVA[index] = entry;
+        LVA.add(index, entry);
     }
     // 3b
     public void istore_0(){
         Object entry = stack.pop();
-        LVA[0] = (int) entry;
+        LVA.add(0, (int) entry);
     }
     // 3c
     public void istore_1(){
         Object entry = stack.pop();
-        LVA[1] = (int) entry;
+        LVA.add(1, (int) entry);
     }
     // 3d
     public void istore_2(){
         Object entry = stack.pop();
-        LVA[2] = (int) entry;
+        LVA.add(2, (int) entry);
     }
     // 3e
     public void istore_3(){
         Object entry = stack.pop();
-        LVA[3] = (int) entry;
+        LVA.add(3, (int) entry);
     }
     // 3f
     public void lstore_0(){
         Object entry = stack.pop();
-        LVA[0] = (long) entry;
+        LVA.add(0,(long) entry);
     }
     // 40
     public void lstore_1(){
         Object entry = stack.pop();
-        LVA[1] = (long) entry;
+        LVA.add(1,(long) entry);
     }
     // 41
     public void lstore_2(){
         Object entry = stack.pop();
-        LVA[2] = (long) entry;
+        LVA.add(2,(long) entry);
     }
     // 42
     public void lstore_3(){
         Object entry = stack.pop();
-        LVA[3] = (long) entry;
+        LVA.add(3,(long) entry);
     }
     // 43
     public void fstore_0(){
         Object entry = stack.pop();
-        LVA[0] = (float) entry;
+        LVA.add(0,(float) entry);
     }
     // 44
     public void fstore_1(){
         Object entry = stack.pop();
-        LVA[1] = (float) entry;
+        LVA.add(1,(float) entry);
     }
     // 45
     public void fstore_2(){
         Object entry = stack.pop();
-        LVA[2] = (float) entry;
+        LVA.add(2,(float) entry);
     }
     // 46
     public void fstore_3(){
         Object entry = stack.pop();
-        LVA[3] = (float) entry;
+        LVA.add(3,(float) entry);
     }
     // 47
     public void dstore_0(){
         Object entry = stack.pop();
-        LVA[0] = (double) entry;
+        LVA.add(0,(double) entry);
     }
     // 48
     public void dstore_1(){
         Object entry = stack.pop();
-        LVA[1] = (double) entry;
+        LVA.add(1,(double) entry);
     }
     // 49
     public void dstore_2(){
         Object entry = stack.pop();
-        LVA[2] = (double) entry;
+        LVA.add(2,(double) entry);
     }
     // 4a
     public void dstore_3(){
         Object entry = stack.pop();
-        LVA[3] = (double) entry;
+        LVA.add(3,(double) entry);
     }
     // 4b
     public void astore_0(){
         Object entry = stack.pop();
-        LVA[0] = entry;
+        LVA.add(0,entry);
     }
     // 4c
     public void astore_1(){
         Object entry = stack.pop();
-        LVA[1] = entry;
+        LVA.add(1,entry);
     }
     // 4d
     public void astore_2(){
         Object entry = stack.pop();
-        LVA[2] = entry;
+        LVA.add(2,entry);
     }
     // 4e
     public void astore_3(){
         Object entry = stack.pop();
-        LVA[3] = entry;
+        LVA.add(3,entry);
     }
     // 4f -- NEEDS WORK!!!!!!
     public void iastore(){
@@ -891,7 +908,7 @@ public class StackFrame {
     }
     // 84
     public void iinc(int index, int incValue){
-        LVA[index] = ((int)LVA[index]) + incValue;
+        LVA.add(index, ((int) LVA.get(index)) + incValue);
     }
     // 85
     public void i2l(){
