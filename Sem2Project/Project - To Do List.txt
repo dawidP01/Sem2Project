@@ -1,0 +1,32 @@
+1. See if you want the tutorial yoke 
+2. Change constant Pool text area into a proper table // Maybe not too sure about that
+4. Add options Tab
+5. Add help Tab
+9. Fix the terminal output
+11. fix setClassString()
+12. Fix Bytecode: 12,13,14,2e-35,4f-56,59-5f,99-ff
+14. Add paramters to operand stack (Maybe not sure if parameters are stored there)
+15. Add the heap
+16. Add Java code inspection window
+17. Fix bytecode display window
+19. Fix redirectSystemOutput
+20. Comparison bytecodes don't operate correctly
+21. Fix the conversion bytecodes around 90s
+24. Clean up FileButtonActionPerformed()
+25. Fix option to upload class files
+26. See if you want to include the stackmapTable
+27. Fix the run button
+28. Fix the detection of LineNumberTable in setStackFrames()
+29. Add map for code data structure
+30. Change line numbering
+32. Get the code for the program from javap -c command instead
+33. Make the panels resizeable by the user
+34. Add functionality to the lineNumberTable
+35. Fix Run next instruction button
+36. Remove Header for Java Text Table
+37. Make the tables non editable
+38. Change the parameter array to arraylist<String> class instead of String[]
+39. Class String in stack Frames has an additional empty line
+40. Change the length of the parameter array to scale instead hardcoded with 10
+41. Do the method to setCurrentInstruction()
+42. Add the function for next button to switch between methods 

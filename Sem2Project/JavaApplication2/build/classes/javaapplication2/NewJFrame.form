@@ -510,7 +510,7 @@
             <Property name="text" type="java.lang.String" value="Line Number Tables"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lineNumberTableBtnActionPerformed,lineNumberTableBtnActionPerformed1"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lineNumberTableBtnActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

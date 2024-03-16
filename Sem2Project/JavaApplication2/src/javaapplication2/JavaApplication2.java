@@ -20,5 +20,4 @@ public class JavaApplication2 {
         f.setSize(700, 650);
         f.setVisible(true);
     }
-    
 }

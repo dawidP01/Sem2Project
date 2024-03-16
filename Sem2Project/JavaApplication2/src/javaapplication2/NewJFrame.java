@@ -38,6 +38,7 @@ public class NewJFrame extends javax.swing.JFrame {
     String code;
     StackFrame op; 
     ArrayList<StackFrame> stackFrames;
+    StackFrame currentStackFrame;
     int currentLine;
     /**
      * Creates new form NewJFrame
@@ -147,8 +148,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     public void runInterpreter(){
         setStackFrames();
-        ArrayList<String> s = stackFrames.get(0).getInstructions();
-        System.out.println(s.get(0));
+   
 
       //  op.setParameters(a, a[13]);
       //  System.out.println(a[13]);
@@ -162,18 +162,19 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
     public void updateOperandStack(){
-        Stack<Object> stack = op.getStack();
+        Stack<Object> stack = currentStackFrame.getStack();
         for(int i=0;i<stack.size();i++){
             stackTable.setValueAt(stack.get(i), stack.size()-1-i, 0);
         }
     }
     public void updateLVA(){
-        Object[] LVA = op.getLVA();
+        Object[] LVA = currentStackFrame.getLVA();
         for(int i=0;i<LVA.length;i++){
             stackTable.setValueAt(LVA[i], i, 1);
         }
     }
     public void updateStackTable(){
+        currentStackFrame = stackFrames.get(1);
         clearStackTable();
         updateOperandStack();
         updateLVA();
@@ -337,6 +338,11 @@ public class NewJFrame extends javax.swing.JFrame {
             classNode.add(node);
         }
         methodTree.setModel(new javax.swing.tree.DefaultTreeModel(classNode));
+    }
+    // Highlights whichever line is currently executing
+    public void highlightCurrentLine(){
+        String a =  textTable.getValueAt(0, 0) + "";
+        System.out.println(a+"%");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -646,7 +652,6 @@ public class NewJFrame extends javax.swing.JFrame {
         lineNumberTableBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lineNumberTableBtnActionPerformed(evt);
-                lineNumberTableBtnActionPerformed1(evt);
             }
         });
 
@@ -817,7 +822,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+// Action listener for the file button - This button is used to select a java
+// file to inspect
     private void FileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FileButtonActionPerformed
         javax.swing.JFileChooser ch = new javax.swing.JFileChooser();
         ch.showOpenDialog(null);
@@ -915,6 +921,7 @@ public class NewJFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
 */
+
     }//GEN-LAST:event_RunButtonActionPerformed
 
     private void StackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StackButtonActionPerformed
@@ -933,23 +940,15 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_OptionsButtonActionPerformed1
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        if(op != null){
-            op.runInstructions();
-            op.setCurrentLine(op.getCurrentLine()+1);
-            updateStackTable();
-        } else {
-            errorPopUp("Please select a class file first");
-        }
+        stackFrames.get(1).runInstructions();
+        updateStackTable();
+        highlightCurrentLine();
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void lineNumberTableBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineNumberTableBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lineNumberTableBtnActionPerformed
-
-    private void lineNumberTableBtnActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineNumberTableBtnActionPerformed1
         lineNumberTableFrame.setVisible(true);
         lineNumberTableFrame.setSize(300,300);
-    }//GEN-LAST:event_lineNumberTableBtnActionPerformed1
+    }//GEN-LAST:event_lineNumberTableBtnActionPerformed
 // Below is a tree selection event listener, it sets the bytecode text table
 // when a tree node is selected
     private void methodTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_methodTreeValueChanged

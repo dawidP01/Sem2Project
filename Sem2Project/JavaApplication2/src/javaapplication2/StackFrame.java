@@ -1,6 +1,8 @@
 package javaapplication2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /*
@@ -19,14 +21,20 @@ public class StackFrame {
     String classString; // The string of all the code in this frame
     ArrayList<String> instructions; // Array of all the instructions
     int currentLine; // Current line of execution
+    int lastLine; // Contains the last line of the instructions set
+    String currentInstruction; // Current Instruction
+    Map<Integer, String> instructionsMap; // A key value pair -> line : instruction
     
     public StackFrame(String classString){
         setMethodName("");
         setStack();
         setLVA();
         setClassString(classString);
-        setCurrentLine(8);
+        setCurrentLine(0);
         setInstructions();
+        setCurrentInstruction();
+        setInstructionsMap();
+        setLastLine();
     }
     public void setMethodName(String methodName){
         this.methodName = methodName;
@@ -39,6 +47,17 @@ public class StackFrame {
     }
     public int getCurrentLine(){
         return currentLine;
+    }
+    public void setLastLine(){
+        int biggest = 0;
+        for (Map.Entry<Integer, String> entry : instructionsMap.entrySet()) {
+            if(biggest < entry.getKey())
+                biggest = entry.getKey();
+        }
+        lastLine = biggest;
+    }
+    public int getLastLine(){
+        return lastLine;
     }
     public void setStack(){
         stack = new Stack();
@@ -79,6 +98,25 @@ public class StackFrame {
     public ArrayList getInstructions(){
         return instructions;
     }
+    public void setCurrentInstruction(){
+        
+    }
+    public String getCurrentInstruction(){
+        return currentInstruction;
+    }
+    // Converts classString into a map using offset as key and bytecode as value
+    public void setInstructionsMap(){
+        instructionsMap = new HashMap<>();
+        Object[] lines = classString.lines().toArray();
+        // lines.length-1 due to an additional empty line at the end for an
+        // unknown reason
+        for(int i=0;i<lines.length-1;i++){
+            lines[i] = lines[i].toString().strip();
+            String[] sections = lines[i].toString().split(":");
+            sections[1] = sections[1].strip();
+            instructionsMap.put(Integer.parseInt(sections[0]), sections[1]);
+        }
+    }
     public String stripInstruction(String instruction){
         for(int i=0;i<instruction.length();i++){
             if(instruction.charAt(i)==' '){
@@ -118,49 +156,67 @@ public class StackFrame {
     }
     // For demo start has to be 8 minimum, and end has to be 16 max
     public void runInstructions(){
-        String instruction = stripInstruction(instructions.get(currentLine));
-        String[] parameters = new String[10];
-        setParameters(parameters,instructions.get(currentLine).strip());
-        if(instructions.get(currentLine).compareTo("iconst_0")==0){
-            iconst_0();
+        currentInstruction = instructionsMap.get(currentLine);
+        while(currentInstruction == null && currentLine <= lastLine){
+            currentInstruction = instructionsMap.get(currentLine);
+            currentLine++;
         }
-        else if(instructions.get(currentLine).compareTo("iconst_5")==0){
-            iconst_5();
-        }
-        else if(instructions.get(currentLine).compareTo("iload_1")==0){
-            iload_1();
-        }
-        else if(instructions.get(currentLine).compareTo("aload_0")==0){
-            aload_0();
-        }
-        else if(instructions.get(currentLine).compareTo("istore_1")==0){
-            istore_1();
-        }
-        else if(instructions.get(currentLine).compareTo("iconst_5")==0){
-            iconst_5();
-        }
-        else if(instruction.compareTo("iinc")==0){
-            iinc(Integer.parseInt(parameters[0]),Integer.parseInt(parameters[0]));
-        }
-        // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        else if(instruction.compareTo("if_icmpge")==0){
-            int value1 = (int)stack.pop();
-            int value2 = (int)stack.pop();
-            if(value2>=value1){
-                currentLine = 14;
-            }
-        }
-        // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        else if(instruction.compareTo("goto")==0){
-            currentLine = 9;
-        }
-        else if(instruction.compareTo("return")==0){
+        if(currentLine <= lastLine){
+            String[] parameters = new String[10];
+            if(currentInstruction != null){
+                setParameters(parameters,currentInstruction);
+                // Below removes the parameters off of the instruction string
+                if(currentInstruction.indexOf(" ")!=-1){
+                    int index = currentInstruction.indexOf(" ");
+                    currentInstruction = currentInstruction.substring(0, index);
+                }
+                if(currentInstruction.compareTo("iconst_0")==0){
+                    iconst_0();
+                }
+                else if(currentInstruction.compareTo("iconst_5")==0){
+                    iconst_5();
+                }
+                else if(currentInstruction.compareTo("iload_1")==0){
+                    iload_1();
+                }
+                else if(currentInstruction.compareTo("aload_0")==0){
+                    aload_0();
+                }
+                else if(currentInstruction.compareTo("istore_1")==0){
+                    istore_1();
+                }
+                else if(currentInstruction.compareTo("iconst_5")==0){
+                    iconst_5();
+                }
+                else if(currentInstruction.compareTo("iinc")==0){
+                    iinc(Integer.parseInt(parameters[0]),Integer.parseInt(parameters[0]));
+                }
+                // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                else if(currentInstruction.compareTo("if_icmpge")==0){
+                    int value1 = (int)stack.pop();
+                    int value2 = (int)stack.pop();
+                    if(value2>=value1){
+                        currentLine = Integer.parseInt(parameters[0]);
+                    }
 
+                }
+                // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                else if(currentInstruction.compareTo("goto")==0){
+                    goto1(Integer.parseInt(parameters[0]));
+                }
+                else if(currentInstruction.compareTo("return")==0){
+
+                }
+            }
+            System.out.print("Line: "+ currentLine);
+            System.out.println(", Instruction: " +currentInstruction + ", ");
+           // printStack();
+            for (String s : parameters){
+                System.out.print(" " +s+", ");
+            }
+            System.out.println();
+            currentLine++;
         }
-        System.out.print("Line: "+ currentLine);
-        System.out.print(", Instruction: " +instruction + ", ");
-        printStack();
-        System.out.println();
     }
     public void printStack(){
         System.out.print("Stack: ");
@@ -1009,8 +1065,8 @@ public class StackFrame {
         }
     }
     // a7
-    public void goto1(){
-    
+    public void goto1(int newLine){
+        this.currentLine =  newLine-1;
     }
     // b7
     public void invokespecial(){
