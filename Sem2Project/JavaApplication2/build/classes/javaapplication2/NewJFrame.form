@@ -232,10 +232,10 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTree" name="tutorialTree2">
+                <Component class="javax.swing.JTree" name="helpFrameTree">
                   <Properties>
                     <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-                      <TreeModel code="Topics: &#xa; Opcodes&#xa;  000. nop&#xa;  001. aconst_null&#xa; Memory&#xa;  Heap&#xa;  Stack"/>
+                      <TreeModel code="Topics: &#xa; Opcodes&#xa;  000. nop&#xa;  001. aconst_null&#xa;  002. icontst_m1&#xa;  003. iconst_0&#xa;  004. iconst_1&#xa;  005. iconst_2&#xa;  006. iconts_3&#xa;  007. iconst_4&#xa;  008. iconst_5&#xa;  009. lconst_0&#xa;  010. lconst_1&#xa;  011. fconst_0&#xa;  012. fconst_1&#xa;  013. fconst_2&#xa;  014. dconst_0&#xa;  015. dconst_1&#xa;  016. bipush&#xa;  017. sipush&#xa;  018. ldc&#xa;  019. ldc_w&#xa;  020. ldc2_w&#xa;  021. iload&#xa;  022. lload&#xa; Memory&#xa;  Heap&#xa;  Stack"/>
                     </Property>
                   </Properties>
                 </Component>

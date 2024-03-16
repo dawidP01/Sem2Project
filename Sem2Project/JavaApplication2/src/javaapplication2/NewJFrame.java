@@ -374,7 +374,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane15 = new javax.swing.JScrollPane();
         tutorialFrameTextArea2 = new javax.swing.JTextArea();
         jScrollPane16 = new javax.swing.JScrollPane();
-        tutorialTree2 = new javax.swing.JTree();
+        helpFrameTree = new javax.swing.JTree();
         jSeparator3 = new javax.swing.JSeparator();
         settingsFrame = new javax.swing.JFrame();
         settingsPanel = new javax.swing.JPanel();
@@ -520,6 +520,48 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("001. aconst_null");
         treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("002. icontst_m1");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("003. iconst_0");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("004. iconst_1");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("005. iconst_2");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("006. iconts_3");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("007. iconst_4");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("008. iconst_5");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("009. lconst_0");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("010. lconst_1");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("011. fconst_0");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("012. fconst_1");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("013. fconst_2");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("014. dconst_0");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("015. dconst_1");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("016. bipush");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("017. sipush");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("018. ldc");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("019. ldc_w");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("020. ldc2_w");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("021. iload");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("022. lload");
+        treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Memory");
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Heap");
@@ -527,8 +569,8 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Stack");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        tutorialTree2.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane16.setViewportView(tutorialTree2);
+        helpFrameTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jScrollPane16.setViewportView(helpFrameTree);
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -1275,6 +1317,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton helpButton;
     private javax.swing.JFrame helpFrame;
     private javax.swing.JTextField helpFrameTitle;
+    private javax.swing.JTree helpFrameTree;
     private javax.swing.JPanel helpPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
@@ -1331,6 +1374,5 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel tutorialPanel;
     private javax.swing.JTree tutorialTree;
     private javax.swing.JTree tutorialTree1;
-    private javax.swing.JTree tutorialTree2;
     // End of variables declaration//GEN-END:variables
 }
