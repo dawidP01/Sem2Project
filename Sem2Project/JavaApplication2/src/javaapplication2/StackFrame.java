@@ -20,23 +20,23 @@ public class StackFrame {
     ArrayList<Object> LVA; // Locla Variable Array
     String classString; // The string of all the code in this frame
     ArrayList<String> instructions; // Array of all the instructions
-    int currentLine; // Current line of execution
-    int lastLine; // Contains the last line of the instructions set
+    int currentLineIndex; // Current line of execution
     String currentInstruction; // Current Instruction
     Map<Integer, String> instructionsMap; // A key value pair -> line : instruction
     boolean finished; // If true, execution has ended
+    ArrayList<Integer> keysOfInstructions; // Array that stores the offset/keys in an array
     
     public StackFrame(String classString){
         setMethodName("");
         setStack();
         setLVA();
         setClassString(classString);
-        setCurrentLine(0);
+        setCurrentLineIndex();
         setInstructions();
         setCurrentInstruction();
         setInstructionsMap();
-        setLastLine();
         setFinished();
+        setKeysOfInstructions();
     }
     public void setMethodName(String methodName){
         this.methodName = methodName;
@@ -44,22 +44,11 @@ public class StackFrame {
     public String getMethodName(){
         return methodName;
     }
-    public void setCurrentLine(int currentLine){
-        this.currentLine = currentLine;
+    public void setCurrentLineIndex(){
+        this.currentLineIndex = 0;
     }
-    public int getCurrentLine(){
-        return currentLine;
-    }
-    public void setLastLine(){
-        int biggest = 0;
-        for (Map.Entry<Integer, String> entry : instructionsMap.entrySet()) {
-            if(biggest < entry.getKey())
-                biggest = entry.getKey();
-        }
-        lastLine = biggest;
-    }
-    public int getLastLine(){
-        return lastLine;
+    public int getCurrentLineIndex(){
+        return currentLineIndex;
     }
     public void setStack(){
         stack = new Stack();
@@ -131,6 +120,16 @@ public class StackFrame {
     public boolean getFinished(){
         return finished;
     }
+    public void setKeysOfInstructions(){
+        keysOfInstructions = new ArrayList<>();
+        for(Map.Entry<Integer, String> entry : instructionsMap.entrySet()){
+            int key = entry.getKey();
+            keysOfInstructions.add(key);
+        }
+    }
+    public ArrayList getKeysOfInstructions(){
+        return keysOfInstructions;
+    }
     public String stripInstruction(String instruction){
         for(int i=0;i<instruction.length();i++){
             if(instruction.charAt(i)==' '){
@@ -170,69 +169,74 @@ public class StackFrame {
     }
     // For demo start has to be 8 minimum, and end has to be 16 max
     public void runInstructions(){
-        currentInstruction = instructionsMap.get(currentLine);
-        while(currentInstruction == null && currentLine <= lastLine){
+        if(!finished){
+            // Sets the current line
+            int currentLine = keysOfInstructions.get(currentLineIndex);
+            // Sets the current instruction
             currentInstruction = instructionsMap.get(currentLine);
-            currentLine++;
-        }
-        if(currentLine <= lastLine){
-            System.out.println("test: " + currentLine + ", Inst: " + currentInstruction);
-            String[] parameters = new String[10];
-            if(currentInstruction != null){
-                setParameters(parameters,currentInstruction);
-                // Below removes the parameters off of the instruction string
-                if(currentInstruction.indexOf(" ")!=-1){
-                    int index = currentInstruction.indexOf(" ");
-                    currentInstruction = currentInstruction.substring(0, index);
-                }
-                if(currentInstruction.compareTo("iconst_0")==0){
-                    iconst_0();
-                }
-                else if(currentInstruction.compareTo("iconst_5")==0){
-                    iconst_5();
-                }
-                else if(currentInstruction.compareTo("iload_1")==0){
-                    iload_1();
-                }
-                else if(currentInstruction.compareTo("aload_0")==0){
-                    aload_0();
-                }
-                else if(currentInstruction.compareTo("istore_1")==0){
-                    istore_1();
-                }
-                else if(currentInstruction.compareTo("iconst_5")==0){
-                    iconst_5();
-                }
-                else if(currentInstruction.compareTo("iinc")==0){
-                    iinc(Integer.parseInt(parameters[0]),Integer.parseInt(parameters[0]));
-                }
-                // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                else if(currentInstruction.compareTo("if_icmpge")==0){
-                    int value1 = (int)stack.pop();
-                    int value2 = (int)stack.pop();
-                    if(value2>=value1){
-                        currentLine = Integer.parseInt(parameters[0]);
+            if(currentLineIndex <= keysOfInstructions.size()){
+               // System.out.println("test: " + currentLine + ", Inst: " + currentInstruction);
+                String[] parameters = new String[10];
+                if(currentInstruction != null){
+                    setParameters(parameters,currentInstruction);
+                    // Below removes the parameters off of the instruction string
+                    if(currentInstruction.indexOf(" ")!=-1){
+                        int index = currentInstruction.indexOf(" ");
+                        currentInstruction = currentInstruction.substring(0, index);
                     }
+                    if(currentInstruction.compareTo("iconst_0")==0){
+                        iconst_0();
+                    }
+                    else if(currentInstruction.compareTo("iconst_5")==0){
+                        iconst_5();
+                    }
+                    else if(currentInstruction.compareTo("iload_1")==0){
+                        iload_1();
+                    }
+                    else if(currentInstruction.compareTo("aload_0")==0){
+                        aload_0();
+                    }
+                    else if(currentInstruction.compareTo("istore_1")==0){
+                        istore_1();
+                    }
+                    else if(currentInstruction.compareTo("iconst_5")==0){
+                        iconst_5();
+                    }
+                    else if(currentInstruction.compareTo("iinc")==0){
+                        iinc(Integer.parseInt(parameters[0]),Integer.parseInt(parameters[0]));
+                    }
+                    // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    else if(currentInstruction.compareTo("if_icmpge")==0){
+                        int value1 = (int)stack.pop();
+                        int value2 = (int)stack.pop();
+                        System.out.println("Value 1: " + value1);
+                        System.out.println("Value 2: " + value2);
+                        if(value2>=value1){
+                            System.out.println("Loop Value: " + Integer.parseInt(parameters[0]));
+                            int index=0;
+                            currentLine = Integer.parseInt(parameters[0]);
+                            for(int i = 0; i<keysOfInstructions.size();i++){
+                                if(keysOfInstructions.get(i) == currentLine){
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            currentLineIndex = index-1;
+                            System.out.println("Loopey Loop: " + currentLineIndex);
+                        }
 
+                    }
+                    // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    else if(currentInstruction.compareTo("goto")==0){
+                        goto1(Integer.parseInt(parameters[0]));
+                    }
+                    else if(currentInstruction.compareTo("return")==0){
+                        finished = true;
+                    }
+                // Sets the index of the position in the 
+                currentLineIndex++;
                 }
-                // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                else if(currentInstruction.compareTo("goto")==0){
-                    goto1(Integer.parseInt(parameters[0]));
-                }
-                else if(currentInstruction.compareTo("return")==0){
-
-                }
-            } else {
-                finished = true;
             }
-            System.out.print("Line: "+ currentLine);
-            System.out.println(", Instruction: " +currentInstruction + ", ");
-           // printStack();
-            for (String s : parameters){
-                System.out.print(" " +s+", ");
-            }
-            System.out.println();
-            currentLine++;
         }
     }
     public void printStack(){
@@ -460,122 +464,122 @@ public class StackFrame {
     // 36
     public void istore(int index){
         Object entry = stack.pop();
-        LVA.add(index, (int) entry);
+        LVA.set(index, (int) entry);
     }
     // 37
     public void lstore(int index){
         Object entry = stack.pop();
-        LVA.add(index, (long) entry);
+        LVA.set(index, (long) entry);
     }
     // 38
     public void fstore(int index){
         Object entry = stack.pop();
-        LVA.add(index,(float) entry);
+        LVA.set(index,(float) entry);
     }
     // 39
     public void dstore(int index){
         Object entry = stack.pop();
-        LVA.add(index, (double) entry);
+        LVA.set(index, (double) entry);
     }
     // 3a
     public void astore(int index){
         Object entry = stack.pop();
-        LVA.add(index, entry);
+        LVA.set(index, entry);
     }
     // 3b
     public void istore_0(){
         Object entry = stack.pop();
-        LVA.add(0, (int) entry);
+        LVA.set(0, (int) entry);
     }
     // 3c
     public void istore_1(){
         Object entry = stack.pop();
-        LVA.add(1, (int) entry);
+        LVA.set(1, (int) entry);
     }
     // 3d
     public void istore_2(){
         Object entry = stack.pop();
-        LVA.add(2, (int) entry);
+        LVA.set(2, (int) entry);
     }
     // 3e
     public void istore_3(){
         Object entry = stack.pop();
-        LVA.add(3, (int) entry);
+        LVA.set(3, (int) entry);
     }
     // 3f
     public void lstore_0(){
         Object entry = stack.pop();
-        LVA.add(0,(long) entry);
+        LVA.set(0,(long) entry);
     }
     // 40
     public void lstore_1(){
         Object entry = stack.pop();
-        LVA.add(1,(long) entry);
+        LVA.set(1,(long) entry);
     }
     // 41
     public void lstore_2(){
         Object entry = stack.pop();
-        LVA.add(2,(long) entry);
+        LVA.set(2,(long) entry);
     }
     // 42
     public void lstore_3(){
         Object entry = stack.pop();
-        LVA.add(3,(long) entry);
+        LVA.set(3,(long) entry);
     }
     // 43
     public void fstore_0(){
         Object entry = stack.pop();
-        LVA.add(0,(float) entry);
+        LVA.set(0,(float) entry);
     }
     // 44
     public void fstore_1(){
         Object entry = stack.pop();
-        LVA.add(1,(float) entry);
+        LVA.set(1,(float) entry);
     }
     // 45
     public void fstore_2(){
         Object entry = stack.pop();
-        LVA.add(2,(float) entry);
+        LVA.set(2,(float) entry);
     }
     // 46
     public void fstore_3(){
         Object entry = stack.pop();
-        LVA.add(3,(float) entry);
+        LVA.set(3,(float) entry);
     }
     // 47
     public void dstore_0(){
         Object entry = stack.pop();
-        LVA.add(0,(double) entry);
+        LVA.set(0,(double) entry);
     }
     // 48
     public void dstore_1(){
         Object entry = stack.pop();
-        LVA.add(1,(double) entry);
+        LVA.set(1,(double) entry);
     }
     // 49
     public void dstore_2(){
         Object entry = stack.pop();
-        LVA.add(2,(double) entry);
+        LVA.set(2,(double) entry);
     }
     // 4a
     public void dstore_3(){
         Object entry = stack.pop();
-        LVA.add(3,(double) entry);
+        LVA.set(3,(double) entry);
     }
     // 4b
     public void astore_0(){
         Object entry = stack.pop();
-        LVA.add(0,entry);
+        LVA.set(0,entry);
     }
     // 4c
     public void astore_1(){
         Object entry = stack.pop();
-        LVA.add(1,entry);
+        LVA.set(1,entry);
     }
     // 4d
     public void astore_2(){
         Object entry = stack.pop();
-        LVA.add(2,entry);
+        LVA.set(2,entry);
     }
     // 4e
     public void astore_3(){
@@ -908,7 +912,7 @@ public class StackFrame {
     }
     // 84
     public void iinc(int index, int incValue){
-        LVA.add(index, ((int) LVA.get(index)) + incValue);
+        LVA.set(index, ((int) LVA.get(index)) + incValue);
     }
     // 85
     public void i2l(){
@@ -1083,7 +1087,7 @@ public class StackFrame {
     }
     // a7
     public void goto1(int newLine){
-        this.currentLine =  newLine-1;
+        this.currentLineIndex =  newLine-1;
     }
     // b7
     public void invokespecial(){

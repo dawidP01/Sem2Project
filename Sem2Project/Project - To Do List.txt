@@ -26,4 +26,4 @@
 41. Do the method to setCurrentInstruction()
 42. Add the function for next button to switch between methods 
 43. Make the size of the LVA dynamically update -> Or just change implementation, maybe to an object array like before
-44. Fix the highlight function 
+46. Allow the option to reload a program
