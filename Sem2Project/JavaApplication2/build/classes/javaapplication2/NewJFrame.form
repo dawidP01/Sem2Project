@@ -65,7 +65,7 @@
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="2">
-                    <StringItem index="0" value="Method A"/>
+                    <StringItem index="0" value="Main"/>
                     <StringItem index="1" value="Method B"/>
                   </StringArray>
                 </Property>
@@ -91,7 +91,7 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="12">
                         <Column editable="true" title="Operand Stack" type="java.lang.Object"/>
-                        <Column editable="true" title="LVA" type="java.lang.Object"/>
+                        <Column editable="true" title="Local Variable Array" type="java.lang.Object"/>
                         <Column editable="true" title="Frame Data" type="java.lang.Object"/>
                       </Table>
                     </Property>
@@ -702,9 +702,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="fileBtn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="settingsBtn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="tutorialBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="helpButton" min="-2" max="-2" attributes="0"/>
@@ -718,7 +716,6 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="fileBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="settingsBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tutorialBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="helpButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -740,14 +737,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FileButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="settingsBtn">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Settings"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="settingsBtnActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="tutorialBtn">
@@ -779,6 +768,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="nextButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="resetBtn" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="StackButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lineNumberTableBtn" min="-2" max="-2" attributes="0"/>
@@ -795,6 +786,7 @@
                       <Component id="nextButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="StackButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lineNumberTableBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="resetBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -832,6 +824,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lineNumberTableBtnActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="resetBtn">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reset"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetBtnActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -878,7 +878,7 @@
                   <Border info="null"/>
                 </Property>
                 <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-                  <TreeModel code="JTree&#xa; Method1&#xa;  Additional Info Here&#xa; Method2&#xa;  Additional Info Here"/>
+                  <TreeModel code="-"/>
                 </Property>
                 <Property name="autoscrolls" type="boolean" value="true"/>
               </Properties>

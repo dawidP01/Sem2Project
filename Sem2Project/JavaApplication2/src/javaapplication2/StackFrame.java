@@ -184,35 +184,511 @@ public class StackFrame {
                         int index = currentInstruction.indexOf(" ");
                         currentInstruction = currentInstruction.substring(0, index);
                     }
-                    if(currentInstruction.compareTo("iconst_0")==0){
+                    if(currentInstruction.compareTo("nop")==0){
+                        nop();
+                    }
+                    else if(currentInstruction.compareTo("aconst_null")==0){
+                        aconst_null();
+                    }
+                    else if(currentInstruction.compareTo("iconst_m1")==0){
+                        iconst_m1();
+                    }
+                    else if(currentInstruction.compareTo("iconst_0")==0){
                         iconst_0();
+                    }
+                    else if(currentInstruction.compareTo("iconst_1")==0){
+                        iconst_1();
+                    }
+                    else if(currentInstruction.compareTo("iconst_2")==0){
+                        iconst_2();
+                    }
+                    else if(currentInstruction.compareTo("iconst_3")==0){
+                        iconst_3();
+                    }
+                    else if(currentInstruction.compareTo("iconst_4")==0){
+                        iconst_4();
                     }
                     else if(currentInstruction.compareTo("iconst_5")==0){
                         iconst_5();
+                    }
+                    else if(currentInstruction.compareTo("lconst_0")==0){
+                        lconst_0();
+                    }
+                    else if(currentInstruction.compareTo("lconst_1")==0){
+                        lconst_1();
+                    }
+                    else if(currentInstruction.compareTo("fconst_0")==0){
+                        fconst_0();
+                    }
+                    else if(currentInstruction.compareTo("fconst_1")==0){
+                        fconst_1();
+                    }
+                    else if(currentInstruction.compareTo("fconst_2")==0){
+                        fconst_2();
+                    }
+                    else if(currentInstruction.compareTo("dconst_0")==0){
+                        dconst_0();
+                    }
+                    else if(currentInstruction.compareTo("dconst_0")==0){
+                        dconst_0();
+                    }
+                    else if(currentInstruction.compareTo("dconst_1")==0){
+                        dconst_1();
+                    }
+                    // Fix below
+                    else if(currentInstruction.compareTo("bipush")==0){
+                        //bipush();
+                    }
+                    // Fix Below
+                    else if(currentInstruction.compareTo("sipush")==0){
+                        //sipush();
+                    }
+                    else if(currentInstruction.compareTo("ldc")==0){
+                        ldc();
+                    }
+                    else if(currentInstruction.compareTo("ldc_w")==0){
+                        ldc_w();
+                    }
+                    else if(currentInstruction.compareTo("ldc2_w")==0){
+                        ldc2_w();
+                    }
+                    else if(currentInstruction.compareTo("iload")==0){
+                        iload(Integer.parseInt(parameters[0]));
+                    }
+                    // Fix Below
+                    else if(currentInstruction.compareTo("lload")==0){
+                        // lload();
+                    }
+                    // Fix Below
+                    else if(currentInstruction.compareTo("fload")==0){
+                        // fload();
+                    }
+                    // Fix Below
+                    else if(currentInstruction.compareTo("dload")==0){
+                        // dload();
+                    }
+                    // Fix Below
+                    else if(currentInstruction.compareTo("aload")==0){
+                        // aload();
+                    }
+                    else if(currentInstruction.compareTo("iload_0")==0){
+                        iload_0();
                     }
                     else if(currentInstruction.compareTo("iload_1")==0){
                         iload_1();
                     }
+                    else if(currentInstruction.compareTo("iload_2")==0){
+                        iload_2();
+                    }
+                    else if(currentInstruction.compareTo("iload_3")==0){
+                        iload_3();
+                    }
+                    else if(currentInstruction.compareTo("lload_0")==0){
+                        lload_0();
+                    }
+                    else if(currentInstruction.compareTo("lload_1")==0){
+                        lload_1();
+                    }
+                    else if(currentInstruction.compareTo("lload_2")==0){
+                        lload_2();
+                    }
+                    else if(currentInstruction.compareTo("lload_3")==0){
+                        lload_3();
+                    }
+                    else if(currentInstruction.compareTo("fload_0")==0){
+                        fload_0();
+                    }
+                    else if(currentInstruction.compareTo("fload_1")==0){
+                        fload_1();
+                    }
+                    else if(currentInstruction.compareTo("fload_2")==0){
+                        fload_2();
+                    }
+                    else if(currentInstruction.compareTo("fload_3")==0){
+                        fload_3();
+                    }
+                    else if(currentInstruction.compareTo("dload_0")==0){
+                        dload_0();
+                    }
+                    else if(currentInstruction.compareTo("dload_1")==0){
+                        dload_1();
+                    }
+                    else if(currentInstruction.compareTo("dload_2")==0){
+                        dload_2();
+                    }
+                    else if(currentInstruction.compareTo("dload_3")==0){
+                        dload_3();
+                    }
                     else if(currentInstruction.compareTo("aload_0")==0){
                         aload_0();
+                    }
+                    else if(currentInstruction.compareTo("aload_1")==0){
+                        aload_1();
+                    }
+                    else if(currentInstruction.compareTo("aload_2")==0){
+                        aload_2();
+                    }
+                    else if(currentInstruction.compareTo("aload_3")==0){
+                        aload_3();
+                    }
+                    else if(currentInstruction.compareTo("iaload")==0){
+                        iaload();
+                    }
+                    else if(currentInstruction.compareTo("laload")==0){
+                        laload();
+                    }
+                    else if(currentInstruction.compareTo("faload")==0){
+                        faload();
+                    }
+                    else if(currentInstruction.compareTo("daload")==0){
+                        daload();
+                    }
+                    else if(currentInstruction.compareTo("aaload")==0){
+                        aaload();
+                    }
+                    else if(currentInstruction.compareTo("baload")==0){
+                        baload();
+                    }
+                    else if(currentInstruction.compareTo("caload")==0){
+                        caload();
+                    }
+                    else if(currentInstruction.compareTo("saload")==0){
+                        saload();
+                    }
+                    // Fix Below!! 
+                    else if(currentInstruction.compareTo("istore")==0){
+                        // istore();
+                    }
+                    // Fix Below!! 
+                    else if(currentInstruction.compareTo("lstore")==0){
+                        // lstore();
+                    }
+                    // Fix Below!! 
+                    else if(currentInstruction.compareTo("fstore")==0){
+                        // fstore();
+                    }
+                    // Fix Below!! 
+                    else if(currentInstruction.compareTo("dstore")==0){
+                        // dstore();
+                    }
+                    // Fix Below!! 
+                    else if(currentInstruction.compareTo("astore")==0){
+                        // astore();
+                    }
+                    else if(currentInstruction.compareTo("istore_0")==0){
+                        istore_0();
                     }
                     else if(currentInstruction.compareTo("istore_1")==0){
                         istore_1();
                     }
-                    else if(currentInstruction.compareTo("iconst_5")==0){
-                        iconst_5();
+                    else if(currentInstruction.compareTo("istore_2")==0){
+                        istore_2();
+                    }
+                    else if(currentInstruction.compareTo("istore_3")==0){
+                        istore_3();
+                    }
+                    else if(currentInstruction.compareTo("lstore_0")==0){
+                        lstore_0();
+                    }
+                    else if(currentInstruction.compareTo("lstore_1")==0){
+                        lstore_1();
+                    }
+                    else if(currentInstruction.compareTo("lstore_2")==0){
+                        lstore_2();
+                    }
+                    else if(currentInstruction.compareTo("lstore_3")==0){
+                        lstore_3();
+                    }
+                    else if(currentInstruction.compareTo("fstore_0")==0){
+                        fstore_0();
+                    }
+                    else if(currentInstruction.compareTo("fstore_1")==0){
+                        fstore_1();
+                    }
+                    else if(currentInstruction.compareTo("fstore_2")==0){
+                        fstore_2();
+                    }
+                    else if(currentInstruction.compareTo("fstore_3")==0){
+                        fstore_3();
+                    }
+                    else if(currentInstruction.compareTo("dstore_0")==0){
+                        dstore_0();
+                    }
+                    else if(currentInstruction.compareTo("dstore_1")==0){
+                        dstore_1();
+                    }
+                    else if(currentInstruction.compareTo("dstore_2")==0){
+                        dstore_2();
+                    }
+                    else if(currentInstruction.compareTo("dstore_3")==0){
+                        dstore_3();
+                    }
+                    else if(currentInstruction.compareTo("astore_0")==0){
+                        astore_0();
+                    }
+                    else if(currentInstruction.compareTo("astore_1")==0){
+                        astore_1();
+                    }
+                    else if(currentInstruction.compareTo("astore_2")==0){
+                        astore_2();
+                    }
+                    else if(currentInstruction.compareTo("astore_3")==0){
+                        astore_3();
+                    }
+                    else if(currentInstruction.compareTo("iastore")==0){
+                        iastore();
+                    }
+                    else if(currentInstruction.compareTo("lastore")==0){
+                        lastore();
+                    }
+                    else if(currentInstruction.compareTo("fastore")==0){
+                        fastore();
+                    }
+                    else if(currentInstruction.compareTo("dastore")==0){
+                        dastore();
+                    }
+                    else if(currentInstruction.compareTo("aastore")==0){
+                        aastore();
+                    }
+                    else if(currentInstruction.compareTo("bastore")==0){
+                        bastore();
+                    }
+                    else if(currentInstruction.compareTo("castore")==0){
+                        castore();
+                    }
+                    else if(currentInstruction.compareTo("sastore")==0){
+                        sastore();
+                    }
+                    else if(currentInstruction.compareTo("pop")==0){
+                        pop();
+                    }
+                    else if(currentInstruction.compareTo("pop2")==0){
+                        pop2();
+                    }
+                    else if(currentInstruction.compareTo("dup")==0){
+                        dup();
+                    }
+                    else if(currentInstruction.compareTo("dup_x1")==0){
+                        dup_x1();
+                    }
+                    else if(currentInstruction.compareTo("dup_x2")==0){
+                        dup_x2();
+                    }
+                    else if(currentInstruction.compareTo("dup2")==0){
+                        dup2();
+                    }
+                    else if(currentInstruction.compareTo("dup2")==0){
+                        dup2_x1();
+                    }
+                    else if(currentInstruction.compareTo("dup2")==0){
+                        dup2_x2();
+                    }
+                    else if(currentInstruction.compareTo("swap")==0){
+                        swap();
+                    }
+                    else if(currentInstruction.compareTo("iadd")==0){
+                        iadd();
+                    }
+                    else if(currentInstruction.compareTo("ladd")==0){
+                        ladd();
+                    }
+                    else if(currentInstruction.compareTo("fadd")==0){
+                        fadd();
+                    }
+                    else if(currentInstruction.compareTo("dadd")==0){
+                        dadd();
+                    }
+                    else if(currentInstruction.compareTo("isub")==0){
+                        isub();
+                    }
+                    else if(currentInstruction.compareTo("lsub")==0){
+                        lsub();
+                    }
+                    else if(currentInstruction.compareTo("fsub")==0){
+                        fsub();
+                    }
+                    else if(currentInstruction.compareTo("dsub")==0){
+                        dsub();
+                    }
+                    else if(currentInstruction.compareTo("imul")==0){
+                        imul();
+                    }
+                    else if(currentInstruction.compareTo("lmul")==0){
+                        lmul();
+                    }
+                    else if(currentInstruction.compareTo("fmul")==0){
+                        fmul();
+                    }
+                    else if(currentInstruction.compareTo("dmul")==0){
+                        dmul();
+                    }
+                    else if(currentInstruction.compareTo("idiv")==0){
+                        idiv();
+                    }
+                    else if(currentInstruction.compareTo("ldiv")==0){
+                        ldiv();
+                    }
+                    else if(currentInstruction.compareTo("fdiv")==0){
+                        fdiv();
+                    }
+                    else if(currentInstruction.compareTo("ddiv")==0){
+                        ddiv();
+                    }
+                    else if(currentInstruction.compareTo("irem")==0){
+                        irem();
+                    }
+                    else if(currentInstruction.compareTo("irem")==0){
+                        lrem();
+                    }
+                    else if(currentInstruction.compareTo("frem")==0){
+                        frem();
+                    }
+                    else if(currentInstruction.compareTo("drem")==0){
+                        drem();
+                    }
+                    else if(currentInstruction.compareTo("ineg")==0){
+                        ineg();
+                    }
+                    else if(currentInstruction.compareTo("lneg")==0){
+                        lneg();
+                    }
+                    else if(currentInstruction.compareTo("fneg")==0){
+                        fneg();
+                    }
+                    else if(currentInstruction.compareTo("dneg")==0){
+                        dneg();
+                    }
+                    else if(currentInstruction.compareTo("ishl")==0){
+                        ishl();
+                    }
+                    else if(currentInstruction.compareTo("lshl")==0){
+                        lshl();
+                    }
+                    else if(currentInstruction.compareTo("ishr")==0){
+                        ishr();
+                    }
+                    else if(currentInstruction.compareTo("lshr")==0){
+                        lshr();
+                    }
+                    else if(currentInstruction.compareTo("iushr")==0){
+                        iushr();
+                    }
+                    else if(currentInstruction.compareTo("lushr")==0){
+                        lushr();
+                    }
+                    else if(currentInstruction.compareTo("iand")==0){
+                        iand();
+                    }
+                    else if(currentInstruction.compareTo("land")==0){
+                        land();
+                    }
+                    else if(currentInstruction.compareTo("ior")==0){
+                        ior();
+                    }
+                    else if(currentInstruction.compareTo("lor")==0){
+                        lor();
+                    }
+                    else if(currentInstruction.compareTo("ixor")==0){
+                        ixor();
+                    }
+                    else if(currentInstruction.compareTo("lxor")==0){
+                        lxor();
                     }
                     else if(currentInstruction.compareTo("iinc")==0){
                         iinc(Integer.parseInt(parameters[0]),Integer.parseInt(parameters[0]));
+                    }
+                    else if(currentInstruction.compareTo("i2l")==0){
+                        i2l();
+                    }
+                    else if(currentInstruction.compareTo("i2f")==0){
+                        i2f();
+                    }
+                    else if(currentInstruction.compareTo("i2d")==0){
+                        i2d();
+                    }
+                    else if(currentInstruction.compareTo("l2i")==0){
+                        l2i();
+                    }
+                    else if(currentInstruction.compareTo("l2f")==0){
+                        l2f();
+                    }
+                    else if(currentInstruction.compareTo("l2d")==0){
+                        l2d();
+                    }
+                    else if(currentInstruction.compareTo("f2i")==0){
+                        f2i();
+                    }
+                    else if(currentInstruction.compareTo("f2l")==0){
+                        f2l();
+                    }
+                    else if(currentInstruction.compareTo("f2d")==0){
+                        f2d();
+                    }
+                    else if(currentInstruction.compareTo("d2i")==0){
+                        d2i();
+                    }
+                    else if(currentInstruction.compareTo("d2l")==0){
+                        d2l();
+                    }
+                    else if(currentInstruction.compareTo("d2f")==0){
+                        d2f();
+                    }
+                    else if(currentInstruction.compareTo("i2b")==0){
+                        i2b();
+                    }
+                    else if(currentInstruction.compareTo("i2c")==0){
+                        i2c();
+                    }
+                    else if(currentInstruction.compareTo("i2s")==0){
+                        i2s();
+                    }
+                    else if(currentInstruction.compareTo("lcmp")==0){
+                        lcmp();
+                    }
+                    else if(currentInstruction.compareTo("fcmpl")==0){
+                        fcmpl();
+                    }
+                    else if(currentInstruction.compareTo("fcmpg")==0){
+                        fcmpg();
+                    }
+                    else if(currentInstruction.compareTo("dcmpl")==0){
+                        dcmpl();
+                    }
+                    else if(currentInstruction.compareTo("dcmpg")==0){
+                        dcmpg();
+                    }
+                    else if(currentInstruction.compareTo("ifeq")==0){
+                        ifeq();
+                    }
+                    else if(currentInstruction.compareTo("ifne")==0){
+                        ifne();
+                    }
+                    else if(currentInstruction.compareTo("iflt")==0){
+                        iflt();
+                    }
+                    else if(currentInstruction.compareTo("ifge")==0){
+                        ifge();
+                    }
+                    else if(currentInstruction.compareTo("ifgt")==0){
+                        ifgt();
+                    }
+                    else if(currentInstruction.compareTo("ifle")==0){
+                        ifle();
+                    }
+                    else if(currentInstruction.compareTo("if_icmpeq")==0){
+                        if_icmpeq();
+                    }
+                    else if(currentInstruction.compareTo("if_icmpne")==0){
+                        if_icmpne();
+                    }
+                    else if(currentInstruction.compareTo("if_icmplt")==0){
+                        if_icmplt();
                     }
                     // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     else if(currentInstruction.compareTo("if_icmpge")==0){
                         int value1 = (int)stack.pop();
                         int value2 = (int)stack.pop();
-                        System.out.println("Value 1: " + value1);
-                        System.out.println("Value 2: " + value2);
                         if(value2>=value1){
-                            System.out.println("Loop Value: " + Integer.parseInt(parameters[0]));
                             int index=0;
                             currentLine = Integer.parseInt(parameters[0]);
                             for(int i = 0; i<keysOfInstructions.size();i++){
@@ -226,12 +702,132 @@ public class StackFrame {
                         }
 
                     }
+                    else if(currentInstruction.compareTo("if_icmpgt")==0){
+                        if_icmpgt();
+                    }
+                    else if(currentInstruction.compareTo("if_icmple")==0){
+                        if_icmple();
+                    }
+                    else if(currentInstruction.compareTo("if_acmpeq")==0){
+                        if_acmpeq();
+                    }
+                    else if(currentInstruction.compareTo("if_acmpne")==0){
+                        if_acmpne();
+                    }
                     // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     else if(currentInstruction.compareTo("goto")==0){
                         goto1(Integer.parseInt(parameters[0]));
                     }
+                    else if(currentInstruction.compareTo("jsr")==0){
+                        jsr();
+                    }
+                    else if(currentInstruction.compareTo("ret")==0){
+                        ret();
+                    }
+                    else if(currentInstruction.compareTo("tableswitch")==0){
+                        tableswitch();
+                    }
+                    else if(currentInstruction.compareTo("lookupswitch")==0){
+                        lookupswitch();
+                    }
+                    else if(currentInstruction.compareTo("ireturn")==0){
+                        ireturn();
+                    }
+                    else if(currentInstruction.compareTo("lreturn")==0){
+                        lreturn();
+                    }
+                    else if(currentInstruction.compareTo("freturn")==0){
+                        freturn();
+                    }
+                    else if(currentInstruction.compareTo("dreturn")==0){
+                        dreturn();
+                    }
+                    else if(currentInstruction.compareTo("areturn")==0){
+                        areturn();
+                    }
                     else if(currentInstruction.compareTo("return")==0){
                         finished = true;
+                    }
+                    else if(currentInstruction.compareTo("getstatic")==0){
+                        getstatic();
+                    }
+                    else if(currentInstruction.compareTo("putstatic")==0){
+                        putstatic();
+                    }
+                    else if(currentInstruction.compareTo("getfield")==0){
+                        getfield();
+                    }
+                    else if(currentInstruction.compareTo("putfield")==0){
+                        putfield();
+                    }
+                    else if(currentInstruction.compareTo("invokevirtual")==0){
+                        invokevirtual();
+                    }
+                    else if(currentInstruction.compareTo("invokespecial")==0){
+                        invokespecial();
+                    }
+                    else if(currentInstruction.compareTo("invokestatic")==0){
+                        invokestatic();
+                    }
+                    else if(currentInstruction.compareTo("invokeinterface")==0){
+                        invokeinterface();
+                    }
+                    else if(currentInstruction.compareTo("invokedynamic")==0){
+                        invokedynamic();
+                    }
+                    else if(currentInstruction.compareTo("new")==0){
+                        new1();
+                    }
+                    else if(currentInstruction.compareTo("newarray")==0){
+                        newarray();
+                    }
+                    else if(currentInstruction.compareTo("anewarray")==0){
+                        anewarray();
+                    }
+                    else if(currentInstruction.compareTo("arraylength")==0){
+                        arraylength();
+                    }
+                    else if(currentInstruction.compareTo("athrow")==0){
+                        athrow();
+                    }
+                    else if(currentInstruction.compareTo("checkcast")==0){
+                        checkcast();
+                    }
+                    else if(currentInstruction.compareTo("instanceof")==0){
+                        instanceof1();
+                    }
+                    else if(currentInstruction.compareTo("monitorenter")==0){
+                        monitorenter();
+                    }
+                    else if(currentInstruction.compareTo("monitorexit")==0){
+                        monitorexit();
+                    }
+                    else if(currentInstruction.compareTo("wide")==0){
+                        wide();
+                    }
+                    else if(currentInstruction.compareTo("multianewarray")==0){
+                        multianewarray();
+                    }
+                    else if(currentInstruction.compareTo("ifnull")==0){
+                        ifnull();
+                    }
+                    else if(currentInstruction.compareTo("ifnonnull")==0){
+                        ifnonnull();
+                    }
+                    else if(currentInstruction.compareTo("goto_w")==0){
+                        goto_w();
+                    }
+                    else if(currentInstruction.compareTo("jsr_w")==0){
+                        jsr_w();
+                    }
+                    else if(currentInstruction.compareTo("breakpoint")==0){
+                        breakpoint();
+                    }
+                    else if(currentInstruction.compareTo("impdep1")==0){
+                        impdep1();
+                    }
+                    else if(currentInstruction.compareTo("impdep2")==0){
+                        impdep2();
                     }
                 // Sets the index of the position in the 
                 currentLineIndex++;
@@ -639,7 +1235,7 @@ public class StackFrame {
      */
     }
     // 5a -- NEEDS WORK!!!!!!!!
-    public void dup_x(){
+    public void dup_x1(){
         
     }
     // 5b -- NEEDS WORK!!!!!!!!
@@ -1077,6 +1673,38 @@ public class StackFrame {
     public void ifeq(){
         
     }
+    //9a
+    public void ifne(){
+        
+    }
+    //9b 
+    public void iflt(){
+        
+    }
+    // 9c
+    public void ifge(){
+        
+    }
+    // 9d
+    public void ifgt(){
+        
+    }
+    // 9e
+    public void ifle(){
+        
+    }
+    // 9f 
+    public void if_icmpeq(){
+        
+    }
+    // a0
+    public void if_icmpne(){
+        
+    }
+    // a1
+    public void if_icmplt(){
+        
+    }
     // a2
     public void if_icmpge(){
         int a = (int)stack.pop();
@@ -1085,13 +1713,172 @@ public class StackFrame {
             // Skip to this position
         }
     }
+    // a3
+    public void if_icmpgt(){
+        
+    }
+    // a4 
+    public void if_icmple(){
+        
+    }
+    // a5
+    public void if_acmpeq(){
+        
+    }
+    // a6 
+    public void if_acmpne(){
+        
+    }
     // a7
     public void goto1(int newLine){
         this.currentLineIndex =  newLine-1;
+    }
+    // a8
+    public void jsr(){
+        
+    }
+    // a9
+    public void ret(){
+        
+    }
+    // aa
+    public void tableswitch(){
+        
+    }
+    //ab
+    public void lookupswitch(){
+        
+    }
+    // ac
+    public void ireturn(){
+        
+    }
+    // ad 
+    public void lreturn(){
+        
+    }
+    // ae
+    public void freturn(){
+        
+    }
+    // af
+    public void dreturn(){
+        
+    }
+    // b0
+    public void areturn(){
+        
+    }
+    // b1
+    public void return1(){
+        
+    }
+    // b2
+    public void getstatic(){
+        
+    }
+    // b3
+    public void putstatic(){
+        
+    }
+    // b4 
+    public void getfield(){
+        
+    }
+    // b5
+    public void putfield(){
+        
+    }
+    // b6
+    public void invokevirtual(){
+        
     }
     // b7
     public void invokespecial(){
         
     }
-    
+    // b8
+    public void invokestatic(){
+        
+    }
+    // b9
+    public void invokeinterface(){
+        
+    }
+    // ba
+    public void invokedynamic(){
+        
+    }
+    // bb
+    public void new1(){
+        
+    }
+    // bc
+    public void newarray(){
+        
+    }
+    // bd
+    public void anewarray(){
+        
+    }
+    // be
+    public void arraylength(){
+        
+    }
+    // bf
+    public void athrow(){
+        
+    }
+    // c0
+    public void checkcast(){
+        
+    }
+    // c1
+    public void instanceof1(){
+        
+    }
+    // c2
+    public void monitorenter(){
+        
+    }
+    // c3
+    public void monitorexit(){
+        
+    }
+    // c4
+    public void wide(){
+        
+    }
+    // c5
+    public void multianewarray(){
+        
+    }
+    // c6
+    public void ifnull(){
+        
+    }
+    // c7
+    public void ifnonnull(){
+        
+    }
+    // c8
+    public void goto_w(){
+        
+    }
+    // c9
+    public void jsr_w(){
+        
+    }
+    // ca
+    public void breakpoint(){
+        
+    }
+    // fe
+    public void impdep1(){
+        
+    }
+    // ff
+    public void impdep2(){
+        
+    }
 } 

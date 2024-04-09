@@ -51,7 +51,7 @@ public class NewJFrame extends javax.swing.JFrame {
         setTextTable();
     }
     public void setcurrentStackFrameIndex(){
-        currentStackFrameIndex = 1;
+        currentStackFrameIndex = 0;
     }
     // Sets the terminal window at the bottom of the screen
     public void setTerminal(){
@@ -154,11 +154,6 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     public void runInterpreter(){
         setStackFrames();
-   
-
-      //  op.setParameters(a, a[13]);
-      //  System.out.println(a[13]);
-      //  System.out.println(a[8]);
     }
     public void clearStackTable(){
         int rowCount = stackTable.getRowCount();
@@ -351,8 +346,9 @@ public class NewJFrame extends javax.swing.JFrame {
         // Deselects all selected rows
         textTable.clearSelection();
         // Selects the current line
-        int currentLineIndex = stackFrames.get(1).getCurrentLineIndex();
+        int currentLineIndex = stackFrames.get(currentStackFrameIndex).getCurrentLineIndex();
         if(currentLineIndex < textTable.getRowCount()){
+            setTextTableRows(currentStackFrameIndex);
             textTable.addRowSelectionInterval(currentLineIndex, currentLineIndex);   
         }
     }
@@ -405,7 +401,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         FilePanel = new javax.swing.JPanel();
         fileBtn = new javax.swing.JButton();
-        settingsBtn = new javax.swing.JButton();
         tutorialBtn = new javax.swing.JButton();
         helpButton = new javax.swing.JButton();
         RunPanel = new javax.swing.JPanel();
@@ -413,6 +408,7 @@ public class NewJFrame extends javax.swing.JFrame {
         nextButton = new javax.swing.JButton();
         StackButton = new javax.swing.JButton();
         lineNumberTableBtn = new javax.swing.JButton();
+        resetBtn = new javax.swing.JButton();
         LeftPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         methodTree = new javax.swing.JTree();
@@ -436,7 +432,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         stackFrame.setTitle("Stack");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Method A", "Method B" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Main", "Method B" }));
 
         jLabel2.setText("Choose Stack Frame:");
 
@@ -456,7 +452,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 {null, null, null}
             },
             new String [] {
-                "Operand Stack", "LVA", "Frame Data"
+                "Operand Stack", "Local Variable Array", "Frame Data"
             }
         ));
         jScrollPane5.setViewportView(stackTable);
@@ -1240,13 +1236,6 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        settingsBtn.setText("Settings");
-        settingsBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                settingsBtnActionPerformed(evt);
-            }
-        });
-
         tutorialBtn.setText("Tutorial");
         tutorialBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1268,9 +1257,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(FilePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(fileBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(settingsBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tutorialBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(helpButton)
@@ -1282,7 +1269,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(FilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileBtn)
-                    .addComponent(settingsBtn)
                     .addComponent(tutorialBtn)
                     .addComponent(helpButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1316,6 +1302,13 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        resetBtn.setText("Reset");
+        resetBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout RunPanelLayout = new javax.swing.GroupLayout(RunPanel);
         RunPanel.setLayout(RunPanelLayout);
         RunPanelLayout.setHorizontalGroup(
@@ -1325,6 +1318,8 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(RunButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nextButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resetBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(StackButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1339,7 +1334,8 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(RunButton)
                     .addComponent(nextButton)
                     .addComponent(StackButton)
-                    .addComponent(lineNumberTableBtn))
+                    .addComponent(lineNumberTableBtn)
+                    .addComponent(resetBtn))
                 .addContainerGap())
         );
 
@@ -1347,15 +1343,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
         methodTree.setBackground(new java.awt.Color(242, 242, 242));
         methodTree.setBorder(null);
-        treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("JTree");
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Method1");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Additional Info Here");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Method2");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Additional Info Here");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
+        treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("-");
         methodTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         methodTree.setAutoscrolls(true);
         methodTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
@@ -1591,21 +1579,17 @@ public class NewJFrame extends javax.swing.JFrame {
         helpFrame.setSize(200,200);
     }//GEN-LAST:event_helpButtonActionPerformed
 
-    private void settingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsBtnActionPerformed
-        settingsFrame.setVisible(true);
-        settingsFrame.setSize(200,200);
-        settingsFrame.setTitle("Settings");
-    }//GEN-LAST:event_settingsBtnActionPerformed
-
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         if(stackFrames == null){
             errorPopUp("Please Select a Java File First");
         } else{   
             highlightCurrentLine();
-            if(stackFrames.get(1).getFinished()){
-                errorPopUp("The end of the program has been reached");
+            if(stackFrames.get(currentStackFrameIndex).getFinished()){
+                currentStackFrameIndex++;
+                if(currentStackFrameIndex >= stackFrames.size())
+                    errorPopUp("The end of the program has been reached");
             } else {
-                stackFrames.get(1).runInstructions(); 
+                stackFrames.get(currentStackFrameIndex).runInstructions(); 
             }
             updateStackTable();
         }
@@ -1650,6 +1634,10 @@ public class NewJFrame extends javax.swing.JFrame {
     private void helpFrameTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpFrameTitleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_helpFrameTitleActionPerformed
+
+    private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
+        initClassComponents();
+    }//GEN-LAST:event_resetBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1735,7 +1723,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JFrame lineNumberTableFrame;
     private javax.swing.JTree methodTree;
     private javax.swing.JButton nextButton;
-    private javax.swing.JButton settingsBtn;
+    private javax.swing.JButton resetBtn;
     private javax.swing.JFrame settingsFrame;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JFrame stackFrame;
