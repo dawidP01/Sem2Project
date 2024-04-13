@@ -397,7 +397,7 @@ public class NewJFrame extends javax.swing.JFrame {
         tutorialFrameTextArea = new javax.swing.JTextArea();
         jScrollPane11 = new javax.swing.JScrollPane();
         tutorialTree = new javax.swing.JTree();
-        jButton1 = new javax.swing.JButton();
+        tutorialFrameConfirmBtn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         FilePanel = new javax.swing.JPanel();
         fileBtn = new javax.swing.JButton();
@@ -1162,10 +1162,10 @@ public class NewJFrame extends javax.swing.JFrame {
         tutorialTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane11.setViewportView(tutorialTree);
 
-        jButton1.setText("Confirm");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        tutorialFrameConfirmBtn.setText("Confirm");
+        tutorialFrameConfirmBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                tutorialFrameConfirmBtnActionPerformed(evt);
             }
         });
 
@@ -1178,7 +1178,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(tutorialPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(tutorialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tutorialFrameConfirmBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1188,7 +1188,6 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                         .addGap(6, 6, 6))
                     .addGroup(tutorialPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, 0)
                         .addComponent(tutorialFrameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -1205,7 +1204,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(tutorialFrameConfirmBtn)))
                 .addContainerGap())
             .addComponent(jSeparator1)
         );
@@ -1615,9 +1614,68 @@ public class NewJFrame extends javax.swing.JFrame {
         tutorialFrame.setTitle("Tutorial");
     }//GEN-LAST:event_tutorialBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void tutorialFrameConfirmBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tutorialFrameConfirmBtnActionPerformed
+        int selectedRow = tutorialTree.getSelectionRows()[0];
+        File f = new File("AddIntegers.java");       
+        if(selectedRow==1){
+            f = new File("AddIntegers.java");
+        }
+        if(selectedRow==2){
+            f = new File("BinToDec.java");              
+        }
+        if(selectedRow==3){
+            f = new File("CheckPrime.java");           
+        }
+        if(selectedRow==4){
+            f = new File("Fibonacci.java");            
+        }
+        if(selectedRow==5){
+            f = new File("ReverseNumber.java");             
+        }
+        String filePath = f.getAbsolutePath();
+        String fileName = f.getName(); 
+        int dotIndex = fileName.lastIndexOf(".");
+        String shortName = fileName.substring(0, dotIndex);
+        String extension = fileName.substring(dotIndex + 1);
+        
+        // Path to the directory where you want to place the compiled .class file
+        String outputDirectoryPath = System.getProperty("user.dir");
+        // Create a ProcessBuilder instance for executing the javac command
+        ProcessBuilder processBuilder = new ProcessBuilder();
+
+        // Set the command and arguments
+        java.util.List<String> command = new java.util.ArrayList<>();
+        command.add("javac");
+        command.add("-d");
+        command.add(outputDirectoryPath);
+        command.add(filePath);
+        processBuilder.command(command);
+
+        // Set the working directory (optional)
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        processBuilder.directory(workingDirectory);
+
+        try {
+            // Start the process
+            Process process = processBuilder.start();
+
+            // Wait for the process to finish
+            int exitCode = process.waitFor();
+
+            // Check the exit code
+            if (exitCode == 0) {
+                this.javaFilePath = filePath;
+                this.f = new File(shortName+".class");
+                this.sourceFilePath = shortName+".class";
+                initClassComponents();
+            } else {
+                errorPopUp("Compilation Failed!");
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }           
+
+    }//GEN-LAST:event_tutorialFrameConfirmBtnActionPerformed
 
     private void tutorialFrameTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tutorialFrameTitleActionPerformed
         // TODO add your handling code here:
@@ -1688,7 +1746,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField helpFrameTitle;
     private javax.swing.JTree helpFrameTree;
     private javax.swing.JPanel helpPanel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -1735,6 +1792,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTable textTable;
     private javax.swing.JButton tutorialBtn;
     private javax.swing.JFrame tutorialFrame;
+    private javax.swing.JButton tutorialFrameConfirmBtn;
     private javax.swing.JTextArea tutorialFrameTextArea;
     private javax.swing.JTextArea tutorialFrameTextArea1;
     private javax.swing.JTextArea tutorialFrameTextArea2;
