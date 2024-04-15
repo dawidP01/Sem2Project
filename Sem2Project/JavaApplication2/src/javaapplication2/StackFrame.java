@@ -23,6 +23,7 @@ public class StackFrame {
     int currentLineIndex; // Current line of execution
     String currentInstruction; // Current Instruction
     Map<Integer, String> instructionsMap; // A key value pair -> line : instruction
+    Map<Integer, String> constantPool.
     boolean finished; // If true, execution has ended
     ArrayList<Integer> keysOfInstructions; // Array that stores the offset/keys in an array
     
@@ -138,7 +139,7 @@ public class StackFrame {
         }
         return instruction;
     }
-    public void setParameters(String[] parameters, String instruction){
+    public void setParameters(Object[] parameters, String instruction){
         String parameter = "";
         String arg = "";
         int paramCount = 0;
@@ -176,7 +177,7 @@ public class StackFrame {
             currentInstruction = instructionsMap.get(currentLine);
             if(currentLineIndex <= keysOfInstructions.size()){
                // System.out.println("test: " + currentLine + ", Inst: " + currentInstruction);
-                String[] parameters = new String[10];
+                Object[] parameters = new Object[10];
                 if(currentInstruction != null){
                     setParameters(parameters,currentInstruction);
                     // Below removes the parameters off of the instruction string
@@ -237,11 +238,11 @@ public class StackFrame {
                     }
                     // Fix below
                     else if(currentInstruction.compareTo("bipush")==0){
-                        //bipush();
+                        bipush((int) parameters[0]);
                     }
                     // Fix Below
                     else if(currentInstruction.compareTo("sipush")==0){
-                        //sipush();
+                        sipush((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ldc")==0){
                         ldc();
@@ -253,7 +254,7 @@ public class StackFrame {
                         ldc2_w();
                     }
                     else if(currentInstruction.compareTo("iload")==0){
-                        iload(Integer.parseInt(parameters[0]));
+                        iload(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below
                     else if(currentInstruction.compareTo("lload")==0){
@@ -595,7 +596,7 @@ public class StackFrame {
                         lxor();
                     }
                     else if(currentInstruction.compareTo("iinc")==0){
-                        iinc(Integer.parseInt(parameters[0]),Integer.parseInt(parameters[0]));
+                        iinc(Integer.parseInt((String)parameters[0]),Integer.parseInt((String)parameters[0]));
                     }
                     else if(currentInstruction.compareTo("i2l")==0){
                         i2l();
@@ -690,7 +691,7 @@ public class StackFrame {
                         int value2 = (int)stack.pop();
                         if(value2>=value1){
                             int index=0;
-                            currentLine = Integer.parseInt(parameters[0]);
+                            currentLine = Integer.parseInt((String)parameters[0]);
                             for(int i = 0; i<keysOfInstructions.size();i++){
                                 if(keysOfInstructions.get(i) == currentLine){
                                     index = i;
@@ -716,7 +717,7 @@ public class StackFrame {
                     }
                     // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     else if(currentInstruction.compareTo("goto")==0){
-                        goto1(Integer.parseInt(parameters[0]));
+                        goto1(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("jsr")==0){
                         jsr();
@@ -906,12 +907,12 @@ public class StackFrame {
         stack.push(1.0);
     }
     // 10
-    public void bipush(byte b){
-        stack.push((int) b);
+    public void bipush(int b){
+        stack.push(b);
     }
     // 11
-    public void sipush(short s){
-        stack.push((int) s);
+    public void sipush(int s){
+        stack.push(s);
     }
     // 12 -- NEEDS WORK!!!!!!!!!!!!!!!!
     public void ldc(){
