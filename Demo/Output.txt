@@ -1,0 +1,169 @@
+Classfile /C:/Users/C00273530/Desktop/Git/JavaApplication2/dist/BinToDec.class
+  Last modified 16 Apr 2024; size 1149 bytes
+  SHA-256 checksum 467bc68fbe061a3b2a8172c8ea6a81a3611ba8f5a72d917b49e601bb4242f790
+  Compiled from "BinToDec.java"
+class BinToDec
+  minor version: 0
+  major version: 65
+  flags: (0x0020) ACC_SUPER
+  this_class: #10                         // BinToDec
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 3, attributes: 3
+Constant pool:
+   #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
+   #2 = Class              #4             // java/lang/Object
+   #3 = NameAndType        #5:#6          // "<init>":()V
+   #4 = Utf8               java/lang/Object
+   #5 = Utf8               <init>
+   #6 = Utf8               ()V
+   #7 = Long               110110111l
+   #9 = Methodref          #10.#11        // BinToDec.convertBinaryToDecimal:(J)I
+  #10 = Class              #12            // BinToDec
+  #11 = NameAndType        #13:#14        // convertBinaryToDecimal:(J)I
+  #12 = Utf8               BinToDec
+  #13 = Utf8               convertBinaryToDecimal
+  #14 = Utf8               (J)I
+  #15 = Fieldref           #16.#17        // java/lang/System.out:Ljava/io/PrintStream;
+  #16 = Class              #18            // java/lang/System
+  #17 = NameAndType        #19:#20        // out:Ljava/io/PrintStream;
+  #18 = Utf8               java/lang/System
+  #19 = Utf8               out
+  #20 = Utf8               Ljava/io/PrintStream;
+  #21 = String             #22            // Binary to Decimal
+  #22 = Utf8               Binary to Decimal
+  #23 = Methodref          #24.#25        // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #24 = Class              #26            // java/io/PrintStream
+  #25 = NameAndType        #27:#28        // println:(Ljava/lang/String;)V
+  #26 = Utf8               java/io/PrintStream
+  #27 = Utf8               println
+  #28 = Utf8               (Ljava/lang/String;)V
+  #29 = InvokeDynamic      #0:#30         // #0:makeConcatWithConstants:(JI)Ljava/lang/String;
+  #30 = NameAndType        #31:#32        // makeConcatWithConstants:(JI)Ljava/lang/String;
+  #31 = Utf8               makeConcatWithConstants
+  #32 = Utf8               (JI)Ljava/lang/String;
+  #33 = Long               10l
+  #35 = Double             2.0d
+  #37 = Methodref          #38.#39        // java/lang/Math.pow:(DD)D
+  #38 = Class              #40            // java/lang/Math
+  #39 = NameAndType        #41:#42        // pow:(DD)D
+  #40 = Utf8               java/lang/Math
+  #41 = Utf8               pow
+  #42 = Utf8               (DD)D
+  #43 = Utf8               Code
+  #44 = Utf8               LineNumberTable
+  #45 = Utf8               main
+  #46 = Utf8               ([Ljava/lang/String;)V
+  #47 = Utf8               StackMapTable
+  #48 = Utf8               SourceFile
+  #49 = Utf8               BinToDec.java
+  #50 = Utf8               BootstrapMethods
+  #51 = String             #52            // \u0001 = \u0001
+  #52 = Utf8               \u0001 = \u0001
+  #53 = MethodHandle       6:#54          // REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #54 = Methodref          #55.#56        // java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #55 = Class              #57            // java/lang/invoke/StringConcatFactory
+  #56 = NameAndType        #31:#58        // makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #57 = Utf8               java/lang/invoke/StringConcatFactory
+  #58 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+  #59 = Utf8               InnerClasses
+  #60 = Class              #61            // java/lang/invoke/MethodHandles$Lookup
+  #61 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #62 = Class              #63            // java/lang/invoke/MethodHandles
+  #63 = Utf8               java/lang/invoke/MethodHandles
+  #64 = Utf8               Lookup
+{
+  BinToDec();
+    descriptor: ()V
+    flags: (0x0000)
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 1: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=4, args_size=1
+         0: ldc2_w        #7                  // long 110110111l
+         3: lstore_1
+         4: lload_1
+         5: invokestatic  #9                  // Method convertBinaryToDecimal:(J)I
+         8: istore_3
+         9: getstatic     #15                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        12: ldc           #21                 // String Binary to Decimal
+        14: invokevirtual #23                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        17: getstatic     #15                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        20: lload_1
+        21: iload_3
+        22: invokedynamic #29,  0             // InvokeDynamic #0:makeConcatWithConstants:(JI)Ljava/lang/String;
+        27: invokevirtual #23                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+        30: return
+      LineNumberTable:
+        line 6: 0
+        line 9: 4
+        line 11: 9
+        line 12: 17
+        line 13: 30
+
+  public static int convertBinaryToDecimal(long);
+    descriptor: (J)I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=8, locals=6, args_size=1
+         0: iconst_0
+         1: istore_2
+         2: iconst_0
+         3: istore_3
+         4: lload_0
+         5: lconst_0
+         6: lcmp
+         7: ifeq          46
+        10: lload_0
+        11: ldc2_w        #33                 // long 10l
+        14: lrem
+        15: lstore        4
+        17: lload_0
+        18: ldc2_w        #33                 // long 10l
+        21: ldiv
+        22: lstore_0
+        23: iload_2
+        24: i2d
+        25: lload         4
+        27: l2d
+        28: ldc2_w        #35                 // double 2.0d
+        31: iload_3
+        32: i2d
+        33: invokestatic  #37                 // Method java/lang/Math.pow:(DD)D
+        36: dmul
+        37: dadd
+        38: d2i
+        39: istore_2
+        40: iinc          3, 1
+        43: goto          4
+        46: iload_2
+        47: ireturn
+      LineNumberTable:
+        line 16: 0
+        line 19: 4
+        line 20: 10
+        line 21: 17
+        line 22: 23
+        line 23: 40
+        line 26: 46
+      StackMapTable: number_of_entries = 2
+        frame_type = 253 /* append */
+          offset_delta = 4
+          locals = [ int, int ]
+        frame_type = 41 /* same */
+}
+SourceFile: "BinToDec.java"
+BootstrapMethods:
+  0: #53 REF_invokeStatic java/lang/invoke/StringConcatFactory.makeConcatWithConstants:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #51 \u0001 = \u0001
+InnerClasses:
+  public static final #64= #60 of #62;    // Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles
