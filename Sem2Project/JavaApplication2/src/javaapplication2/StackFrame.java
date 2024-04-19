@@ -200,20 +200,18 @@ public class StackFrame {
                         i++;
                     }
                 } else if (valueBoolean){
-                    //System.out.print(line.charAt(i));
                     if(i+1<line.length()){
                         if(line.charAt(i) == '/' && line.charAt(i+1) == '/'){
+                            value = line.substring(i);
                             break;
                         }
                     }
                     value += line.charAt(i);
                 }
             }
-           // System.out.println();
             constantPool.put(key, value.trim());
         }
-      //  System.out.println();
-      System.out.println(constantPool);
+        System.out.println(constantPool);
     }
     public Map getConstantPool(){
         return constantPool;
