@@ -23,7 +23,7 @@ public class StackFrame {
     int currentLineIndex; // Current line of execution
     String currentInstruction; // Current Instruction
     Map<Integer, String> instructionsMap; // A key value pair -> line : instruction
-    Map<Integer, String> constantPool.
+    Map<Integer, String> constantPool;
     boolean finished; // If true, execution has ended
     ArrayList<Integer> keysOfInstructions; // Array that stores the offset/keys in an array
     

@@ -1162,7 +1162,7 @@ public class NewJFrame extends javax.swing.JFrame {
         tutorialTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane11.setViewportView(tutorialTree);
 
-        tutorialFrameConfirmBtn.setText("Confirm");
+        tutorialFrameConfirmBtn.setText("Confirm Example");
         tutorialFrameConfirmBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tutorialFrameConfirmBtnActionPerformed(evt);
@@ -1177,9 +1177,9 @@ public class NewJFrame extends javax.swing.JFrame {
             tutorialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tutorialPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(tutorialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tutorialFrameConfirmBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(tutorialPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                    .addComponent(tutorialFrameConfirmBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1199,7 +1199,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGap(13, 13, 13)
                         .addComponent(tutorialFrameTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
                     .addGroup(tutorialPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -1570,12 +1570,14 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void StackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StackButtonActionPerformed
         stackFrame.setVisible(true);
-        stackFrame.setSize(280,200);
+        stackFrame.setSize(330,380);
+        stackFrame.setTitle("Stack");
     }//GEN-LAST:event_StackButtonActionPerformed
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
         helpFrame.setVisible(true);
-        helpFrame.setSize(200,200);
+        helpFrame.setSize(500,500);
+        helpFrame.setTitle("Manual");
     }//GEN-LAST:event_helpButtonActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
@@ -1610,7 +1612,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void tutorialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tutorialBtnActionPerformed
         tutorialFrame.setVisible(true);
-        tutorialFrame.setSize(200, 200);
+        tutorialFrame.setSize(500, 500);
         tutorialFrame.setTitle("Tutorial");
     }//GEN-LAST:event_tutorialBtnActionPerformed
 
@@ -1668,6 +1670,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 this.f = new File(shortName+".class");
                 this.sourceFilePath = shortName+".class";
                 initClassComponents();
+                errorPopUp("Example selected successfully");
             } else {
                 errorPopUp("Compilation Failed!");
             }
