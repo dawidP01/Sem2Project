@@ -35,6 +35,7 @@ public class NewJFrame extends javax.swing.JFrame {
     String javaFilePath;
     String className; // String that contains the name of the class
     ArrayList<String> methodNames; // Contains all of the methods in the file
+    String constantPoolString;
     String code;
     StackFrame op; 
     ArrayList<StackFrame> stackFrames;
@@ -148,7 +149,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
             classString = classString.substring(i);
-            stackFrames.add(new StackFrame(result));
+            stackFrames.add(new StackFrame(result,constantPoolString));
             result = "";
         }
     }
@@ -283,6 +284,7 @@ public class NewJFrame extends javax.swing.JFrame {
         for(int i=0;i<text.length();i++){
             if(text.charAt(i)=='{'){
                 constPoolTextArea.setText(text.substring(0,i));
+                constantPoolString = text.substring(0,i);
                 setStackMapTableTextArea(text.substring(i));
                 break;
             }

@@ -23,11 +23,11 @@ public class StackFrame {
     int currentLineIndex; // Current line of execution
     String currentInstruction; // Current Instruction
     Map<Integer, String> instructionsMap; // A key value pair -> line : instruction
-    Map<Integer, String> constantPool;
+    Map<String, String> constantPool;
     boolean finished; // If true, execution has ended
     ArrayList<Integer> keysOfInstructions; // Array that stores the offset/keys in an array
     
-    public StackFrame(String classString){
+    public StackFrame(String classString, String constantPoolString){
         setMethodName("");
         setStack();
         setLVA();
@@ -38,6 +38,7 @@ public class StackFrame {
         setInstructionsMap();
         setFinished();
         setKeysOfInstructions();
+        setConstantPool(constantPoolString);
     }
     public void setMethodName(String methodName){
         this.methodName = methodName;
@@ -168,6 +169,55 @@ public class StackFrame {
             parameters[paramCount] = arg;
         }
     }
+    public void setConstantPool(String constantPoolString){
+        int index = constantPoolString.indexOf("\n");
+        constantPoolString = constantPoolString.substring(index+1);
+        String[] lines = constantPoolString.split("\\n");
+        constantPool = new HashMap<>();
+        for(String line : lines){
+            String key="";
+            String value="";
+            boolean keyBoolean = true;
+            boolean valueBoolean = false;
+            line = line.trim();
+            for(int i=0;i<line.length();i++){
+                if (keyBoolean){
+                    if(line.charAt(i)=='='){
+                        keyBoolean=false;
+                        i++;
+                    } else {
+                        key += line.charAt(i);
+                    }
+                }
+                else if(!valueBoolean){
+                    
+                    if(line.charAt(i)== ' '){
+                        while(line.charAt(i)!= ' '){
+                            i++;
+                        }
+                        valueBoolean = true;
+                        
+                        i++;
+                    }
+                } else if (valueBoolean){
+                    //System.out.print(line.charAt(i));
+                    if(i+1<line.length()){
+                        if(line.charAt(i) == '/' && line.charAt(i+1) == '/'){
+                            break;
+                        }
+                    }
+                    value += line.charAt(i);
+                }
+            }
+           // System.out.println();
+            constantPool.put(key, value.trim());
+        }
+      //  System.out.println();
+      System.out.println(constantPool);
+    }
+    public Map getConstantPool(){
+        return constantPool;
+    }
     // For demo start has to be 8 minimum, and end has to be 16 max
     public void runInstructions(){
         if(!finished){
@@ -245,7 +295,7 @@ public class StackFrame {
                         sipush((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ldc")==0){
-                        ldc();
+                      //  ldc();
                     }
                     else if(currentInstruction.compareTo("ldc_w")==0){
                         ldc_w();
@@ -915,8 +965,8 @@ public class StackFrame {
         stack.push(s);
     }
     // 12 -- NEEDS WORK!!!!!!!!!!!!!!!!
-    public void ldc(){
-        
+    public void ldc(Object value){
+        stack.push(value);
     }
     // 13 -- NEEDS WORK!!!!!!!!!!!!!!!!
     public void ldc_w(){
