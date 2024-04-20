@@ -24,3 +24,4 @@
 41. Do the method to setCurrentInstruction()
 42. Add the function for next button to switch between methods 
 46. Allow the option to reload a program
+47. Add all options to newarray

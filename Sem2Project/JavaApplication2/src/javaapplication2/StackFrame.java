@@ -2,6 +2,7 @@ package javaapplication2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -26,6 +27,7 @@ public class StackFrame {
     Map<String, String> constantPool;
     boolean finished; // If true, execution has ended
     ArrayList<Integer> keysOfInstructions; // Array that stores the offset/keys in an array
+    List<Object[]> listOfArrays;
     
     public StackFrame(String classString, String constantPoolString){
         setMethodName("");
@@ -216,6 +218,12 @@ public class StackFrame {
     public Map getConstantPool(){
         return constantPool;
     }
+    public void setListOfArrays(){
+        listOfArrays = new ArrayList<>();
+    }
+    public List getListOfArrays(){
+        return listOfArrays;
+    }
     // For demo start has to be 8 minimum, and end has to be 16 max
     public void runInstructions(){
         if(!finished){
@@ -293,13 +301,13 @@ public class StackFrame {
                         sipush((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ldc")==0){
-                      //  ldc();
+                        ldc((String) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ldc_w")==0){
-                        ldc_w();
+                        ldc_w((String) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ldc2_w")==0){
-                        ldc2_w();
+                        ldc2_w((String) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("iload")==0){
                         iload(Integer.parseInt((String) parameters[0]));
@@ -828,7 +836,7 @@ public class StackFrame {
                         new1();
                     }
                     else if(currentInstruction.compareTo("newarray")==0){
-                        newarray();
+                        newarray((String) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("anewarray")==0){
                         anewarray();
@@ -962,17 +970,20 @@ public class StackFrame {
     public void sipush(int s){
         stack.push(s);
     }
-    // 12 -- NEEDS WORK!!!!!!!!!!!!!!!!
-    public void ldc(Object value){
-        stack.push(value);
+    // 12
+    public void ldc(String value){
+        String constant = constantPool.get(value);
+        stack.push(constant);
     }
-    // 13 -- NEEDS WORK!!!!!!!!!!!!!!!!
-    public void ldc_w(){
-        
+    // 13
+    public void ldc_w(String value){
+        String constant = constantPool.get(value);
+        stack.push(constant);
     }
-    // 14 -- NEEDS WORK!!!!!!!!!!!!!!!!
-    public void ldc2_w(){
-        
+    // 14
+    public void ldc2_w(String value){
+        String constant = constantPool.get(value);
+        stack.push(constant);
     }
     // 15
     public void iload(int index){
@@ -1074,37 +1085,53 @@ public class StackFrame {
     public void aload_3(){
         stack.push(LVA.get(3));
     }
-    // 2e -- NEEDS WORK!!!!!!!!!!!
+    // 2e
     public void iaload(){
-        
+        int index = (int) stack.pop();
+        int[] arr = (int[]) stack.pop();
+        stack.push(arr[index]);
     }
-    // 2f -- NEEDS WORK!!!!!!!!!!!
+    // 2f
     public void laload(){
-        
+        int index = (int) stack.pop();
+        long[] arr = (long[]) stack.pop();
+        stack.push(arr[index]);
     }
-    // 30 -- NEEDS WORK!!!!!!!!!!!
+    // 30
     public void faload(){
-        
+        int index = (int) stack.pop();
+        float[] arr = (float[]) stack.pop();
+        stack.push(arr[index]);
     }
-    // 31 -- NEEDS WORK!!!!!!!!!!!
+    // 31
     public void daload(){
-        
+        int index = (int) stack.pop();
+        double[] arr = (double[]) stack.pop();
+        stack.push(arr[index]);
     }
-    // 32 -- NEEDS WORK!!!!!!!!!!!
+    // 32 
     public void aaload(){
-        
+        int index = (int) stack.pop();
+        Object[] arr = (Object[]) stack.pop();
+        stack.push(arr[index]);
     }
-    // 33 -- NEEDS WORK!!!!!!!!!!!
+    // 33
     public void baload(){
-        
+        int index = (int) stack.pop();
+        byte[] arr = (byte[]) stack.pop();
+        stack.push(arr[index]);
     }
-    // 34 -- NEEDS WORK!!!!!!!!!!!
+    // 34
     public void caload(){
-        
+        int index = (int) stack.pop();
+        char[] arr = (char[]) stack.pop();
+        stack.push(arr[index]);
     }
-    // 35 -- NEEDS WORK!!!!!!!!!!!
+    // 35
     public void saload(){
-        
+        int index = (int) stack.pop();
+        short[] arr = (short[]) stack.pop();
+        stack.push(arr[index]);
     }
     // 36
     public void istore(int index){
@@ -1862,9 +1889,13 @@ public class StackFrame {
     public void new1(){
         
     }
-    // bc
-    public void newarray(){
-        
+    // bc -- Add all types
+    public void newarray(String dataType){
+        int size = (int) stack.pop();
+        if(dataType.compareTo("int")==0){
+            Integer[] arr = new Integer[size];
+            listOfArrays.add(arr);
+        }
     }
     // bd
     public void anewarray(){
