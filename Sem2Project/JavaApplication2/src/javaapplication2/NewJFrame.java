@@ -4,7 +4,9 @@
  */
 package javaapplication2;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -43,6 +45,7 @@ public class NewJFrame extends javax.swing.JFrame {
     int currentLine;
     int currentStackFrameIndex; // Holds the index of the current stack frame in
                                 // the stackFrames ArrayList
+    String[] tutorialFilesStrings;
     /**
      * Creates new form NewJFrame
      */
@@ -50,6 +53,25 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         setTerminal();
         setTextTable();
+        setTutorialFilesStrings();
+    }
+    public void setTutorialFilesStrings(){
+        String directoryPath = "C:\\Users\\C00273530\\Desktop\\Sem2Project\\Sem2Project\\JavaApplication2\\TutorialFiles\\AddIntegers.txt";
+        String str = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(directoryPath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        //System.out.println(str);
+        //tutorialFrameTextArea.setText(str);
+    }
+
+    public String[] getTutorialFilesStrings(){
+        return tutorialFilesStrings;
     }
     public void setcurrentStackFrameIndex(){
         currentStackFrameIndex = 0;

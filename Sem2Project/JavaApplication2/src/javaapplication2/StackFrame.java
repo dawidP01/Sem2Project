@@ -213,7 +213,6 @@ public class StackFrame {
             }
             constantPool.put(key, value.trim());
         }
-        System.out.println(constantPool);
     }
     public Map getConstantPool(){
         return constantPool;
@@ -232,7 +231,6 @@ public class StackFrame {
             // Sets the current instruction
             currentInstruction = instructionsMap.get(currentLine);
             if(currentLineIndex <= keysOfInstructions.size()){
-               // System.out.println("test: " + currentLine + ", Inst: " + currentInstruction);
                 Object[] parameters = new Object[10];
                 if(currentInstruction != null){
                     setParameters(parameters,currentInstruction);
@@ -294,11 +292,11 @@ public class StackFrame {
                     }
                     // Fix below
                     else if(currentInstruction.compareTo("bipush")==0){
-                        bipush((int) parameters[0]);
+                        bipush(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below
                     else if(currentInstruction.compareTo("sipush")==0){
-                        sipush((int) parameters[0]);
+                        sipush(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("ldc")==0){
                         ldc((String) parameters[0]);
@@ -314,19 +312,19 @@ public class StackFrame {
                     }
                     // Fix Below
                     else if(currentInstruction.compareTo("lload")==0){
-                        // lload();
+                        lload(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below
                     else if(currentInstruction.compareTo("fload")==0){
-                        // fload();
+                        fload(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below
                     else if(currentInstruction.compareTo("dload")==0){
-                        // dload();
+                        dload(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below
                     else if(currentInstruction.compareTo("aload")==0){
-                        // aload();
+                        aload(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("iload_0")==0){
                         iload_0();
@@ -755,7 +753,6 @@ public class StackFrame {
                                 }
                             }
                             currentLineIndex = index-1;
-                            System.out.println("Loopey Loop: " + currentLineIndex);
                         }
 
                     }
