@@ -715,31 +715,31 @@ public class StackFrame {
                         dcmpg();
                     }
                     else if(currentInstruction.compareTo("ifeq")==0){
-                        ifeq();
+                        ifeq((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ifne")==0){
-                        ifne();
+                        ifne((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("iflt")==0){
-                        iflt();
+                        iflt((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ifge")==0){
-                        ifge();
+                        ifge((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ifgt")==0){
-                        ifgt();
+                        ifgt((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("ifle")==0){
-                        ifle();
+                        ifle((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("if_icmpeq")==0){
-                        if_icmpeq();
+                        if_icmpeq((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("if_icmpne")==0){
-                        if_icmpne();
+                        if_icmpne((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("if_icmplt")==0){
-                        if_icmplt();
+                        if_icmplt((int) parameters[0]);
                     }
                     // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     else if(currentInstruction.compareTo("if_icmpge")==0){
@@ -760,16 +760,16 @@ public class StackFrame {
 
                     }
                     else if(currentInstruction.compareTo("if_icmpgt")==0){
-                        if_icmpgt();
+                        if_icmpgt((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("if_icmple")==0){
-                        if_icmple();
+                        if_icmple((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("if_acmpeq")==0){
-                        if_acmpeq();
+                        if_acmpeq((int) parameters[0]);
                     }
                     else if(currentInstruction.compareTo("if_acmpne")==0){
-                        if_acmpne();
+                        if_acmpne((int) parameters[0]);
                     }
                     // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     else if(currentInstruction.compareTo("goto")==0){
@@ -1260,35 +1260,59 @@ public class StackFrame {
     }
     // 4f -- NEEDS WORK!!!!!!
     public void iastore(){
-        
+        Integer[] arrRef = (Integer[]) stack.pop();
+        int index = (int) stack.pop();
+        int value = (int) stack.pop();
+        arrRef[index] = value;
     }
     // 50 -- NEEDS WORK!!!!!!
     public void lastore(){
-        
+        Long[] arrRef = (Long[]) stack.pop();
+        int index = (int) stack.pop();
+        long value = (long) stack.pop();
+        arrRef[index] = value;
     }
     // 51 -- NEEDS WORK!!!!!!
     public void fastore(){
-        
+        Float[] arrRef = (Float[]) stack.pop();
+        int index = (int) stack.pop();
+        float value = (float) stack.pop();
+        arrRef[index] = value;
     }
     // 52 -- NEEDS WORK!!!!!!
     public void dastore(){
-        
+        Double[] arrRef = (Double[]) stack.pop();
+        int index = (int) stack.pop();
+        double value = (double) stack.pop();
+        arrRef[index] = value;
     }
     // 53 -- NEEDS WORK!!!!!!
     public void aastore(){
-    
+        Object[] arrRef = (Object[]) stack.pop();
+        int index = (int) stack.pop();
+        Object value = (Object) stack.pop();
+        arrRef[index] = value;
     }
     // 54 -- NEEDS WORK!!!!!!
     public void bastore(){
-        
+        Byte[] arrRef = (Byte[]) stack.pop();
+        int index = (int) stack.pop();
+        byte value = (byte) stack.pop();
+        arrRef[index] = value;
     }
     // 55 -- NEEDS WORK!!!!!!
     public void castore(){
-        
+        char[] arrRef = (char[]) stack.pop();
+        int index = (int) stack.pop();
+        char value = (char) stack.pop();
+        arrRef[index] = value;
     }
     // 56 -- NEEDS WORK!!!!!!
     public void sastore(){
-        
+        Short[] arrRef = (Short[]) stack.pop();
+        int index = (int) stack.pop();
+        short value = (short) stack.pop();
+        arrRef[index] = value;
     }
     // 57
     public void pop(){
@@ -1301,22 +1325,29 @@ public class StackFrame {
             stack.pop();
         }
     }
-    // 59 -- NEEDS WORK!!!!
-    // Make sure it clones an object and doesnt push 2 memory references to the same object
+    // 59
     public void dup(){
-     /*   Object obj = stack.pop();
-        stack.push(obj);
-        Object obj2 = new Object(obj);
-        stack.push(obj2);
-     */
+        Object duplicate = stack.pop();
+        stack.push(duplicate);
+        stack.push(duplicate);
     }
-    // 5a -- NEEDS WORK!!!!!!!!
+    // 5a
     public void dup_x1(){
-        
+        Object duplicate = stack.pop();
+        Object value2 = stack.pop();
+        stack.push(duplicate);
+        stack.push(value2);
+        stack.push(duplicate);
     }
-    // 5b -- NEEDS WORK!!!!!!!!
+    // 5b
     public void dup_x2(){
-        
+        Object value1 = stack.pop();
+        Object value2 = stack.pop();
+        Object value3 = stack.pop();
+        stack.push(value1);
+        stack.push(value3);
+        stack.push(value2);
+        stack.push(value1);
     } 
     // 5c -- NEEDS WORK!!!!!!!!
     public void dup2(){
@@ -1330,9 +1361,12 @@ public class StackFrame {
     public void dup2_x2(){
         
     }
-    // 5f -- NEEDS WORK!!!!!!!!
+    // 5f
     public void swap(){
-        
+        Object value1 = stack.pop();
+        Object value2 = stack.pop();
+        stack.push(value1);
+        stack.push(value2);
     }
     // 60
     public void iadd(){
@@ -1746,64 +1780,110 @@ public class StackFrame {
         }
     }
     // 99
-    public void ifeq(){
-        
+    public void ifeq(int line){
+        int value1 = (int) stack.pop();
+        if(value1 == 0){
+            currentLineIndex = line-1;
+        }
     }
     //9a
-    public void ifne(){
-        
+    public void ifne(int line){
+        int value1 = (int) stack.pop();
+        if(value1 != 0){
+            currentLineIndex = line-1;
+        }    
     }
     //9b 
-    public void iflt(){
-        
+    public void iflt(int line){
+       int value1 = (int) stack.pop();
+        if(value1 < 0){
+            currentLineIndex = line-1;
+        }  
     }
     // 9c
-    public void ifge(){
-        
+    public void ifge(int line){
+        int value1 = (int) stack.pop();
+        if(value1 >= 0){
+            currentLineIndex = line-1;
+        }  
     }
     // 9d
-    public void ifgt(){
-        
+    public void ifgt(int line){
+        int value1 = (int) stack.pop();
+        if(value1 > 0){
+            currentLineIndex = line-1;
+        }  
     }
     // 9e
-    public void ifle(){
-        
+    public void ifle(int line){
+        int value1 = (int) stack.pop();
+        if(value1 <= 0){
+            currentLineIndex = line-1;
+        }  
     }
     // 9f 
-    public void if_icmpeq(){
-        
+    public void if_icmpeq(int line){
+        int value1 = (int) stack.pop();
+        int value2 = (int) stack.pop();
+        if(value1 == value2){
+            currentLineIndex = line-1;
+        }  
     }
     // a0
-    public void if_icmpne(){
-        
+    public void if_icmpne(int line){
+        int value1 = (int) stack.pop();
+        int value2 = (int) stack.pop();
+        if(value1 != value2){
+            currentLineIndex = line-1;
+        }  
     }
     // a1
-    public void if_icmplt(){
-        
+    public void if_icmplt(int line){
+        int value2 = (int) stack.pop();
+        int value1 = (int) stack.pop();
+        if(value1 < value2){
+            currentLineIndex = line-1;
+        }  
     }
     // a2
-    public void if_icmpge(){
-        int a = (int)stack.pop();
-        int b = (int)stack.pop();
-        if(a>=b){
-            // Skip to this position
+    public void if_icmpge(int line){
+        int value2 = (int)stack.pop();
+        int value1 = (int)stack.pop();
+        if(value1>=value2){
+            currentLineIndex = line-1;
         }
     }
     // a3
-    public void if_icmpgt(){
-        
+    public void if_icmpgt(int line){
+        int value2 = (int)stack.pop();
+        int value1 = (int)stack.pop();
+        if(value1>=value2){
+            currentLineIndex = line-1;
+        }
     }
     // a4 
-    public void if_icmple(){
-        
+    public void if_icmple(int line){
+        int value2 = (int)stack.pop();
+        int value1 = (int)stack.pop();
+        if(value1<=value2){
+            currentLineIndex = line-1;
+        }
     }
     // a5
-    public void if_acmpeq(){
-        
+    public void if_acmpeq(int line){
+        Object value2 = stack.pop();
+        Object value1 = stack.pop();
+        if(value1==value2){
+            currentLineIndex = line-1;
+        }
     }
     // a6 
-    public void if_acmpne(){
-        
+    public void if_acmpne(int line){
+        Object value2 = stack.pop();
+        Object value1 = stack.pop();
+        if(value1!=value2){
+            currentLineIndex = line-1;
+        }
     }
     // a7
     public void goto1(int newLine){
@@ -1949,15 +2029,15 @@ public class StackFrame {
     public void jsr_w(){
         
     }
-    // ca
+    // ca - Unused
     public void breakpoint(){
         
     }
-    // fe
+    // fe - Unused
     public void impdep1(){
         
     }
-    // ff
+    // ff - Unused
     public void impdep2(){
         
     }
