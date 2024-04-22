@@ -4,9 +4,7 @@
  */
 package javaapplication2;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -23,6 +21,7 @@ import java.util.spi.ToolProvider;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 /**
  *
@@ -45,7 +44,6 @@ public class NewJFrame extends javax.swing.JFrame {
     int currentLine;
     int currentStackFrameIndex; // Holds the index of the current stack frame in
                                 // the stackFrames ArrayList
-    String[] tutorialFilesStrings;
     /**
      * Creates new form NewJFrame
      */
@@ -53,25 +51,6 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         setTerminal();
         setTextTable();
-        setTutorialFilesStrings();
-    }
-    public void setTutorialFilesStrings(){
-        String directoryPath = "C:\\Users\\C00273530\\Desktop\\Sem2Project\\Sem2Project\\JavaApplication2\\TutorialFiles\\AddIntegers.txt";
-        String str = "";
-        try (BufferedReader br = new BufferedReader(new FileReader(directoryPath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        //System.out.println(str);
-        //tutorialFrameTextArea.setText(str);
-    }
-
-    public String[] getTutorialFilesStrings(){
-        return tutorialFilesStrings;
     }
     public void setcurrentStackFrameIndex(){
         currentStackFrameIndex = 0;
@@ -1184,6 +1163,11 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("ReverseNumber");
         treeNode1.add(treeNode2);
         tutorialTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        tutorialTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                tutorialTreeValueChanged(evt);
+            }
+        });
         jScrollPane11.setViewportView(tutorialTree);
 
         tutorialFrameConfirmBtn.setText("Confirm Example");
@@ -1723,6 +1707,27 @@ public class NewJFrame extends javax.swing.JFrame {
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
         initClassComponents();
     }//GEN-LAST:event_resetBtnActionPerformed
+
+    private void tutorialTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_tutorialTreeValueChanged
+        TreePath path = tutorialTree.getSelectionPath();
+        Object node = path.getLastPathComponent();
+        String nodeString = node.toString();
+        if(nodeString.compareTo("AddIntegers")==0){
+            tutorialFrameTextArea.setText(TutorialFilesConstants.AddIntegersText);
+        }
+        else if(nodeString.compareTo("BinToDecimal")==0){
+            tutorialFrameTextArea.setText(TutorialFilesConstants.BinToDecText);
+        }
+        else if(nodeString.compareTo("CheckPrime")==0){
+            tutorialFrameTextArea.setText(TutorialFilesConstants.CheckPrimeText);
+        }
+        else if(nodeString.compareTo("Fibonacci")==0){
+            tutorialFrameTextArea.setText(TutorialFilesConstants.FibonacciText);
+        }
+        else if(nodeString.compareTo("ReverseNumber")==0){
+            tutorialFrameTextArea.setText(TutorialFilesConstants.ReverseNumberText);
+        }
+    }//GEN-LAST:event_tutorialTreeValueChanged
 
     /**
      * @param args the command line arguments

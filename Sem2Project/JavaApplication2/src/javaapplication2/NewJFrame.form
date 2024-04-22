@@ -615,6 +615,9 @@
                       <TreeModel code="Tutorials&#xa; AddIntegers&#xa; BinToDecimal&#xa; CheckPrime&#xa; Fibonacci&#xa; ReverseNumber"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="valueChanged" listener="javax.swing.event.TreeSelectionListener" parameters="javax.swing.event.TreeSelectionEvent" handler="tutorialTreeValueChanged"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
