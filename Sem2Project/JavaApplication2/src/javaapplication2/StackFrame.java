@@ -211,7 +211,7 @@ public class StackFrame {
                     value += line.charAt(i);
                 }
             }
-            constantPool.put(key, value.trim());
+            constantPool.put(key.trim(), value.trim());
         }
     }
     public Map getConstantPool(){
@@ -226,6 +226,7 @@ public class StackFrame {
     // For demo start has to be 8 minimum, and end has to be 16 max
     public void runInstructions(){
         if(!finished){
+           
             // Sets the current line
             int currentLine = keysOfInstructions.get(currentLineIndex);
             // Sets the current instruction
@@ -803,7 +804,7 @@ public class StackFrame {
                         finished = true;
                     }
                     else if(currentInstruction.compareTo("getstatic")==0){
-                        getstatic();
+                        getstatic("#" + parameters[0].toString());
                     }
                     else if(currentInstruction.compareTo("putstatic")==0){
                         putstatic();
@@ -1927,8 +1928,9 @@ public class StackFrame {
         
     }
     // b2
-    public void getstatic(){
-        
+    public void getstatic(String index){
+        String value = constantPool.get(index);
+        stack.push(value);
     }
     // b3
     public void putstatic(){
