@@ -17,7 +17,7 @@ public class JavaApplication2 {
         // TODO code application logic here
         NewJFrame f = new NewJFrame();
         f.setTitle("ByteLibrary");
-        f.setSize(700, 650);
+        f.setSize(700, 700);
         f.setVisible(true);
     }
 }

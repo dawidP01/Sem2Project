@@ -41,6 +41,7 @@ public class NewJFrame extends javax.swing.JFrame {
     StackFrame op; 
     ArrayList<StackFrame> stackFrames;
     StackFrame currentStackFrame;
+    int[] breakPoint; 
     int currentLine;
     int currentStackFrameIndex; // Holds the index of the current stack frame in
                                 // the stackFrames ArrayList
@@ -51,6 +52,17 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         setTerminal();
         setTextTable();
+        hideTable();
+    }
+    public void hideTable(){
+        mainPane.setVisible(false);
+        terminalPane.setVisible(false);
+        methodTree.setVisible(false);
+    }
+    public void showTable(){
+        mainPane.setVisible(true);
+        terminalPane.setVisible(true);
+        methodTree.setVisible(true);
     }
     public void setcurrentStackFrameIndex(){
         currentStackFrameIndex = 0;
@@ -79,6 +91,7 @@ public class NewJFrame extends javax.swing.JFrame {
         displayCode();
         setOutputText();
         setcurrentStackFrameIndex();
+        showTable();
     }
     public void copyToWorkingDirectory() {
         String destinationDirectory = System.getProperty("user.dir");
@@ -184,14 +197,14 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     // Removes all rows in the text table
     public void textTableRemoveAllRows(){
-        DefaultTableModel model = (DefaultTableModel) textTable.getModel();
+        DefaultTableModel model = (DefaultTableModel) bytecodeTextTable.getModel();
         model.getDataVector().removeAllElements();
     }
     // Assigns each row a corresponding line from the bytecode
     public void setTextTableRows(){
         if (classString != null){
             textTableRemoveAllRows();
-            DefaultTableModel model = (DefaultTableModel) textTable.getModel();
+            DefaultTableModel model = (DefaultTableModel) bytecodeTextTable.getModel();
             Object[] lines = stackFrames.get(0).getClassString().lines().toArray();
             // Set to lines-1 because last line is empty
             for(int i=0;i<lines.length-1;i++){
@@ -206,7 +219,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public void setTextTableRows(int selectedIndex){
         if (classString != null){
             textTableRemoveAllRows();
-            DefaultTableModel model = (DefaultTableModel) textTable.getModel();
+            DefaultTableModel model = (DefaultTableModel) bytecodeTextTable.getModel();
             Object[] lines = stackFrames.get(selectedIndex).getClassString().lines().toArray();
             for(int i=0;i<lines.length-1;i++){
                 int index = lines[i].toString().indexOf(":");
@@ -218,12 +231,12 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     public void setTextTable(){
         // Makes the title of columns invisible
-        textTable.getTableHeader().setVisible(false);
+        bytecodeTextTable.getTableHeader().setVisible(false);
         // Turns off resize mode for the table
-        textTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        bytecodeTextTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         // Makes the column containing numbers as small as possible
-        textTable.getColumnModel().getColumn(0).setMinWidth(0);
-        textTable.getColumnModel().getColumn(0).setMaxWidth(30);
+        bytecodeTextTable.getColumnModel().getColumn(0).setMinWidth(0);
+        bytecodeTextTable.getColumnModel().getColumn(0).setMaxWidth(30);
         textTableRemoveAllRows();
         setTextTableRows();
     }
@@ -347,12 +360,12 @@ public class NewJFrame extends javax.swing.JFrame {
     // Highlights whichever line is currently executing
     public void highlightCurrentLine(){
         // Deselects all selected rows
-        textTable.clearSelection();
+        bytecodeTextTable.clearSelection();
         // Selects the current line
         int currentLineIndex = stackFrames.get(currentStackFrameIndex).getCurrentLineIndex();
-        if(currentLineIndex < textTable.getRowCount()){
+        if(currentLineIndex < bytecodeTextTable.getRowCount()){
             setTextTableRows(currentStackFrameIndex);
-            textTable.addRowSelectionInterval(currentLineIndex, currentLineIndex);   
+            bytecodeTextTable.addRowSelectionInterval(currentLineIndex, currentLineIndex);   
         }
     }
     /**
@@ -387,12 +400,6 @@ public class NewJFrame extends javax.swing.JFrame {
         tutorialTree1 = new javax.swing.JTree();
         jButton3 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        lineNumberTableFrame = new javax.swing.JFrame();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        lineNumberTable = new javax.swing.JTable();
         tutorialFrame = new javax.swing.JFrame();
         tutorialPanel = new javax.swing.JPanel();
         tutorialFrameTitle = new javax.swing.JTextField();
@@ -410,11 +417,15 @@ public class NewJFrame extends javax.swing.JFrame {
         RunButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         StackButton = new javax.swing.JButton();
-        lineNumberTableBtn = new javax.swing.JButton();
         resetBtn = new javax.swing.JButton();
         LeftPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         methodTree = new javax.swing.JTree();
+        breakPointPanel = new javax.swing.JPanel();
+        selectBPButton = new javax.swing.JButton();
+        runToBPButton = new javax.swing.JButton();
+        JScrollPanelBP = new javax.swing.JScrollPane();
+        breakPointTextArea = new javax.swing.JTextArea();
         CentrePanel = new javax.swing.JPanel();
         terminalPane = new javax.swing.JTabbedPane();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -427,11 +438,11 @@ public class NewJFrame extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jScrollPane9 = new javax.swing.JScrollPane();
         stackMapTableTextArea = new javax.swing.JTextArea();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        mainPane = new javax.swing.JTabbedPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         textJavaTable = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
-        textTable = new javax.swing.JTable();
+        bytecodeTextTable = new javax.swing.JTable();
 
         stackFrame.setTitle("Stack");
 
@@ -1092,56 +1103,6 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel3.setText("Choose Method:");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        lineNumberTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Java Line", "Bytecode Line"
-            }
-        ));
-        jScrollPane10.setViewportView(lineNumberTable);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout lineNumberTableFrameLayout = new javax.swing.GroupLayout(lineNumberTableFrame.getContentPane());
-        lineNumberTableFrame.getContentPane().setLayout(lineNumberTableFrameLayout);
-        lineNumberTableFrameLayout.setHorizontalGroup(
-            lineNumberTableFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        lineNumberTableFrameLayout.setVerticalGroup(
-            lineNumberTableFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
         tutorialFrameTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         tutorialFrameTitle.setText("AddIntegers.java");
         tutorialFrameTitle.addActionListener(new java.awt.event.ActionListener() {
@@ -1306,13 +1267,6 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        lineNumberTableBtn.setText("Line Number Tables");
-        lineNumberTableBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lineNumberTableBtnActionPerformed(evt);
-            }
-        });
-
         resetBtn.setText("Reset");
         resetBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1333,19 +1287,16 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addComponent(resetBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(StackButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lineNumberTableBtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         RunPanelLayout.setVerticalGroup(
-            RunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RunPanelLayout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
+            RunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(RunPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(RunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RunButton)
                     .addComponent(nextButton)
                     .addComponent(StackButton)
-                    .addComponent(lineNumberTableBtn)
                     .addComponent(resetBtn))
                 .addContainerGap())
         );
@@ -1364,18 +1315,70 @@ public class NewJFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(methodTree);
 
+        breakPointPanel.setBackground(new java.awt.Color(204, 204, 204));
+
+        selectBPButton.setText("Select BreakPoint");
+        selectBPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectBPButtonActionPerformed(evt);
+            }
+        });
+
+        runToBPButton.setText("Run To BreakPoint");
+        runToBPButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                runToBPButtonActionPerformed(evt);
+            }
+        });
+
+        breakPointTextArea.setColumns(20);
+        breakPointTextArea.setRows(5);
+        JScrollPanelBP.setViewportView(breakPointTextArea);
+
+        javax.swing.GroupLayout breakPointPanelLayout = new javax.swing.GroupLayout(breakPointPanel);
+        breakPointPanel.setLayout(breakPointPanelLayout);
+        breakPointPanelLayout.setHorizontalGroup(
+            breakPointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(breakPointPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(breakPointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(JScrollPanelBP, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(selectBPButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(runToBPButton, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        breakPointPanelLayout.setVerticalGroup(
+            breakPointPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(breakPointPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(selectBPButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(runToBPButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JScrollPanelBP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout LeftPanelLayout = new javax.swing.GroupLayout(LeftPanel);
         LeftPanel.setLayout(LeftPanelLayout);
         LeftPanelLayout.setHorizontalGroup(
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LeftPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addGroup(LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LeftPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(breakPointPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         LeftPanelLayout.setVerticalGroup(
             LeftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+            .addGroup(LeftPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(breakPointPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
 
         CentrePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(0, 0, 0)));
@@ -1413,6 +1416,12 @@ public class NewJFrame extends javax.swing.JFrame {
 
         terminalPane.addTab("StackMapTable", jScrollPane9);
 
+        mainPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                mainPaneStateChanged(evt);
+            }
+        });
+
         textJavaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1424,9 +1433,9 @@ public class NewJFrame extends javax.swing.JFrame {
         textJavaTable.setGridColor(new java.awt.Color(242, 242, 242));
         jScrollPane3.setViewportView(textJavaTable);
 
-        jTabbedPane1.addTab("Java", jScrollPane3);
+        mainPane.addTab("Java", jScrollPane3);
 
-        textTable.setModel(new javax.swing.table.DefaultTableModel(
+        bytecodeTextTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1434,26 +1443,26 @@ public class NewJFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2"
             }
         ));
-        textTable.setGridColor(new java.awt.Color(242, 242, 242));
-        jScrollPane7.setViewportView(textTable);
+        bytecodeTextTable.setGridColor(new java.awt.Color(242, 242, 242));
+        jScrollPane7.setViewportView(bytecodeTextTable);
 
-        jTabbedPane1.addTab("Bytecode", jScrollPane7);
+        mainPane.addTab("Bytecode", jScrollPane7);
 
         javax.swing.GroupLayout CentrePanelLayout = new javax.swing.GroupLayout(CentrePanel);
         CentrePanel.setLayout(CentrePanelLayout);
         CentrePanelLayout.setHorizontalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(terminalPane, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(terminalPane)
+            .addComponent(mainPane, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
         );
         CentrePanelLayout.setVerticalGroup(
             CentrePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CentrePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(mainPane, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(terminalPane, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1463,8 +1472,8 @@ public class NewJFrame extends javax.swing.JFrame {
             .addComponent(FilePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(RunPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(LeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0)
+                .addComponent(LeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -1478,7 +1487,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(LeftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(CentrePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 10, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -1607,11 +1616,6 @@ public class NewJFrame extends javax.swing.JFrame {
             updateStackTable();
         }
     }//GEN-LAST:event_nextButtonActionPerformed
-
-    private void lineNumberTableBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineNumberTableBtnActionPerformed
-        lineNumberTableFrame.setVisible(true);
-        lineNumberTableFrame.setSize(300,300);
-    }//GEN-LAST:event_lineNumberTableBtnActionPerformed
 // Below is a tree selection event listener, it sets the bytecode text table
 // when a tree node is selected
     private void methodTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_methodTreeValueChanged
@@ -2357,6 +2361,48 @@ public class NewJFrame extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_helpFrameTreeValueChanged
 
+    private void selectBPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectBPButtonActionPerformed
+        int line = bytecodeTextTable.getSelectedRow();
+        TreePath methodPath = methodTree.getSelectionPath();
+        Object[] path = methodPath.getPath();
+        int index = methodTree.getModel().getIndexOfChild(path[path.length - 2], path[path.length - 1]);
+        breakPoint = new int[2];
+        breakPoint[0] = line;
+        breakPoint[1] = index;
+        String text = "Method: " + methodPath.getLastPathComponent() + "\n" + "Line: " + stackFrames.get(index).keysOfInstructions.get(line);
+        breakPointTextArea.setText(text);
+    }//GEN-LAST:event_selectBPButtonActionPerformed
+
+    private void mainPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_mainPaneStateChanged
+        int selectedIndex = mainPane.getSelectedIndex();
+        if(selectedIndex == 0){
+            breakPointPanel.setVisible(false);
+        } else if(selectedIndex == 1){
+            breakPointPanel.setVisible(true);
+            methodTree.setSelectionRow(1);
+            bytecodeTextTable.setRowSelectionInterval(0, 0);
+        }
+    }//GEN-LAST:event_mainPaneStateChanged
+
+    private void runToBPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runToBPButtonActionPerformed
+        if(breakPoint != null){
+            initClassComponents();
+            while(stackFrames.get(breakPoint[1]).currentLineIndex != breakPoint[0]){            
+                highlightCurrentLine();
+                if(stackFrames.get(currentStackFrameIndex).getFinished()){
+                    currentStackFrameIndex++;
+                    if(currentStackFrameIndex >= stackFrames.size())
+                        errorPopUp("The end of the program has been reached");
+                } else {
+                    stackFrames.get(currentStackFrameIndex).runInstructions(); 
+                }
+                updateStackTable();
+            }
+        } else {
+            errorPopUp("Please Select a BreakPoint");
+        }
+    }//GEN-LAST:event_runToBPButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2395,10 +2441,14 @@ public class NewJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CentrePanel;
     private javax.swing.JPanel FilePanel;
+    private javax.swing.JScrollPane JScrollPanelBP;
     private javax.swing.JPanel LeftPanel;
     private javax.swing.JButton RunButton;
     private javax.swing.JPanel RunPanel;
     private javax.swing.JButton StackButton;
+    private javax.swing.JPanel breakPointPanel;
+    private javax.swing.JTextArea breakPointTextArea;
+    private javax.swing.JTable bytecodeTextTable;
     private javax.swing.JTextArea constPoolTextArea;
     private javax.swing.JButton fileBtn;
     private javax.swing.JButton helpButton;
@@ -2409,13 +2459,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel helpPanel;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
@@ -2433,15 +2479,14 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTable lineNumberTable;
-    private javax.swing.JButton lineNumberTableBtn;
-    private javax.swing.JFrame lineNumberTableFrame;
+    private javax.swing.JTabbedPane mainPane;
     private javax.swing.JTree methodTree;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton resetBtn;
+    private javax.swing.JButton runToBPButton;
+    private javax.swing.JButton selectBPButton;
     private javax.swing.JFrame settingsFrame;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JFrame stackFrame;
@@ -2450,7 +2495,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane terminalPane;
     private javax.swing.JTextArea terminalTextArea;
     private javax.swing.JTable textJavaTable;
-    private javax.swing.JTable textTable;
     private javax.swing.JButton tutorialBtn;
     private javax.swing.JFrame tutorialFrame;
     private javax.swing.JButton tutorialFrameConfirmBtn;
