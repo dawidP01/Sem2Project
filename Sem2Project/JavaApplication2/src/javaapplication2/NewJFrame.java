@@ -374,7 +374,7 @@ public class NewJFrame extends javax.swing.JFrame {
         helpPanel = new javax.swing.JPanel();
         helpFrameTitle = new javax.swing.JTextField();
         jScrollPane15 = new javax.swing.JScrollPane();
-        tutorialFrameTextArea2 = new javax.swing.JTextArea();
+        helpFrameTextArea = new javax.swing.JTextArea();
         jScrollPane16 = new javax.swing.JScrollPane();
         helpFrameTree = new javax.swing.JTree();
         jSeparator3 = new javax.swing.JSeparator();
@@ -511,10 +511,10 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        tutorialFrameTextArea2.setColumns(20);
-        tutorialFrameTextArea2.setRows(5);
-        tutorialFrameTextArea2.setText("Opcode in hex: 00\nOpcode in binary: 0000 0000\nParamters: None\nEffect on Stack: None\nDescription: Performs no operation\n");
-        jScrollPane15.setViewportView(tutorialFrameTextArea2);
+        helpFrameTextArea.setColumns(20);
+        helpFrameTextArea.setRows(5);
+        helpFrameTextArea.setText("Opcode in hex: 00\nOpcode in binary: 0000 0000\nParamters: None\nEffect on Stack: None\nDescription: Performs no operation\n");
+        jScrollPane15.setViewportView(helpFrameTextArea);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Topics:");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Opcodes");
@@ -938,6 +938,11 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         helpFrameTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        helpFrameTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                helpFrameTreeValueChanged(evt);
+            }
+        });
         jScrollPane16.setViewportView(helpFrameTree);
 
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -971,8 +976,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addComponent(jScrollPane15))
                     .addGroup(helpPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane16)
-                        .addGap(0, 0, 0)))
+                        .addComponent(jScrollPane16)))
                 .addContainerGap())
             .addComponent(jSeparator3)
         );
@@ -1729,6 +1733,630 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tutorialTreeValueChanged
 
+    private void helpFrameTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_helpFrameTreeValueChanged
+        TreePath path = helpFrameTree.getSelectionPath();
+        String value = path.getLastPathComponent().toString();
+        int index = value.indexOf(".");
+        value = value.substring(index+2);
+        System.out.println(value);
+        if(value.compareTo("nop") == 0){
+            helpFrameTitle.setText("nop");
+            helpFrameTextArea.setText(HelpFilesConstants.nop);
+        } else if(value.compareTo("aconst_null") == 0){
+            helpFrameTitle.setText("aconst_null");
+            helpFrameTextArea.setText(HelpFilesConstants.aconst_null);
+        } else if(value.compareTo("iconst_m1") == 0){
+            helpFrameTitle.setText("iconst_m1");
+            helpFrameTextArea.setText(HelpFilesConstants.iconst_m1);
+        } else if(value.compareTo("iconst_0") == 0){
+            helpFrameTitle.setText("iconst_0");
+            helpFrameTextArea.setText(HelpFilesConstants.iconst_0);
+        } else if(value.compareTo("iconst_1") == 0){
+            helpFrameTitle.setText("iconst_1");
+            helpFrameTextArea.setText(HelpFilesConstants.iconst_1);
+        } else if(value.compareTo("iconst_2") == 0){
+            helpFrameTitle.setText("iconst_2");
+            helpFrameTextArea.setText(HelpFilesConstants.iconst_2);
+        } else if(value.compareTo("iconst_3") == 0){
+            helpFrameTitle.setText("iconst_3");
+            helpFrameTextArea.setText(HelpFilesConstants.iconst_3);
+        } else if(value.compareTo("iconst_4") == 0){
+            helpFrameTitle.setText("iconst_4");
+            helpFrameTextArea.setText(HelpFilesConstants.iconst_4);
+        } else if(value.compareTo("iconst_5") == 0){
+            helpFrameTitle.setText("iconst_5");
+            helpFrameTextArea.setText(HelpFilesConstants.iconst_5);
+        } else if(value.compareTo("lconst_0") == 0){
+            helpFrameTitle.setText("lconst_0");
+            helpFrameTextArea.setText(HelpFilesConstants.lconst_0);
+        } else if(value.compareTo("lconst_1") == 0){
+            helpFrameTitle.setText("lconst_1");
+            helpFrameTextArea.setText(HelpFilesConstants.lconst_1);
+        } else if(value.compareTo("fconst_0") == 0){
+            helpFrameTitle.setText("fconst_0");
+            helpFrameTextArea.setText(HelpFilesConstants.fconst_0);
+        } else if(value.compareTo("fconst_1") == 0){
+            helpFrameTitle.setText("fconst_1");
+            helpFrameTextArea.setText(HelpFilesConstants.fconst_1);
+        } else if(value.compareTo("fconst_2") == 0){
+            helpFrameTitle.setText("fconst_2");
+            helpFrameTextArea.setText(HelpFilesConstants.fconst_2);
+        } else if(value.compareTo("dconst_0") == 0){
+            helpFrameTitle.setText("dconst_0");
+            helpFrameTextArea.setText(HelpFilesConstants.dconst_0);
+        } else if(value.compareTo("dconst_1") == 0){
+            helpFrameTitle.setText("dconst_1");
+            helpFrameTextArea.setText(HelpFilesConstants.dconst_1);
+        } else if(value.compareTo("bipush") == 0){
+            helpFrameTitle.setText("bipush");
+            helpFrameTextArea.setText(HelpFilesConstants.bipush);
+        } else if(value.compareTo("sipush") == 0){
+            helpFrameTitle.setText("sipush");
+            helpFrameTextArea.setText(HelpFilesConstants.sipush);
+        } else if(value.compareTo("ldc") == 0){
+            helpFrameTitle.setText("ldc");
+            helpFrameTextArea.setText(HelpFilesConstants.ldc);
+        } else if(value.compareTo("ldc_w") == 0){
+            helpFrameTitle.setText("ldc_w");
+            helpFrameTextArea.setText(HelpFilesConstants.ldc_w);
+        } else if(value.compareTo("ldc2_w") == 0){
+            helpFrameTitle.setText("ldc2_w");
+            helpFrameTextArea.setText(HelpFilesConstants.ldc2_w);
+        } else if(value.compareTo("iload") == 0){
+            helpFrameTitle.setText("iload");
+            helpFrameTextArea.setText(HelpFilesConstants.iload);
+        } else if(value.compareTo("lload") == 0){
+            helpFrameTitle.setText("lload");
+            helpFrameTextArea.setText(HelpFilesConstants.lload);
+        } else if(value.compareTo("fload") == 0){
+            helpFrameTitle.setText("fload");
+            helpFrameTextArea.setText(HelpFilesConstants.fload);
+        } else if(value.compareTo("dload") == 0){
+            helpFrameTitle.setText("dload");
+            helpFrameTextArea.setText(HelpFilesConstants.dload);
+        } else if(value.compareTo("aload") == 0){
+            helpFrameTitle.setText("aload");
+            helpFrameTextArea.setText(HelpFilesConstants.aload);
+        } else if(value.compareTo("iload_0") == 0){
+            helpFrameTitle.setText("iload_0");
+            helpFrameTextArea.setText(HelpFilesConstants.iload_0);
+        } else if(value.compareTo("iload_1") == 0){
+            helpFrameTitle.setText("iload_1");
+            helpFrameTextArea.setText(HelpFilesConstants.iload_1);
+        } else if(value.compareTo("iload_2") == 0){
+            helpFrameTitle.setText("iload_2");
+            helpFrameTextArea.setText(HelpFilesConstants.iload_2);
+        } else if(value.compareTo("iload_3") == 0){
+            helpFrameTitle.setText("iload_3");
+            helpFrameTextArea.setText(HelpFilesConstants.iload_3);
+        } else if(value.compareTo("lload_0") == 0){
+            helpFrameTitle.setText("lload_0");
+            helpFrameTextArea.setText(HelpFilesConstants.lload_0);
+        } else if(value.compareTo("lload_1") == 0){
+            helpFrameTitle.setText("lload_1");
+            helpFrameTextArea.setText(HelpFilesConstants.lload_1);
+        } else if(value.compareTo("lload_2") == 0){
+            helpFrameTitle.setText("lload_2");
+            helpFrameTextArea.setText(HelpFilesConstants.lload_2);
+        } else if(value.compareTo("lload_3") == 0){
+            helpFrameTitle.setText("lload_3");
+            helpFrameTextArea.setText(HelpFilesConstants.lload_3);
+        } else if(value.compareTo("fload_0") == 0){
+            helpFrameTitle.setText("fload_0");
+            helpFrameTextArea.setText(HelpFilesConstants.fload_0);
+        } else if(value.compareTo("fload_1") == 0){
+            helpFrameTitle.setText("fload_1");
+            helpFrameTextArea.setText(HelpFilesConstants.fload_1);
+        } else if(value.compareTo("fload_2") == 0){
+            helpFrameTitle.setText("fload_2");
+            helpFrameTextArea.setText(HelpFilesConstants.fload_2);
+        } else if(value.compareTo("fload_3") == 0){
+            helpFrameTitle.setText("fload_3");
+            helpFrameTextArea.setText(HelpFilesConstants.fload_3);
+        } else if(value.compareTo("dload_0") == 0){
+            helpFrameTitle.setText("dload_0");
+            helpFrameTextArea.setText(HelpFilesConstants.dload_0);
+        } else if(value.compareTo("dload_1") == 0){
+            helpFrameTitle.setText("dload_1");
+            helpFrameTextArea.setText(HelpFilesConstants.dload_1);
+        } else if(value.compareTo("dload_2") == 0){
+            helpFrameTitle.setText("dload_2");
+            helpFrameTextArea.setText(HelpFilesConstants.dload_2);
+        } else if(value.compareTo("dload_3") == 0){
+            helpFrameTitle.setText("dload_3");
+            helpFrameTextArea.setText(HelpFilesConstants.dload_3);
+        } else if(value.compareTo("aload_0") == 0){
+            helpFrameTitle.setText("aload_0");
+            helpFrameTextArea.setText(HelpFilesConstants.aload_0);
+        } else if(value.compareTo("aload_1") == 0){
+            helpFrameTitle.setText("aload_1");
+            helpFrameTextArea.setText(HelpFilesConstants.aload_1);
+        } else if(value.compareTo("aload_2") == 0){
+            helpFrameTitle.setText("aload_2");
+            helpFrameTextArea.setText(HelpFilesConstants.aload_2);
+        } else if(value.compareTo("aload_3") == 0){
+            helpFrameTitle.setText("aload_3");
+            helpFrameTextArea.setText(HelpFilesConstants.aload_3);
+        } else if(value.compareTo("iaload") == 0){
+            helpFrameTitle.setText("iaload");
+            helpFrameTextArea.setText(HelpFilesConstants.iaload);
+        } else if(value.compareTo("laload") == 0){
+            helpFrameTitle.setText("laload");
+            helpFrameTextArea.setText(HelpFilesConstants.laload);
+        } else if(value.compareTo("faload") == 0){
+            helpFrameTitle.setText("faload");
+            helpFrameTextArea.setText(HelpFilesConstants.faload);
+        } else if(value.compareTo("daload") == 0){
+            helpFrameTitle.setText("daload");
+            helpFrameTextArea.setText(HelpFilesConstants.daload);
+        } else if(value.compareTo("aaload") == 0){
+            helpFrameTitle.setText("aaload");
+            helpFrameTextArea.setText(HelpFilesConstants.aaload);
+        } else if(value.compareTo("baload") == 0){
+            helpFrameTitle.setText("baload");
+            helpFrameTextArea.setText(HelpFilesConstants.baload);
+        } else if(value.compareTo("caload") == 0){
+            helpFrameTitle.setText("caload");
+            helpFrameTextArea.setText(HelpFilesConstants.caload);
+        } else if(value.compareTo("saload") == 0){
+            helpFrameTitle.setText("saload");
+            helpFrameTextArea.setText(HelpFilesConstants.saload);
+        } else if(value.compareTo("istore") == 0){
+            helpFrameTitle.setText("istore");
+            helpFrameTextArea.setText(HelpFilesConstants.istore);
+        } else if(value.compareTo("lstore") == 0){
+            helpFrameTitle.setText("lstore");
+            helpFrameTextArea.setText(HelpFilesConstants.lstore);
+        } else if(value.compareTo("fstore") == 0){
+            helpFrameTitle.setText("fstore");
+            helpFrameTextArea.setText(HelpFilesConstants.fstore);
+        } else if(value.compareTo("dstore") == 0){
+            helpFrameTitle.setText("dstore");
+            helpFrameTextArea.setText(HelpFilesConstants.dstore);
+        } else if(value.compareTo("astore") == 0){
+            helpFrameTitle.setText("astore");
+            helpFrameTextArea.setText(HelpFilesConstants.astore);
+        } else if(value.compareTo("istore_0") == 0){
+            helpFrameTitle.setText("istore_0");
+            helpFrameTextArea.setText(HelpFilesConstants.istore_0);
+        } else if(value.compareTo("istore_1") == 0){
+            helpFrameTitle.setText("istore_1");
+            helpFrameTextArea.setText(HelpFilesConstants.istore_1);
+        } else if(value.compareTo("istore_2") == 0){
+            helpFrameTitle.setText("istore_2");
+            helpFrameTextArea.setText(HelpFilesConstants.istore_2);
+        } else if(value.compareTo("istore_3") == 0){
+            helpFrameTitle.setText("istore_3");
+            helpFrameTextArea.setText(HelpFilesConstants.istore_3);
+        } else if(value.compareTo("lstore_0") == 0){
+            helpFrameTitle.setText("lstore_0");
+            helpFrameTextArea.setText(HelpFilesConstants.lstore_0);
+        } else if(value.compareTo("lstore_1") == 0){
+            helpFrameTitle.setText("lstore_1");
+            helpFrameTextArea.setText(HelpFilesConstants.lstore_1);
+        } else if(value.compareTo("lstore_2") == 0){
+            helpFrameTitle.setText("lstore_2");
+            helpFrameTextArea.setText(HelpFilesConstants.lstore_2);
+        } else if(value.compareTo("lstore_3") == 0){
+            helpFrameTitle.setText("lstore_3");
+            helpFrameTextArea.setText(HelpFilesConstants.lstore_3);
+        } else if(value.compareTo("fstore_0") == 0){
+            helpFrameTitle.setText("fstore_0");
+            helpFrameTextArea.setText(HelpFilesConstants.fstore_0);
+        } else if(value.compareTo("fstore_1") == 0){
+            helpFrameTitle.setText("fstore_1");
+            helpFrameTextArea.setText(HelpFilesConstants.fstore_1);
+        } else if(value.compareTo("fstore_2") == 0){
+            helpFrameTitle.setText("fstore_2");
+            helpFrameTextArea.setText(HelpFilesConstants.fstore_2);
+        } else if(value.compareTo("fstore_3") == 0){
+            helpFrameTitle.setText("fstore_3");
+            helpFrameTextArea.setText(HelpFilesConstants.fstore_3);
+        } else if(value.compareTo("dstore_0") == 0){
+            helpFrameTitle.setText("dstore_0");
+            helpFrameTextArea.setText(HelpFilesConstants.dstore_0);
+        } else if(value.compareTo("dstore_1") == 0){
+            helpFrameTitle.setText("dstore_1");
+            helpFrameTextArea.setText(HelpFilesConstants.dstore_1);
+        } else if(value.compareTo("dstore_2") == 0){
+            helpFrameTitle.setText("dstore_2");
+            helpFrameTextArea.setText(HelpFilesConstants.dstore_2);
+        } else if(value.compareTo("dstore_3") == 0){
+            helpFrameTitle.setText("dstore_3");
+            helpFrameTextArea.setText(HelpFilesConstants.dstore_3);
+        } else if(value.compareTo("astore_0") == 0){
+            helpFrameTitle.setText("astore_0");
+            helpFrameTextArea.setText(HelpFilesConstants.astore_0);
+        } else if(value.compareTo("astore_1") == 0){
+            helpFrameTitle.setText("astore_1");
+            helpFrameTextArea.setText(HelpFilesConstants.astore_1);
+        } else if(value.compareTo("astore_2") == 0){
+            helpFrameTitle.setText("astore_2");
+            helpFrameTextArea.setText(HelpFilesConstants.astore_2);
+        } else if(value.compareTo("astore_3") == 0){
+            helpFrameTitle.setText("astore_3");
+            helpFrameTextArea.setText(HelpFilesConstants.astore_3);
+        } else if(value.compareTo("iastore") == 0){
+            helpFrameTitle.setText("iastore");
+            helpFrameTextArea.setText(HelpFilesConstants.iastore);
+        } else if(value.compareTo("lastore") == 0){
+            helpFrameTitle.setText("lastore");
+            helpFrameTextArea.setText(HelpFilesConstants.lastore);
+        } else if(value.compareTo("fastore") == 0){
+            helpFrameTitle.setText("fastore");
+            helpFrameTextArea.setText(HelpFilesConstants.fastore);
+        } else if(value.compareTo("dastore") == 0){
+            helpFrameTitle.setText("dastore");
+            helpFrameTextArea.setText(HelpFilesConstants.dastore);
+        } else if(value.compareTo("aastore") == 0){
+            helpFrameTitle.setText("aastore");
+            helpFrameTextArea.setText(HelpFilesConstants.aastore);
+        } else if(value.compareTo("bastore") == 0){
+            helpFrameTitle.setText("bastore");
+            helpFrameTextArea.setText(HelpFilesConstants.bastore);
+        } else if(value.compareTo("castore") == 0){
+            helpFrameTitle.setText("castore");
+            helpFrameTextArea.setText(HelpFilesConstants.castore);
+        } else if(value.compareTo("sastore") == 0){
+            helpFrameTitle.setText("sastore");
+            helpFrameTextArea.setText(HelpFilesConstants.sastore);
+        } else if(value.compareTo("pop") == 0){
+            helpFrameTitle.setText("pop");
+            helpFrameTextArea.setText(HelpFilesConstants.pop);
+        } else if(value.compareTo("pop2") == 0){
+            helpFrameTitle.setText("pop2");
+            helpFrameTextArea.setText(HelpFilesConstants.pop2);
+        } else if(value.compareTo("dup") == 0){
+            helpFrameTitle.setText("dup");
+            helpFrameTextArea.setText(HelpFilesConstants.dup);
+        } else if(value.compareTo("dup_x1") == 0){
+            helpFrameTitle.setText("dup_x1");
+            helpFrameTextArea.setText(HelpFilesConstants.dup_x1);
+        } else if(value.compareTo("dup_x2") == 0){
+            helpFrameTitle.setText("dup_x2");
+            helpFrameTextArea.setText(HelpFilesConstants.dup_x2);
+        } else if(value.compareTo("dup2") == 0){
+            helpFrameTitle.setText("dup2");
+            helpFrameTextArea.setText(HelpFilesConstants.dup2);
+        } else if(value.compareTo("dup2_x1") == 0){
+            helpFrameTitle.setText("dup2_x1");
+            helpFrameTextArea.setText(HelpFilesConstants.dup2_x1);
+        } else if(value.compareTo("dup2_x2") == 0){
+            helpFrameTitle.setText("dup2_x2");
+            helpFrameTextArea.setText(HelpFilesConstants.dup2_x2);
+        } else if(value.compareTo("swap") == 0){
+            helpFrameTitle.setText("swap");
+            helpFrameTextArea.setText(HelpFilesConstants.swap);
+        } else if(value.compareTo("iadd") == 0){
+            helpFrameTitle.setText("iadd");
+            helpFrameTextArea.setText(HelpFilesConstants.iadd);
+        } else if(value.compareTo("ladd") == 0){
+            helpFrameTitle.setText("ladd");
+            helpFrameTextArea.setText(HelpFilesConstants.ladd);
+        } else if(value.compareTo("fadd") == 0){
+            helpFrameTitle.setText("fadd");
+            helpFrameTextArea.setText(HelpFilesConstants.fadd);
+        } else if(value.compareTo("dadd") == 0){
+            helpFrameTitle.setText("dadd");
+            helpFrameTextArea.setText(HelpFilesConstants.dadd);
+        } else if(value.compareTo("isub") == 0){
+            helpFrameTitle.setText("isub");
+            helpFrameTextArea.setText(HelpFilesConstants.isub);
+        } else if(value.compareTo("lsub") == 0){
+            helpFrameTitle.setText("lsub");
+            helpFrameTextArea.setText(HelpFilesConstants.lsub);
+        } else if(value.compareTo("fsub") == 0){
+            helpFrameTitle.setText("fsub");
+            helpFrameTextArea.setText(HelpFilesConstants.fsub);
+        } else if(value.compareTo("dsub") == 0){
+            helpFrameTitle.setText("dsub");
+            helpFrameTextArea.setText(HelpFilesConstants.dsub);
+        } else if(value.compareTo("imul	") == 0){
+            helpFrameTitle.setText("imul");
+            helpFrameTextArea.setText(HelpFilesConstants.imul);
+        } else if(value.compareTo("lmul") == 0){
+            helpFrameTitle.setText("lmul");
+            helpFrameTextArea.setText(HelpFilesConstants.lmul);
+        } else if(value.compareTo("fmul") == 0){
+            helpFrameTitle.setText("fmul");
+            helpFrameTextArea.setText(HelpFilesConstants.fmul);
+        } else if(value.compareTo("dmul") == 0){
+            helpFrameTitle.setText("dmul");
+            helpFrameTextArea.setText(HelpFilesConstants.dmul);
+        } else if(value.compareTo("idiv") == 0){
+            helpFrameTitle.setText("idiv");
+            helpFrameTextArea.setText(HelpFilesConstants.idiv);
+        } else if(value.compareTo("ldiv") == 0){
+            helpFrameTitle.setText("ldiv");
+            helpFrameTextArea.setText(HelpFilesConstants.ldiv);
+        } else if(value.compareTo("fdiv") == 0){
+            helpFrameTitle.setText("fdiv");
+            helpFrameTextArea.setText(HelpFilesConstants.fdiv);
+        } else if(value.compareTo("ddiv") == 0){
+            helpFrameTitle.setText("ddiv");
+            helpFrameTextArea.setText(HelpFilesConstants.ddiv);
+        } else if(value.compareTo("irem") == 0){
+            helpFrameTitle.setText("irem");
+            helpFrameTextArea.setText(HelpFilesConstants.irem);
+        } else if(value.compareTo("lrem") == 0){
+            helpFrameTitle.setText("lrem");
+            helpFrameTextArea.setText(HelpFilesConstants.lrem);
+        } else if(value.compareTo("frem") == 0){
+            helpFrameTitle.setText("frem");
+            helpFrameTextArea.setText(HelpFilesConstants.frem);
+        } else if(value.compareTo("drem") == 0){
+            helpFrameTitle.setText("drem");
+            helpFrameTextArea.setText(HelpFilesConstants.drem);
+        } else if(value.compareTo("ineg") == 0){
+            helpFrameTitle.setText("ineg");
+            helpFrameTextArea.setText(HelpFilesConstants.ineg);
+        } else if(value.compareTo("lneg") == 0){
+            helpFrameTitle.setText("lneg");
+            helpFrameTextArea.setText(HelpFilesConstants.lneg);
+        } else if(value.compareTo("fneg") == 0){
+            helpFrameTitle.setText("fneg");
+            helpFrameTextArea.setText(HelpFilesConstants.fneg);
+        } else if(value.compareTo("dneg") == 0){
+            helpFrameTitle.setText("dneg");
+            helpFrameTextArea.setText(HelpFilesConstants.dneg);
+        } else if(value.compareTo("ishl") == 0){
+            helpFrameTitle.setText("ishl");
+            helpFrameTextArea.setText(HelpFilesConstants.ishl);
+        } else if(value.compareTo("lshl") == 0){
+            helpFrameTitle.setText("lshl");
+            helpFrameTextArea.setText(HelpFilesConstants.lshl);
+        } else if(value.compareTo("ishr") == 0){
+            helpFrameTitle.setText("ishr");
+            helpFrameTextArea.setText(HelpFilesConstants.ishr);
+        } else if(value.compareTo("lshr") == 0){
+            helpFrameTitle.setText("lshr");
+            helpFrameTextArea.setText(HelpFilesConstants.lshr);
+        } else if(value.compareTo("iushr") == 0){
+            helpFrameTitle.setText("iushr");
+            helpFrameTextArea.setText(HelpFilesConstants.iushr);
+        } else if(value.compareTo("lushr") == 0){
+            helpFrameTitle.setText("lushr");
+            helpFrameTextArea.setText(HelpFilesConstants.lushr);
+        } else if(value.compareTo("iand") == 0){
+            helpFrameTitle.setText("iand");
+            helpFrameTextArea.setText(HelpFilesConstants.iand);
+        } else if(value.compareTo("land") == 0){
+            helpFrameTitle.setText("land");
+            helpFrameTextArea.setText(HelpFilesConstants.land);
+        } else if(value.compareTo("ior") == 0){
+            helpFrameTitle.setText("ior");
+            helpFrameTextArea.setText(HelpFilesConstants.ior);
+        } else if(value.compareTo("lor") == 0){
+            helpFrameTitle.setText("lor");
+            helpFrameTextArea.setText(HelpFilesConstants.lor);
+        } else if(value.compareTo("ixor") == 0){
+            helpFrameTitle.setText("ixor");
+            helpFrameTextArea.setText(HelpFilesConstants.ixor);
+        } else if(value.compareTo("lxor") == 0){
+            helpFrameTitle.setText("lxor");
+            helpFrameTextArea.setText(HelpFilesConstants.lxor);
+        } else if(value.compareTo("iinc") == 0){
+            helpFrameTitle.setText("iinc");
+            helpFrameTextArea.setText(HelpFilesConstants.iinc);
+        } else if(value.compareTo("i2l") == 0){
+            helpFrameTitle.setText("i2l");
+            helpFrameTextArea.setText(HelpFilesConstants.i2l);
+        } else if(value.compareTo("i2f") == 0){
+            helpFrameTitle.setText("i2f");
+            helpFrameTextArea.setText(HelpFilesConstants.i2f);
+        } else if(value.compareTo("i2d") == 0){
+            helpFrameTitle.setText("i2d");
+            helpFrameTextArea.setText(HelpFilesConstants.i2d);
+        } else if(value.compareTo("l2i") == 0){
+            helpFrameTitle.setText("l2i");
+            helpFrameTextArea.setText(HelpFilesConstants.l2i);
+        } else if(value.compareTo("l2f") == 0){
+            helpFrameTitle.setText("l2f");
+            helpFrameTextArea.setText(HelpFilesConstants.l2f);
+        } else if(value.compareTo("l2d") == 0){
+            helpFrameTitle.setText("l2d");
+            helpFrameTextArea.setText(HelpFilesConstants.l2d);
+        } else if(value.compareTo("f2i") == 0){
+            helpFrameTitle.setText("f2i");
+            helpFrameTextArea.setText(HelpFilesConstants.f2i);
+        } else if(value.compareTo("f2l") == 0){
+            helpFrameTitle.setText("f2l");
+            helpFrameTextArea.setText(HelpFilesConstants.f2l);
+        } else if(value.compareTo("f2d") == 0){
+            helpFrameTitle.setText("f2d");
+            helpFrameTextArea.setText(HelpFilesConstants.f2d);
+        } else if(value.compareTo("d2i") == 0){
+            helpFrameTitle.setText("d2i");
+            helpFrameTextArea.setText(HelpFilesConstants.d2i);
+        } else if(value.compareTo("d2l") == 0){
+            helpFrameTitle.setText("d2l");
+            helpFrameTextArea.setText(HelpFilesConstants.d2l);
+        } else if(value.compareTo("d2f") == 0){
+            helpFrameTitle.setText("d2f");
+            helpFrameTextArea.setText(HelpFilesConstants.d2f);
+        } else if(value.compareTo("i2b") == 0){
+            helpFrameTitle.setText("i2b");
+            helpFrameTextArea.setText(HelpFilesConstants.i2b);
+        } else if(value.compareTo("i2c") == 0){
+            helpFrameTitle.setText("i2c");
+            helpFrameTextArea.setText(HelpFilesConstants.i2c);
+        } else if(value.compareTo("i2s") == 0){
+            helpFrameTitle.setText("i2s");
+            helpFrameTextArea.setText(HelpFilesConstants.i2s);
+        } else if(value.compareTo("lcmp") == 0){
+            helpFrameTitle.setText("lcmp");
+            helpFrameTextArea.setText(HelpFilesConstants.lcmp);
+        } else if(value.compareTo("fcmpl") == 0){
+            helpFrameTitle.setText("fcmpl");
+            helpFrameTextArea.setText(HelpFilesConstants.fcmpl);
+        } else if(value.compareTo("fcmpg") == 0){
+            helpFrameTitle.setText("fcmpg");
+            helpFrameTextArea.setText(HelpFilesConstants.fcmpg);
+        } else if(value.compareTo("dcmpl") == 0){
+            helpFrameTitle.setText("dcmpl");
+            helpFrameTextArea.setText(HelpFilesConstants.dcmpl);
+        } else if(value.compareTo("dcmpg") == 0){
+            helpFrameTitle.setText("dcmpg");
+            helpFrameTextArea.setText(HelpFilesConstants.dcmpg);
+        } else if(value.compareTo("ifeq") == 0){
+            helpFrameTitle.setText("ifeq");
+            helpFrameTextArea.setText(HelpFilesConstants.ifeq);
+        } else if(value.compareTo("ifne") == 0){
+            helpFrameTitle.setText("ifne");
+            helpFrameTextArea.setText(HelpFilesConstants.ifne);
+        } else if(value.compareTo("iflt") == 0){
+            helpFrameTitle.setText("iflt");
+            helpFrameTextArea.setText(HelpFilesConstants.iflt);
+        } else if(value.compareTo("ifge") == 0){
+            helpFrameTitle.setText("ifge");
+            helpFrameTextArea.setText(HelpFilesConstants.ifge);
+        } else if(value.compareTo("ifgt") == 0){
+            helpFrameTitle.setText("ifgt");
+            helpFrameTextArea.setText(HelpFilesConstants.ifgt);
+        } else if(value.compareTo("ifle") == 0){
+            helpFrameTitle.setText("ifle");
+            helpFrameTextArea.setText(HelpFilesConstants.ifle);
+        } else if(value.compareTo("if_icmpeq") == 0){
+            helpFrameTitle.setText("if_icmpeq");
+            helpFrameTextArea.setText(HelpFilesConstants.if_icmpeq);
+        } else if(value.compareTo("if_icmpne") == 0){
+            helpFrameTitle.setText("if_icmpne");
+            helpFrameTextArea.setText(HelpFilesConstants.if_icmpne);
+        } else if(value.compareTo("if_icmplt") == 0){
+            helpFrameTitle.setText("if_icmplt");
+            helpFrameTextArea.setText(HelpFilesConstants.if_icmplt);
+        } else if(value.compareTo("if_icmpge") == 0){
+            helpFrameTitle.setText("if_icmpge");
+            helpFrameTextArea.setText(HelpFilesConstants.if_icmpge);
+        } else if(value.compareTo("if_icmpgt") == 0){
+            helpFrameTitle.setText("if_icmpgt");
+            helpFrameTextArea.setText(HelpFilesConstants.if_icmpgt);
+        } else if(value.compareTo("if_icmple") == 0){
+            helpFrameTitle.setText("if_icmple");
+            helpFrameTextArea.setText(HelpFilesConstants.if_icmple);
+        } else if(value.compareTo("if_acmpeq") == 0){
+            helpFrameTitle.setText("if_acmpeq");
+            helpFrameTextArea.setText(HelpFilesConstants.if_acmpeq);
+        } else if(value.compareTo("if_acmpne") == 0){
+            helpFrameTitle.setText("if_acmpne");
+            helpFrameTextArea.setText(HelpFilesConstants.if_acmpne);
+        } else if(value.compareTo("goto") == 0){
+            helpFrameTitle.setText("goto");
+            helpFrameTextArea.setText(HelpFilesConstants.gotoText);
+        } else if(value.compareTo("jsr") == 0){
+            helpFrameTitle.setText("jsr");
+            helpFrameTextArea.setText(HelpFilesConstants.jsr);
+        } else if(value.compareTo("ret") == 0){
+            helpFrameTitle.setText("ret");
+            helpFrameTextArea.setText(HelpFilesConstants.ret);
+        } else if(value.compareTo("tableswitch") == 0){
+            helpFrameTitle.setText("tableswitch");
+            helpFrameTextArea.setText(HelpFilesConstants.tableswitch);
+        } else if(value.compareTo("lookupswitch") == 0){
+            helpFrameTitle.setText("lookupswitch");
+            helpFrameTextArea.setText(HelpFilesConstants.lookupswitch);
+        } else if(value.compareTo("ireturn") == 0){
+            helpFrameTitle.setText("ireturn");
+            helpFrameTextArea.setText(HelpFilesConstants.ireturn);
+        } else if(value.compareTo("lreturn") == 0){
+            helpFrameTitle.setText("lreturn");
+            helpFrameTextArea.setText(HelpFilesConstants.lreturn);
+        } else if(value.compareTo("freturn") == 0){
+            helpFrameTitle.setText("freturn");
+            helpFrameTextArea.setText(HelpFilesConstants.freturn);
+        } else if(value.compareTo("dreturn") == 0){
+            helpFrameTitle.setText("dreturn");
+            helpFrameTextArea.setText(HelpFilesConstants.dreturn);
+        } else if(value.compareTo("areturn") == 0){
+            helpFrameTitle.setText("areturn");
+            helpFrameTextArea.setText(HelpFilesConstants.areturn);
+        } else if(value.compareTo("return") == 0){
+            helpFrameTitle.setText("return");
+            helpFrameTextArea.setText(HelpFilesConstants.returnText);
+        } else if(value.compareTo("getstatic") == 0){
+            helpFrameTitle.setText("getstatic");
+            helpFrameTextArea.setText(HelpFilesConstants.getstatic);
+        } else if(value.compareTo("putstatic") == 0){
+            helpFrameTitle.setText("putstatic");
+            helpFrameTextArea.setText(HelpFilesConstants.putstatic);
+        } else if(value.compareTo("getfield") == 0){
+            helpFrameTitle.setText("getfield");
+            helpFrameTextArea.setText(HelpFilesConstants.getfield);
+        } else if(value.compareTo("putfield") == 0){
+            helpFrameTitle.setText("putfield");
+            helpFrameTextArea.setText(HelpFilesConstants.putfield);
+        } else if(value.compareTo("invokevirtual") == 0){
+            helpFrameTitle.setText("invokevirtual");
+            helpFrameTextArea.setText(HelpFilesConstants.invokevirtual);
+        } else if(value.compareTo("invokespecial") == 0){
+            helpFrameTitle.setText("invokespecial");
+            helpFrameTextArea.setText(HelpFilesConstants.invokespecial);
+        } else if(value.compareTo("invokestatic") == 0){
+            helpFrameTitle.setText("invokestatic");
+            helpFrameTextArea.setText(HelpFilesConstants.invokestatic);
+        } else if(value.compareTo("invokeinterface") == 0){
+            helpFrameTitle.setText("invokeinterface");
+            helpFrameTextArea.setText(HelpFilesConstants.invokeinterface);
+        } else if(value.compareTo("invokedynamic") == 0){
+            helpFrameTitle.setText("invokedynamic");
+            helpFrameTextArea.setText(HelpFilesConstants.invokedynamic);
+        } else if(value.compareTo("new") == 0){
+            helpFrameTitle.setText("new");
+            helpFrameTextArea.setText(HelpFilesConstants.newText);
+        } else if(value.compareTo("newarray") == 0){
+            helpFrameTitle.setText("newarray");
+            helpFrameTextArea.setText(HelpFilesConstants.newarray);
+        } else if(value.compareTo("anewarray") == 0){
+            helpFrameTitle.setText("anewarray");
+            helpFrameTextArea.setText(HelpFilesConstants.anewarray);
+        } else if(value.compareTo("arraylength") == 0){
+            helpFrameTitle.setText("arraylength");
+            helpFrameTextArea.setText(HelpFilesConstants.arraylength);
+        } else if(value.compareTo("athrow") == 0){
+            helpFrameTitle.setText("athrow");
+            helpFrameTextArea.setText(HelpFilesConstants.athrow);
+        } else if(value.compareTo("checkcast") == 0){
+            helpFrameTitle.setText("checkcast");
+            helpFrameTextArea.setText(HelpFilesConstants.checkcast);
+        } else if(value.compareTo("instanceof") == 0){
+            helpFrameTitle.setText("instanceof");
+            helpFrameTextArea.setText(HelpFilesConstants.instanceofText);
+        } else if(value.compareTo("monitorenter") == 0){
+            helpFrameTitle.setText("monitorenter");
+            helpFrameTextArea.setText(HelpFilesConstants.monitorenter);
+        } else if(value.compareTo("monitorexit") == 0){
+            helpFrameTitle.setText("monitorexit");
+            helpFrameTextArea.setText(HelpFilesConstants.monitorexit);
+        } else if(value.compareTo("wide") == 0){
+            helpFrameTitle.setText("wide");
+            helpFrameTextArea.setText(HelpFilesConstants.wide);
+        } else if(value.compareTo("multianewarray") == 0){
+            helpFrameTitle.setText("multianewarray");
+            helpFrameTextArea.setText(HelpFilesConstants.multianewarray);
+        } else if(value.compareTo("ifnull") == 0){
+            helpFrameTitle.setText("ifnull");
+            helpFrameTextArea.setText(HelpFilesConstants.ifnull);
+        } else if(value.compareTo("ifnonnull") == 0){
+            helpFrameTitle.setText("ifnonnull");
+            helpFrameTextArea.setText(HelpFilesConstants.ifnonnull);
+        } else if(value.compareTo("goto_w") == 0){
+            helpFrameTitle.setText("goto_w");
+            helpFrameTextArea.setText(HelpFilesConstants.goto_w);
+        } else if(value.compareTo("jsr_w") == 0){
+            helpFrameTitle.setText("jsr_w");
+            helpFrameTextArea.setText(HelpFilesConstants.jsr_w);
+        } else if(value.compareTo("breakpoint") == 0){
+            helpFrameTitle.setText("breakpoint");
+            helpFrameTextArea.setText(HelpFilesConstants.breakpoint);
+        } else if(value.compareTo("impdep1") == 0){
+            helpFrameTitle.setText("impdep1");
+            helpFrameTextArea.setText(HelpFilesConstants.impdep1);
+        } else if(value.compareTo("impdep2") == 0){
+            helpFrameTitle.setText("impdep2");
+            helpFrameTextArea.setText(HelpFilesConstants.impdep2);
+        } 
+    }//GEN-LAST:event_helpFrameTreeValueChanged
+
     /**
      * @param args the command line arguments
      */
@@ -1775,6 +2403,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton fileBtn;
     private javax.swing.JButton helpButton;
     private javax.swing.JFrame helpFrame;
+    private javax.swing.JTextArea helpFrameTextArea;
     private javax.swing.JTextField helpFrameTitle;
     private javax.swing.JTree helpFrameTree;
     private javax.swing.JPanel helpPanel;
@@ -1827,7 +2456,6 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton tutorialFrameConfirmBtn;
     private javax.swing.JTextArea tutorialFrameTextArea;
     private javax.swing.JTextArea tutorialFrameTextArea1;
-    private javax.swing.JTextArea tutorialFrameTextArea2;
     private javax.swing.JTextField tutorialFrameTitle;
     private javax.swing.JTextField tutorialFrameTitle1;
     private javax.swing.JPanel tutorialPanel;

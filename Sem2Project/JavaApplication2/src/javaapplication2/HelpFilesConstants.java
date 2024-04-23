@@ -115,8 +115,8 @@ Effect on Stack: -> 0.0
 Description: push the constant 0.0 (a double) onto the stack
                          """;
     String dconst_1 = """
-Opcode in hex: 0e
-Opcode in binary: 0000 1110
+Opcode in hex: 0f
+Opcode in binary: 0000 1111
 Paramters: None
 Effect on Stack: -> 1.0
 Description: push the constant 0.0 (a double) onto the stack
