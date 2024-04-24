@@ -410,26 +410,25 @@ public class StackFrame {
                     }
                     else if(currentInstruction.compareTo("saload")==0){
                         saload();
-                    }
-                    // Fix Below!! 
+                    } 
                     else if(currentInstruction.compareTo("istore")==0){
-                        // istore();
+                        istore(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below!! 
                     else if(currentInstruction.compareTo("lstore")==0){
-                        // lstore();
+                        lstore(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below!! 
                     else if(currentInstruction.compareTo("fstore")==0){
-                        // fstore();
+                        fstore(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below!! 
                     else if(currentInstruction.compareTo("dstore")==0){
-                        // dstore();
+                        dstore(Integer.parseInt((String) parameters[0]));
                     }
                     // Fix Below!! 
                     else if(currentInstruction.compareTo("astore")==0){
-                        // astore();
+                        astore(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("istore_0")==0){
                         istore_0();

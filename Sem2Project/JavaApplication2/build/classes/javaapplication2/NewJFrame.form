@@ -30,18 +30,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace pref="13" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="jScrollPane5" min="-2" pref="293" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="jScrollPane5" min="-2" pref="293" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -49,36 +39,13 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane5" min="-2" pref="275" max="-2" attributes="0"/>
+                      <Component id="jScrollPane5" min="-2" pref="303" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="2">
-                    <StringItem index="0" value="Main"/>
-                    <StringItem index="1" value="Method B"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Choose Stack Frame:"/>
-              </Properties>
-            </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane5">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -89,19 +56,13 @@
                 <Component class="javax.swing.JTable" name="stackTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="3" rowCount="12">
+                      <Table columnCount="2" rowCount="12">
                         <Column editable="true" title="Operand Stack" type="java.lang.Object"/>
                         <Column editable="true" title="Local Variable Array" type="java.lang.Object"/>
-                        <Column editable="true" title="Frame Data" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -234,7 +195,7 @@
                 <Component class="javax.swing.JTree" name="helpFrameTree">
                   <Properties>
                     <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-                      <TreeModel code="Topics: &#xa; Opcodes&#xa;  000. nop&#xa;  001. aconst_null&#xa;  002. icontst_m1&#xa;  003. iconst_0&#xa;  004. iconst_1&#xa;  005. iconst_2&#xa;  006. iconts_3&#xa;  007. iconst_4&#xa;  008. iconst_5&#xa;  009. lconst_0&#xa;  010. lconst_1&#xa;  011. fconst_0&#xa;  012. fconst_1&#xa;  013. fconst_2&#xa;  014. dconst_0&#xa;  015. dconst_1&#xa;  016. bipush&#xa;  017. sipush&#xa;  018. ldc&#xa;  019. ldc_w&#xa;  020. ldc2_w&#xa;  021. iload&#xa;  022. lload&#xa;  023. fload&#xa;  024. dload&#xa;  025. aload&#xa;  026. iload_0&#xa;  027. iload_1&#xa;  028. iload_2&#xa;  029. iload_3&#xa;  030. lload_0&#xa;  031. lload_1&#xa;  032. lload_2&#xa;  033. lload_3&#xa;  034. fload_0&#xa;  035. fload_1&#xa;  036. fload_2&#xa;  037. fload_3&#xa;  038. dload_0&#xa;  039. dload_1&#xa;  040. dload_2&#xa;  041. dload_3&#xa;  042. aload_0&#xa;  043. aload_1&#xa;  044. aload_2&#xa;  045. aload_3&#xa;  046. iaload&#xa;  047. laload&#xa;  048. faload&#xa;  049. daload&#xa;  050. aaload&#xa;  051. baload&#xa;  052. caload&#xa;  053. saload&#xa;  054. isotre&#xa;  055. lstore&#xa;  056. fstore&#xa;  057. dstore&#xa;  058.  astore&#xa;  059. istore_0&#xa;  060. istore_1&#xa;  061. istore_2&#xa;  062. istore_3&#xa;  063. lstore_0&#xa;  064. lstore_1&#xa;  065. lstore_2&#xa;  066. lstore_3&#xa;  067. fstore_0&#xa;  068. fstore_1&#xa;  069. fstore_2&#xa;  070. fstore_3&#xa;  071. dstore_0&#xa;  072. dstore_1&#xa;  073. dstore_2&#xa;  074. dstore_3&#xa;  075. astore_0&#xa;  076. astore_1&#xa;  077. astore_2&#xa;  078. astore_3&#xa;  079. iastore&#xa;  080. lastore&#xa;  081. fastore&#xa;  082. dastore&#xa;  083. aastore&#xa;  084. bastore&#xa;  085. castore&#xa;  086. sastore&#xa;  087. pop&#xa;  088. pop2&#xa;  089. dup&#xa;  090. dup_x1&#xa;  091. dup_x2&#xa;  092. dup2&#xa;  093. dup2_x1&#xa;  094. dup2_x2&#xa;  095. swap&#xa;  096. iadd&#xa;  097. ladd&#xa;  098. fadd&#xa;  099. dadd&#xa;  100. isub&#xa;  101. lsub&#xa;  102. fsub&#xa;  103. dsub&#xa;  104. imul&#xa;  105. lmul&#xa;  106. fmul&#xa;  107. dmul&#xa;  108. idiv&#xa;  109. ldiv&#xa;  110. fdiv&#xa;  111. ddiv&#xa;  112. irem&#xa;  113. lrem&#xa;  114. frem&#xa;  115. drem&#xa;  116. ineg&#xa;  117. lneg&#xa;  118. fneg&#xa;  119. dneg&#xa;  120. ishl&#xa;  121. lshl&#xa;  122. ishr&#xa;  123. lshr&#xa;  124. iushr&#xa;  125. lushr&#xa;  126. iand&#xa;  127. land&#xa;  128. ior&#xa;  129. lor&#xa;  130. ixor&#xa;  131. lxor&#xa;  132. iinc&#xa;  133. i2l&#xa;  134. i2f&#xa;  135. i2d&#xa;  136. l2i&#xa;  137. l2f&#xa;  138. l2d&#xa;  139. f2i&#xa;  140. f2l&#xa;  141. f2d&#xa;  142. d2i&#xa;  143. d2l&#xa;  144. d2f&#xa;  145. i2b&#xa;  146. i2c&#xa;  147. i2s&#xa;  148. lcmp&#xa;  149. fcmpl&#xa;  150. fcmpg&#xa;  151. dcmpl&#xa;  152. dcmpg&#xa;  153. ifeq&#xa;  154. ifne&#xa;  155. iflt&#xa;  156. ifge&#xa;  157. ifgt&#xa;  158. ifle&#xa;  159. if_icmpeq&#xa;  160. if_icmpne&#xa;  161. if_icmplt&#xa;  162. if_icmpge&#xa;  163. if_icmpgt&#xa;  164. if_icmple&#xa;  165. if_acmpeq&#xa;  166. if_acmpne&#xa;  167. goto&#xa;  168. jsr&#xa;  169. ret&#xa;  170. tableswitch&#xa;  171. lookupswitch&#xa;  172. ireturn&#xa;  173. lreturn&#xa;  174. freturn&#xa;  175. dreturn&#xa;  176. areturn&#xa;  177. return&#xa;  178. getstatic&#xa;  179. putstatic&#xa;  180. getfield&#xa;  181. putfield&#xa;  182. invokevirtual&#xa;  183. invokespecial&#xa;  184. invokestatic&#xa;  185. invokeinterface&#xa;  186. invokedynamic&#xa;  187. new&#xa;  188. newarray&#xa;  189. anewarray&#xa;  190. arraylength&#xa;  191. athrow&#xa;  192. checkcast&#xa;  193. instanceof&#xa;  194. monitorenter&#xa;  195. monitorexit&#xa;  196. wide&#xa;  197. multianewarray&#xa;  198. ifnull&#xa;  199. ifnonnull&#xa;  200. goto_w&#xa;  201. jsr_w&#xa;  202. breakpoint&#xa;  203-253.  (no name)&#xa;  254. impdep1&#xa;  255. impdep2&#xa; Memory&#xa;  Heap&#xa;  Stack"/>
+                      <TreeModel code="Topics: &#xa; Opcodes&#xa;  000. nop&#xa;  001. aconst_null&#xa;  002. iconst_m1&#xa;  003. iconst_0&#xa;  004. iconst_1&#xa;  005. iconst_2&#xa;  006. iconst_3&#xa;  007. iconst_4&#xa;  008. iconst_5&#xa;  009. lconst_0&#xa;  010. lconst_1&#xa;  011. fconst_0&#xa;  012. fconst_1&#xa;  013. fconst_2&#xa;  014. dconst_0&#xa;  015. dconst_1&#xa;  016. bipush&#xa;  017. sipush&#xa;  018. ldc&#xa;  019. ldc_w&#xa;  020. ldc2_w&#xa;  021. iload&#xa;  022. lload&#xa;  023. fload&#xa;  024. dload&#xa;  025. aload&#xa;  026. iload_0&#xa;  027. iload_1&#xa;  028. iload_2&#xa;  029. iload_3&#xa;  030. lload_0&#xa;  031. lload_1&#xa;  032. lload_2&#xa;  033. lload_3&#xa;  034. fload_0&#xa;  035. fload_1&#xa;  036. fload_2&#xa;  037. fload_3&#xa;  038. dload_0&#xa;  039. dload_1&#xa;  040. dload_2&#xa;  041. dload_3&#xa;  042. aload_0&#xa;  043. aload_1&#xa;  044. aload_2&#xa;  045. aload_3&#xa;  046. iaload&#xa;  047. laload&#xa;  048. faload&#xa;  049. daload&#xa;  050. aaload&#xa;  051. baload&#xa;  052. caload&#xa;  053. saload&#xa;  054. isotre&#xa;  055. lstore&#xa;  056. fstore&#xa;  057. dstore&#xa;  058.  astore&#xa;  059. istore_0&#xa;  060. istore_1&#xa;  061. istore_2&#xa;  062. istore_3&#xa;  063. lstore_0&#xa;  064. lstore_1&#xa;  065. lstore_2&#xa;  066. lstore_3&#xa;  067. fstore_0&#xa;  068. fstore_1&#xa;  069. fstore_2&#xa;  070. fstore_3&#xa;  071. dstore_0&#xa;  072. dstore_1&#xa;  073. dstore_2&#xa;  074. dstore_3&#xa;  075. astore_0&#xa;  076. astore_1&#xa;  077. astore_2&#xa;  078. astore_3&#xa;  079. iastore&#xa;  080. lastore&#xa;  081. fastore&#xa;  082. dastore&#xa;  083. aastore&#xa;  084. bastore&#xa;  085. castore&#xa;  086. sastore&#xa;  087. pop&#xa;  088. pop2&#xa;  089. dup&#xa;  090. dup_x1&#xa;  091. dup_x2&#xa;  092. dup2&#xa;  093. dup2_x1&#xa;  094. dup2_x2&#xa;  095. swap&#xa;  096. iadd&#xa;  097. ladd&#xa;  098. fadd&#xa;  099. dadd&#xa;  100. isub&#xa;  101. lsub&#xa;  102. fsub&#xa;  103. dsub&#xa;  104. imul&#xa;  105. lmul&#xa;  106. fmul&#xa;  107. dmul&#xa;  108. idiv&#xa;  109. ldiv&#xa;  110. fdiv&#xa;  111. ddiv&#xa;  112. irem&#xa;  113. lrem&#xa;  114. frem&#xa;  115. drem&#xa;  116. ineg&#xa;  117. lneg&#xa;  118. fneg&#xa;  119. dneg&#xa;  120. ishl&#xa;  121. lshl&#xa;  122. ishr&#xa;  123. lshr&#xa;  124. iushr&#xa;  125. lushr&#xa;  126. iand&#xa;  127. land&#xa;  128. ior&#xa;  129. lor&#xa;  130. ixor&#xa;  131. lxor&#xa;  132. iinc&#xa;  133. i2l&#xa;  134. i2f&#xa;  135. i2d&#xa;  136. l2i&#xa;  137. l2f&#xa;  138. l2d&#xa;  139. f2i&#xa;  140. f2l&#xa;  141. f2d&#xa;  142. d2i&#xa;  143. d2l&#xa;  144. d2f&#xa;  145. i2b&#xa;  146. i2c&#xa;  147. i2s&#xa;  148. lcmp&#xa;  149. fcmpl&#xa;  150. fcmpg&#xa;  151. dcmpl&#xa;  152. dcmpg&#xa;  153. ifeq&#xa;  154. ifne&#xa;  155. iflt&#xa;  156. ifge&#xa;  157. ifgt&#xa;  158. ifle&#xa;  159. if_icmpeq&#xa;  160. if_icmpne&#xa;  161. if_icmplt&#xa;  162. if_icmpge&#xa;  163. if_icmpgt&#xa;  164. if_icmple&#xa;  165. if_acmpeq&#xa;  166. if_acmpne&#xa;  167. goto&#xa;  168. jsr&#xa;  169. ret&#xa;  170. tableswitch&#xa;  171. lookupswitch&#xa;  172. ireturn&#xa;  173. lreturn&#xa;  174. freturn&#xa;  175. dreturn&#xa;  176. areturn&#xa;  177. return&#xa;  178. getstatic&#xa;  179. putstatic&#xa;  180. getfield&#xa;  181. putfield&#xa;  182. invokevirtual&#xa;  183. invokespecial&#xa;  184. invokestatic&#xa;  185. invokeinterface&#xa;  186. invokedynamic&#xa;  187. new&#xa;  188. newarray&#xa;  189. anewarray&#xa;  190. arraylength&#xa;  191. athrow&#xa;  192. checkcast&#xa;  193. instanceof&#xa;  194. monitorenter&#xa;  195. monitorexit&#xa;  196. wide&#xa;  197. multianewarray&#xa;  198. ifnull&#xa;  199. ifnonnull&#xa;  200. goto_w&#xa;  201. jsr_w&#xa;  202. breakpoint&#xa;  203-253.  (no name)&#xa;  254. impdep1&#xa;  255. impdep2"/>
                     </Property>
                   </Properties>
                   <Events>
@@ -244,144 +205,6 @@
               </SubComponents>
             </Container>
             <Component class="javax.swing.JSeparator" name="jSeparator3">
-              <Properties>
-                <Property name="orientation" type="int" value="1"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JFrame" name="settingsFrame">
-      <Properties>
-        <Property name="title" type="java.lang.String" value="Options"/>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="settingsPanel" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="settingsPanel" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Container class="javax.swing.JPanel" name="settingsPanel">
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton3" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
-                          <Component id="jScrollPane14" alignment="0" min="-2" pref="126" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                      <Component id="jSeparator2" min="-2" pref="18" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jScrollPane13" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="tutorialFrameTitle1" min="-2" pref="209" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                              <Component id="tutorialFrameTitle1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jScrollPane13" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane14" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JTextField" name="tutorialFrameTitle1">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="24" style="1"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="AddIntegers.java"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tutorialFrameTitle1ActionPerformed"/>
-              </Events>
-            </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane13">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="tutorialFrameTextArea1">
-                  <Properties>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="rows" type="int" value="5"/>
-                    <Property name="text" type="java.lang.String" value="class Main {&#xa;&#xa;  public static void main(String[] args) {&#xa;    &#xa;    int first = 10;&#xa;    int second = 20;&#xa;&#xa;    // add two numbers&#xa;    int sum = first + second;&#xa;    System.out.println(first + &quot; + &quot; + second + &quot; = &quot;  + sum);&#xa;  }&#xa;}&#xa;&#xa;Enter two numbers&#xa;10 20&#xa;The sum is: 30&#xa;&#xa;In this program, two integers 10 and 20 are stored in integer variables first and second respectively.&#xa;&#xa;Then, first and second are added using the + operator, and its result is stored in another variable sum.&#xa;&#xa;Finally, sum is printed on the screen using println() function."/>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane14">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTree" name="tutorialTree1">
-                  <Properties>
-                    <Property name="model" type="javax.swing.tree.TreeModel" editor="org.netbeans.modules.form.editors2.TreeModelEditor">
-                      <TreeModel code="Tutorials&#xa; AddIntegers&#xa; BinToDecimal&#xa; CheckPrime&#xa; Fibonacci&#xa; ReverseNumber"/>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Component class="javax.swing.JButton" name="jButton3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Confirm"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JSeparator" name="jSeparator2">
               <Properties>
                 <Property name="orientation" type="int" value="1"/>
               </Properties>
@@ -464,7 +287,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="24" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="AddIntegers.java"/>
+                <Property name="text" type="java.lang.String" value="AddIntegers"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tutorialFrameTitleActionPerformed"/>
@@ -549,7 +372,7 @@
           <Component id="RunPanel" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <Component id="LeftPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="CentrePanel" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -613,12 +436,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="fileBtn">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="f2" green="f2" red="f2" type="rgb"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="File"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection component="tutorialBtn" name="border" type="property"/>
             </Property>
           </Properties>
           <Events>
@@ -930,28 +750,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane6">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="Call Stack">
-                    <Property name="tabTitle" type="java.lang.String" value="Call Stack"/>
-                  </JTabbedPaneConstraints>
-                </Constraint>
-              </Constraints>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="jTextArea1">
-                  <Properties>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="rows" type="int" value="5"/>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
             <Container class="javax.swing.JScrollPane" name="jScrollPane8">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -967,28 +765,6 @@
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
                 <Component class="javax.swing.JTextArea" name="jTextArea2">
-                  <Properties>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="rows" type="int" value="5"/>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane9">
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                  <JTabbedPaneConstraints tabName="StackMapTable">
-                    <Property name="tabTitle" type="java.lang.String" value="StackMapTable"/>
-                  </JTabbedPaneConstraints>
-                </Constraint>
-              </Constraints>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="stackMapTableTextArea">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>

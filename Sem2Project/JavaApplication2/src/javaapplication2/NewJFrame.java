@@ -299,13 +299,9 @@ public class NewJFrame extends javax.swing.JFrame {
             if(text.charAt(i)=='{'){
                 constPoolTextArea.setText(text.substring(0,i));
                 constantPoolString = text.substring(0,i);
-                setStackMapTableTextArea(text.substring(i));
                 break;
             }
         }
-    }
-    public void setStackMapTableTextArea(String text){
-        stackMapTableTextArea.setText(text);
     }
     // Gets all the methods present in the file and places them in a string
     public void getMethodNamesString(){
@@ -379,8 +375,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
         stackFrame = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         stackTable = new javax.swing.JTable();
         helpFrame = new javax.swing.JFrame();
@@ -391,15 +385,6 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane16 = new javax.swing.JScrollPane();
         helpFrameTree = new javax.swing.JTree();
         jSeparator3 = new javax.swing.JSeparator();
-        settingsFrame = new javax.swing.JFrame();
-        settingsPanel = new javax.swing.JPanel();
-        tutorialFrameTitle1 = new javax.swing.JTextField();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        tutorialFrameTextArea1 = new javax.swing.JTextArea();
-        jScrollPane14 = new javax.swing.JScrollPane();
-        tutorialTree1 = new javax.swing.JTree();
-        jButton3 = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
         tutorialFrame = new javax.swing.JFrame();
         tutorialPanel = new javax.swing.JPanel();
         tutorialFrameTitle = new javax.swing.JTextField();
@@ -432,12 +417,8 @@ public class NewJFrame extends javax.swing.JFrame {
         terminalTextArea = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         constPoolTextArea = new javax.swing.JTextArea();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        stackMapTableTextArea = new javax.swing.JTextArea();
         mainPane = new javax.swing.JTabbedPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         textJavaTable = new javax.swing.JTable();
@@ -446,27 +427,23 @@ public class NewJFrame extends javax.swing.JFrame {
 
         stackFrame.setTitle("Stack");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Main", "Method B" }));
-
-        jLabel2.setText("Choose Stack Frame:");
-
         stackTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Operand Stack", "Local Variable Array", "Frame Data"
+                "Operand Stack", "Local Variable Array"
             }
         ));
         jScrollPane5.setViewportView(stackTable);
@@ -477,25 +454,14 @@ public class NewJFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(13, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -533,7 +499,7 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("001. aconst_null");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("002. icontst_m1");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("002. iconst_m1");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("003. iconst_0");
         treeNode2.add(treeNode3);
@@ -541,7 +507,7 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("005. iconst_2");
         treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("006. iconts_3");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("006. iconst_3");
         treeNode2.add(treeNode3);
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("007. iconst_4");
         treeNode2.add(treeNode3);
@@ -942,12 +908,6 @@ public class NewJFrame extends javax.swing.JFrame {
         treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("255. impdep2");
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Memory");
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Heap");
-        treeNode2.add(treeNode3);
-        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("Stack");
-        treeNode2.add(treeNode3);
-        treeNode1.add(treeNode2);
         helpFrameTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         helpFrameTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
@@ -1009,102 +969,8 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        settingsFrame.setTitle("Options");
-
-        tutorialFrameTitle1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        tutorialFrameTitle1.setText("AddIntegers.java");
-        tutorialFrameTitle1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tutorialFrameTitle1ActionPerformed(evt);
-            }
-        });
-
-        tutorialFrameTextArea1.setColumns(20);
-        tutorialFrameTextArea1.setRows(5);
-        tutorialFrameTextArea1.setText("class Main {\n\n  public static void main(String[] args) {\n    \n    int first = 10;\n    int second = 20;\n\n    // add two numbers\n    int sum = first + second;\n    System.out.println(first + \" + \" + second + \" = \"  + sum);\n  }\n}\n\nEnter two numbers\n10 20\nThe sum is: 30\n\nIn this program, two integers 10 and 20 are stored in integer variables first and second respectively.\n\nThen, first and second are added using the + operator, and its result is stored in another variable sum.\n\nFinally, sum is printed on the screen using println() function.");
-        jScrollPane13.setViewportView(tutorialFrameTextArea1);
-
-        treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Tutorials");
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("AddIntegers");
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("BinToDecimal");
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("CheckPrime");
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Fibonacci");
-        treeNode1.add(treeNode2);
-        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("ReverseNumber");
-        treeNode1.add(treeNode2);
-        tutorialTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane14.setViewportView(tutorialTree1);
-
-        jButton3.setText("Confirm");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
-        settingsPanel.setLayout(settingsPanelLayout);
-        settingsPanelLayout.setHorizontalGroup(
-            settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(settingsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane13)
-                        .addGap(6, 6, 6))
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(tutorialFrameTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        settingsPanelLayout.setVerticalGroup(
-            settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(settingsPanelLayout.createSequentialGroup()
-                .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(tutorialFrameTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane13))
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
-                .addContainerGap())
-            .addComponent(jSeparator2)
-        );
-
-        javax.swing.GroupLayout settingsFrameLayout = new javax.swing.GroupLayout(settingsFrame.getContentPane());
-        settingsFrame.getContentPane().setLayout(settingsFrameLayout);
-        settingsFrameLayout.setHorizontalGroup(
-            settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(settingsFrameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        settingsFrameLayout.setVerticalGroup(
-            settingsFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(settingsFrameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(settingsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         tutorialFrameTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        tutorialFrameTitle.setText("AddIntegers.java");
+        tutorialFrameTitle.setText("AddIntegers");
         tutorialFrameTitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tutorialFrameTitleActionPerformed(evt);
@@ -1199,9 +1065,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
         FilePanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        fileBtn.setBackground(new java.awt.Color(242, 242, 242));
         fileBtn.setText("File");
-        fileBtn.setBorder(null);
+        fileBtn.setBorder(tutorialBtn.getBorder());
         fileBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FileButtonActionPerformed(evt);
@@ -1398,23 +1263,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         terminalPane.addTab("Constants Pool", jScrollPane1);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane6.setViewportView(jTextArea1);
-
-        terminalPane.addTab("Call Stack", jScrollPane6);
-
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane8.setViewportView(jTextArea2);
 
         terminalPane.addTab("File Info", jScrollPane8);
-
-        stackMapTableTextArea.setColumns(20);
-        stackMapTableTextArea.setRows(5);
-        jScrollPane9.setViewportView(stackMapTableTextArea);
-
-        terminalPane.addTab("StackMapTable", jScrollPane9);
 
         mainPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1473,7 +1326,7 @@ public class NewJFrame extends javax.swing.JFrame {
             .addComponent(RunPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(LeftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(CentrePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -1700,14 +1553,6 @@ public class NewJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tutorialFrameTitleActionPerformed
 
-    private void tutorialFrameTitle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tutorialFrameTitle1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tutorialFrameTitle1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void helpFrameTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpFrameTitleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_helpFrameTitleActionPerformed
@@ -1721,18 +1566,23 @@ public class NewJFrame extends javax.swing.JFrame {
         Object node = path.getLastPathComponent();
         String nodeString = node.toString();
         if(nodeString.compareTo("AddIntegers")==0){
+            tutorialFrameTitle.setText(nodeString);
             tutorialFrameTextArea.setText(TutorialFilesConstants.AddIntegersText);
         }
         else if(nodeString.compareTo("BinToDecimal")==0){
+            tutorialFrameTitle.setText(nodeString);
             tutorialFrameTextArea.setText(TutorialFilesConstants.BinToDecText);
         }
         else if(nodeString.compareTo("CheckPrime")==0){
+            tutorialFrameTitle.setText(nodeString);
             tutorialFrameTextArea.setText(TutorialFilesConstants.CheckPrimeText);
         }
         else if(nodeString.compareTo("Fibonacci")==0){
+            tutorialFrameTitle.setText(nodeString);
             tutorialFrameTextArea.setText(TutorialFilesConstants.FibonacciText);
         }
         else if(nodeString.compareTo("ReverseNumber")==0){
+            tutorialFrameTitle.setText(nodeString);
             tutorialFrameTextArea.setText(TutorialFilesConstants.ReverseNumberText);
         }
     }//GEN-LAST:event_tutorialTreeValueChanged
@@ -1742,7 +1592,6 @@ public class NewJFrame extends javax.swing.JFrame {
         String value = path.getLastPathComponent().toString();
         int index = value.indexOf(".");
         value = value.substring(index+2);
-        System.out.println(value);
         if(value.compareTo("nop") == 0){
             helpFrameTitle.setText("nop");
             helpFrameTextArea.setText(HelpFilesConstants.nop);
@@ -2457,29 +2306,20 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField helpFrameTitle;
     private javax.swing.JTree helpFrameTree;
     private javax.swing.JPanel helpPanel;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
-    private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane16;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTabbedPane mainPane;
     private javax.swing.JTree methodTree;
@@ -2487,10 +2327,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JButton resetBtn;
     private javax.swing.JButton runToBPButton;
     private javax.swing.JButton selectBPButton;
-    private javax.swing.JFrame settingsFrame;
-    private javax.swing.JPanel settingsPanel;
     private javax.swing.JFrame stackFrame;
-    private javax.swing.JTextArea stackMapTableTextArea;
     private javax.swing.JTable stackTable;
     private javax.swing.JTabbedPane terminalPane;
     private javax.swing.JTextArea terminalTextArea;
@@ -2499,11 +2336,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JFrame tutorialFrame;
     private javax.swing.JButton tutorialFrameConfirmBtn;
     private javax.swing.JTextArea tutorialFrameTextArea;
-    private javax.swing.JTextArea tutorialFrameTextArea1;
     private javax.swing.JTextField tutorialFrameTitle;
-    private javax.swing.JTextField tutorialFrameTitle1;
     private javax.swing.JPanel tutorialPanel;
     private javax.swing.JTree tutorialTree;
-    private javax.swing.JTree tutorialTree1;
     // End of variables declaration//GEN-END:variables
 }
