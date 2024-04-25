@@ -66,6 +66,7 @@ public class StackFrame {
         for(int i=0;i<100;i++){
             LVA.add(null);
         }
+        LVA.set(0, "this");
     }
     public ArrayList getLVA(){
         return LVA;

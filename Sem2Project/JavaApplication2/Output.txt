@@ -1,14 +1,14 @@
-Classfile /C:/Users/C00273530/Desktop/Sem2Project/Sem2Project/JavaApplication2/Vibes.class
-  Last modified 24 Apr 2024; size 309 bytes
-  SHA-256 checksum 29689063c1246e2ac33dfd67fa6c41be00f1253983dd4ce497729720ed6672ec
-  Compiled from "Vibes.java"
-public class Vibes
+Classfile /C:/Users/C00273530/Desktop/Sem2Project/Sem2Project/JavaApplication2/BinToDec.class
+  Last modified 24 Apr 2024; size 531 bytes
+  SHA-256 checksum ab5a2131f6628ba130f416c6681906609e130b9c557a7bd569f202046dd814d4
+  Compiled from "BinToDec.java"
+class BinToDec
   minor version: 0
   major version: 65
-  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
-  this_class: #7                          // Vibes
+  flags: (0x0020) ACC_SUPER
+  this_class: #10                         // BinToDec
   super_class: #2                         // java/lang/Object
-  interfaces: 0, fields: 0, methods: 2, attributes: 1
+  interfaces: 0, fields: 0, methods: 3, attributes: 1
 Constant pool:
    #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
    #2 = Class              #4             // java/lang/Object
@@ -16,19 +16,32 @@ Constant pool:
    #4 = Utf8               java/lang/Object
    #5 = Utf8               <init>
    #6 = Utf8               ()V
-   #7 = Class              #8             // Vibes
-   #8 = Utf8               Vibes
-   #9 = Utf8               Code
-  #10 = Utf8               LineNumberTable
-  #11 = Utf8               main
-  #12 = Utf8               ([Ljava/lang/String;)V
-  #13 = Utf8               StackMapTable
-  #14 = Utf8               SourceFile
-  #15 = Utf8               Vibes.java
+   #7 = Long               110110111l
+   #9 = Methodref          #10.#11        // BinToDec.convertBinaryToDecimal:(J)I
+  #10 = Class              #12            // BinToDec
+  #11 = NameAndType        #13:#14        // convertBinaryToDecimal:(J)I
+  #12 = Utf8               BinToDec
+  #13 = Utf8               convertBinaryToDecimal
+  #14 = Utf8               (J)I
+  #15 = Long               10l
+  #17 = Double             2.0d
+  #19 = Methodref          #20.#21        // java/lang/Math.pow:(DD)D
+  #20 = Class              #22            // java/lang/Math
+  #21 = NameAndType        #23:#24        // pow:(DD)D
+  #22 = Utf8               java/lang/Math
+  #23 = Utf8               pow
+  #24 = Utf8               (DD)D
+  #25 = Utf8               Code
+  #26 = Utf8               LineNumberTable
+  #27 = Utf8               main
+  #28 = Utf8               ([Ljava/lang/String;)V
+  #29 = Utf8               StackMapTable
+  #30 = Utf8               SourceFile
+  #31 = Utf8               BinToDec.java
 {
-  public Vibes();
+  BinToDec();
     descriptor: ()V
-    flags: (0x0001) ACC_PUBLIC
+    flags: (0x0000)
     Code:
       stack=1, locals=1, args_size=1
          0: aload_0
@@ -41,24 +54,67 @@ Constant pool:
     descriptor: ([Ljava/lang/String;)V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=2, locals=2, args_size=1
-         0: iconst_0
-         1: istore_1
-         2: iload_1
-         3: iconst_5
-         4: if_icmpge     13
-         7: iinc          1, 1
-        10: goto          2
-        13: return
+      stack=2, locals=4, args_size=1
+         0: ldc2_w        #7                  // long 110110111l
+         3: lstore_1
+         4: lload_1
+         5: invokestatic  #9                  // Method convertBinaryToDecimal:(J)I
+         8: istore_3
+         9: return
       LineNumberTable:
-        line 3: 0
-        line 4: 2
-        line 5: 7
-        line 7: 13
+        line 6: 0
+        line 9: 4
+        line 10: 9
+
+  public static int convertBinaryToDecimal(long);
+    descriptor: (J)I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=8, locals=6, args_size=1
+         0: iconst_0
+         1: istore_2
+         2: iconst_0
+         3: istore_3
+         4: lload_0
+         5: lconst_0
+         6: lcmp
+         7: ifeq          46
+        10: lload_0
+        11: ldc2_w        #15                 // long 10l
+        14: lrem
+        15: lstore        4
+        17: lload_0
+        18: ldc2_w        #15                 // long 10l
+        21: ldiv
+        22: lstore_0
+        23: iload_2
+        24: i2d
+        25: lload         4
+        27: l2d
+        28: ldc2_w        #17                 // double 2.0d
+        31: iload_3
+        32: i2d
+        33: invokestatic  #19                 // Method java/lang/Math.pow:(DD)D
+        36: dmul
+        37: dadd
+        38: d2i
+        39: istore_2
+        40: iinc          3, 1
+        43: goto          4
+        46: iload_2
+        47: ireturn
+      LineNumberTable:
+        line 13: 0
+        line 16: 4
+        line 17: 10
+        line 18: 17
+        line 19: 23
+        line 20: 40
+        line 23: 46
       StackMapTable: number_of_entries = 2
-        frame_type = 252 /* append */
-          offset_delta = 2
-          locals = [ int ]
-        frame_type = 10 /* same */
+        frame_type = 253 /* append */
+          offset_delta = 4
+          locals = [ int, int ]
+        frame_type = 41 /* same */
 }
-SourceFile: "Vibes.java"
+SourceFile: "BinToDec.java"

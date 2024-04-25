@@ -7,9 +7,6 @@ class BinToDec {
   
       // call method by passing the binary number
       int decimal = convertBinaryToDecimal(num);
-  
-      System.out.println("Binary to Decimal");
-      System.out.println(num + " = " + decimal);
     }
   
     public static int convertBinaryToDecimal(long num) {

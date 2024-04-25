@@ -7,6 +7,5 @@ class AddIntegers {
   
       // add two numbers
       int sum = first + second;
-      System.out.println(first + " + " + second + " = "  + sum);
     }
   }
