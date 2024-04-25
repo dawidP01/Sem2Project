@@ -70,26 +70,20 @@ public class CheckPrime{
 class Fibonacci {
     public static void main(String[] args) {
   
-      int n = 10, firstTerm = 0, secondTerm = 1;
-  
-      for (int i = 1; i <= n; ++i) {
-  
-        // compute the next term
-        int nextTerm = firstTerm + secondTerm;
-        firstTerm = secondTerm;
-        secondTerm = nextTerm;
+      int[] arr = {1,1,2,3,5,8,13,21};
+      int result = 0;
+      for(int i=0;i<arr.length;i++){
+        result += arr[i];
       }
     }
-}
+  }
                            """;
     String ReverseNumberText = """
 class ReverseNumber {
     public static void main(String[] args) {
   
       int num = 1234, reversed = 0;
-      
-      System.out.println("Original Number: " + num);
-  
+
       // run loop until num becomes 0
       while(num != 0) {
       

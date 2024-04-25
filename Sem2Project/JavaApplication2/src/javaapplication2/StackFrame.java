@@ -41,6 +41,7 @@ public class StackFrame {
         setFinished();
         setKeysOfInstructions();
         setConstantPool(constantPoolString);
+        setListOfArrays();
     }
     public void setMethodName(String methodName){
         this.methodName = methodName;
@@ -151,6 +152,7 @@ public class StackFrame {
         // Extracts the parameters from the command string
         for(int i=0;i<instruction.length();i++){
             if(instruction.charAt(i) == ' '){
+                
                 parameter = instruction.substring(i).strip();
                 break;
             }
@@ -161,10 +163,13 @@ public class StackFrame {
             if(currentChar>='0' && currentChar<='9'){
                 arg += currentChar;
             }
-            if(currentChar==','){
+            else if(currentChar==','){
                 parameters[paramCount] = arg;
                 arg = "";
                 paramCount++;
+            }
+            else {
+                arg += currentChar;
             }
         }
         // Adds the last parameter
@@ -224,14 +229,28 @@ public class StackFrame {
     public List getListOfArrays(){
         return listOfArrays;
     }
+    public int accessCurrentInstruction(int line){
+        int key = 0;
+        for(int i = 0;i<keysOfInstructions.size();i++){
+            if(keysOfInstructions.get(i) == line){
+                key = i;
+            }
+        }
+        return key;
+    }
     // For demo start has to be 8 minimum, and end has to be 16 max
     public void runInstructions(){
+       // System.out.println("hello");
+        for(int i =0;i<keysOfInstructions.size();i++){
+          // System.out.println(keysOfInstructions.get(i) + " " + instructionsMap.get(keysOfInstructions.get(i)));
+        }
+        //System.out.println(classString);
         if(!finished){
-           
             // Sets the current line
             int currentLine = keysOfInstructions.get(currentLineIndex);
             // Sets the current instruction
             currentInstruction = instructionsMap.get(currentLine);
+           // System.out.println(currentLine + " " + currentInstruction + " " + currentLineIndex);
             if(currentLineIndex <= keysOfInstructions.size()){
                 Object[] parameters = new Object[10];
                 if(currentInstruction != null){
@@ -714,60 +733,46 @@ public class StackFrame {
                         dcmpg();
                     }
                     else if(currentInstruction.compareTo("ifeq")==0){
-                        ifeq((int) parameters[0]);
+                        ifeq(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("ifne")==0){
-                        ifne((int) parameters[0]);
+                        ifne(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("iflt")==0){
-                        iflt((int) parameters[0]);
+                        iflt(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("ifge")==0){
-                        ifge((int) parameters[0]);
+                        ifge(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("ifgt")==0){
-                        ifgt((int) parameters[0]);
+                        ifgt(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("ifle")==0){
-                        ifle((int) parameters[0]);
+                        ifle(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("if_icmpeq")==0){
-                        if_icmpeq((int) parameters[0]);
+                        if_icmpeq(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("if_icmpne")==0){
-                        if_icmpne((int) parameters[0]);
+                        if_icmpne(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("if_icmplt")==0){
-                        if_icmplt((int) parameters[0]);
+                        if_icmplt(Integer.parseInt((String) parameters[0]));
                     }
-                    // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     else if(currentInstruction.compareTo("if_icmpge")==0){
-                        int value1 = (int)stack.pop();
-                        int value2 = (int)stack.pop();
-                        if(value2>=value1){
-                            int index=0;
-                            currentLine = Integer.parseInt((String)parameters[0]);
-                            for(int i = 0; i<keysOfInstructions.size();i++){
-                                if(keysOfInstructions.get(i) == currentLine){
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            currentLineIndex = index-1;
-                        }
-
+                        if_icmpge(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("if_icmpgt")==0){
-                        if_icmpgt((int) parameters[0]);
+                        if_icmpgt(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("if_icmple")==0){
-                        if_icmple((int) parameters[0]);
+                        if_icmple(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("if_acmpeq")==0){
-                        if_acmpeq((int) parameters[0]);
+                        if_acmpeq(Integer.parseInt((String) parameters[0]));
                     }
                     else if(currentInstruction.compareTo("if_acmpne")==0){
-                        if_acmpne((int) parameters[0]);
+                        if_acmpne(Integer.parseInt((String) parameters[0]));
                     }
                     // Below needs to be changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     else if(currentInstruction.compareTo("goto")==0){
@@ -1086,25 +1091,25 @@ public class StackFrame {
     // 2e
     public void iaload(){
         int index = (int) stack.pop();
-        int[] arr = (int[]) stack.pop();
+        Integer[] arr = (Integer[]) stack.pop();
         stack.push(arr[index]);
     }
     // 2f
     public void laload(){
         int index = (int) stack.pop();
-        long[] arr = (long[]) stack.pop();
+        Long[] arr = (Long[]) stack.pop();
         stack.push(arr[index]);
     }
     // 30
     public void faload(){
         int index = (int) stack.pop();
-        float[] arr = (float[]) stack.pop();
+        Float[] arr = (Float[]) stack.pop();
         stack.push(arr[index]);
     }
     // 31
     public void daload(){
         int index = (int) stack.pop();
-        double[] arr = (double[]) stack.pop();
+        Double[] arr = (Double[]) stack.pop();
         stack.push(arr[index]);
     }
     // 32 
@@ -1116,19 +1121,19 @@ public class StackFrame {
     // 33
     public void baload(){
         int index = (int) stack.pop();
-        byte[] arr = (byte[]) stack.pop();
+        Byte[] arr = (Byte[]) stack.pop();
         stack.push(arr[index]);
     }
     // 34
     public void caload(){
         int index = (int) stack.pop();
-        char[] arr = (char[]) stack.pop();
+        Character[] arr = (Character[]) stack.pop();
         stack.push(arr[index]);
     }
     // 35
     public void saload(){
         int index = (int) stack.pop();
-        short[] arr = (short[]) stack.pop();
+        Short[] arr = (Short[]) stack.pop();
         stack.push(arr[index]);
     }
     // 36
@@ -1256,60 +1261,60 @@ public class StackFrame {
         Object entry = stack.pop();
         LVA.add(3,entry);
     }
-    // 4f -- NEEDS WORK!!!!!!
-    public void iastore(){
-        Integer[] arrRef = (Integer[]) stack.pop();
-        int index = (int) stack.pop();
+    // 4f
+    public void iastore(){       
         int value = (int) stack.pop();
+        int index = (int) stack.pop();
+        Integer[] arrRef = (Integer[]) stack.pop();
         arrRef[index] = value;
     }
-    // 50 -- NEEDS WORK!!!!!!
+    // 50
     public void lastore(){
+        long value = (long) stack.pop();
         Long[] arrRef = (Long[]) stack.pop();
         int index = (int) stack.pop();
-        long value = (long) stack.pop();
         arrRef[index] = value;
     }
-    // 51 -- NEEDS WORK!!!!!!
-    public void fastore(){
+    // 51
+    public void fastore(){       
+        float value = (float) stack.pop();
         Float[] arrRef = (Float[]) stack.pop();
         int index = (int) stack.pop();
-        float value = (float) stack.pop();
         arrRef[index] = value;
     }
-    // 52 -- NEEDS WORK!!!!!!
+    // 52
     public void dastore(){
+      double value = (double) stack.pop();
         Double[] arrRef = (Double[]) stack.pop();
         int index = (int) stack.pop();
-        double value = (double) stack.pop();
         arrRef[index] = value;
     }
-    // 53 -- NEEDS WORK!!!!!!
+    // 53
     public void aastore(){
+        Object value = (Object) stack.pop();
         Object[] arrRef = (Object[]) stack.pop();
         int index = (int) stack.pop();
-        Object value = (Object) stack.pop();
         arrRef[index] = value;
     }
-    // 54 -- NEEDS WORK!!!!!!
+    // 54
     public void bastore(){
+        byte value = (byte) stack.pop();
         Byte[] arrRef = (Byte[]) stack.pop();
         int index = (int) stack.pop();
-        byte value = (byte) stack.pop();
         arrRef[index] = value;
     }
-    // 55 -- NEEDS WORK!!!!!!
+    // 55
     public void castore(){
+        char value = (char) stack.pop();
         char[] arrRef = (char[]) stack.pop();
         int index = (int) stack.pop();
-        char value = (char) stack.pop();
         arrRef[index] = value;
     }
-    // 56 -- NEEDS WORK!!!!!!
+    // 56
     public void sastore(){
+        short value = (short) stack.pop();
         Short[] arrRef = (Short[]) stack.pop();
         int index = (int) stack.pop();
-        short value = (short) stack.pop();
         arrRef[index] = value;
     }
     // 57
@@ -1781,42 +1786,42 @@ public class StackFrame {
     public void ifeq(int line){
         int value1 = (int) stack.pop();
         if(value1 == 0){
-            currentLineIndex = line-1;
+            this.currentLineIndex = accessCurrentInstruction(line)-1;
         }
     }
     //9a
     public void ifne(int line){
         int value1 = (int) stack.pop();
         if(value1 != 0){
-            currentLineIndex = line-1;
+            this.currentLineIndex = accessCurrentInstruction(line)-1;
         }    
     }
     //9b 
     public void iflt(int line){
        int value1 = (int) stack.pop();
         if(value1 < 0){
-            currentLineIndex = line-1;
+            this.currentLineIndex = accessCurrentInstruction(line)-1;
         }  
     }
     // 9c
     public void ifge(int line){
         int value1 = (int) stack.pop();
         if(value1 >= 0){
-            currentLineIndex = line-1;
+            this.currentLineIndex = accessCurrentInstruction(line)-1;
         }  
     }
     // 9d
     public void ifgt(int line){
         int value1 = (int) stack.pop();
         if(value1 > 0){
-            currentLineIndex = line-1;
+            this.currentLineIndex = accessCurrentInstruction(line)-1;
         }  
     }
     // 9e
     public void ifle(int line){
         int value1 = (int) stack.pop();
         if(value1 <= 0){
-            currentLineIndex = line-1;
+            this.currentLineIndex = accessCurrentInstruction(line)-1;
         }  
     }
     // 9f 
@@ -1824,7 +1829,7 @@ public class StackFrame {
         int value1 = (int) stack.pop();
         int value2 = (int) stack.pop();
         if(value1 == value2){
-            currentLineIndex = line-1;
+            this.currentLineIndex = accessCurrentInstruction(line)-1;
         }  
     }
     // a0
@@ -1832,7 +1837,7 @@ public class StackFrame {
         int value1 = (int) stack.pop();
         int value2 = (int) stack.pop();
         if(value1 != value2){
-            currentLineIndex = line-1;
+            this.currentLineIndex =  accessCurrentInstruction(line)-1;
         }  
     }
     // a1
@@ -1840,7 +1845,7 @@ public class StackFrame {
         int value2 = (int) stack.pop();
         int value1 = (int) stack.pop();
         if(value1 < value2){
-            currentLineIndex = line-1;
+            this.currentLineIndex =  accessCurrentInstruction(line)-1;
         }  
     }
     // a2
@@ -1848,7 +1853,7 @@ public class StackFrame {
         int value2 = (int)stack.pop();
         int value1 = (int)stack.pop();
         if(value1>=value2){
-            currentLineIndex = line-1;
+            this.currentLineIndex = accessCurrentInstruction(line)-1;
         }
     }
     // a3
@@ -1856,7 +1861,7 @@ public class StackFrame {
         int value2 = (int)stack.pop();
         int value1 = (int)stack.pop();
         if(value1>=value2){
-            currentLineIndex = line-1;
+            this.currentLineIndex =  accessCurrentInstruction(line)-1;
         }
     }
     // a4 
@@ -1864,7 +1869,7 @@ public class StackFrame {
         int value2 = (int)stack.pop();
         int value1 = (int)stack.pop();
         if(value1<=value2){
-            currentLineIndex = line-1;
+            this.currentLineIndex =  accessCurrentInstruction(line)-1;
         }
     }
     // a5
@@ -1872,7 +1877,7 @@ public class StackFrame {
         Object value2 = stack.pop();
         Object value1 = stack.pop();
         if(value1==value2){
-            currentLineIndex = line-1;
+            this.currentLineIndex =  accessCurrentInstruction(line)-1;
         }
     }
     // a6 
@@ -1880,12 +1885,12 @@ public class StackFrame {
         Object value2 = stack.pop();
         Object value1 = stack.pop();
         if(value1!=value2){
-            currentLineIndex = line-1;
+            this.currentLineIndex =  accessCurrentInstruction(line)-1;
         }
     }
     // a7
     public void goto1(int newLine){
-        this.currentLineIndex =  newLine-1;
+        this.currentLineIndex =  accessCurrentInstruction(newLine)-1;
     }
     // a8
     public void jsr(){
@@ -1974,6 +1979,35 @@ public class StackFrame {
         if(dataType.compareTo("int")==0){
             Integer[] arr = new Integer[size];
             listOfArrays.add(arr);
+            stack.push(arr);
+        } else if(dataType.compareTo("double")==0){
+            Double[] arr = new Double[size];
+            listOfArrays.add(arr);
+            stack.push(arr);
+        } else if(dataType.compareTo("float")==0){
+            Float[] arr = new Float[size];
+            listOfArrays.add(arr);
+            stack.push(arr);
+        } else if(dataType.compareTo("long")==0){
+            Long[] arr = new Long[size];
+            listOfArrays.add(arr);
+            stack.push(arr);
+        } else if(dataType.compareTo("char")==0){
+            Character[] arr = new Character[size];
+            listOfArrays.add(arr);
+            stack.push(arr);
+        } else if(dataType.compareTo("byte")==0){
+            Byte[] arr = new Byte[size];
+            listOfArrays.add(arr);
+            stack.push(arr);
+        } else if(dataType.compareTo("short")==0){
+            Short[] arr = new Short[size];
+            listOfArrays.add(arr);
+            stack.push(arr);
+        } else if(dataType.compareTo("Object")==0){
+            Object[] arr = new Object[size];
+            listOfArrays.add(arr);
+            stack.push(arr);
         }
     }
     // bd
@@ -1982,7 +2016,9 @@ public class StackFrame {
     }
     // be
     public void arraylength(){
-        
+        Object[] arr = (Object[]) stack.pop();
+        int length = arr.length;
+        stack.push(length);
     }
     // bf
     public void athrow(){

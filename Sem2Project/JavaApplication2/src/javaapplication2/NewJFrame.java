@@ -92,6 +92,13 @@ public class NewJFrame extends javax.swing.JFrame {
         setOutputText();
         setcurrentStackFrameIndex();
         showTable();
+        setBreakPoint();
+    }
+    public void setBreakPoint(){
+        breakPoint = new int[2];
+    }
+    public int[] getBreakPoint(){
+        return breakPoint;
     }
     public void copyToWorkingDirectory() {
         String destinationDirectory = System.getProperty("user.dir");
@@ -362,6 +369,20 @@ public class NewJFrame extends javax.swing.JFrame {
         if(currentLineIndex < bytecodeTextTable.getRowCount()){
             setTextTableRows(currentStackFrameIndex);
             bytecodeTextTable.addRowSelectionInterval(currentLineIndex, currentLineIndex);   
+        }
+    }
+    public void emptyStackTable(){
+        DefaultTableModel model = (DefaultTableModel) stackTable.getModel();
+        int rowCount = model.getRowCount();
+        int columnCount = model.getColumnCount();
+
+        // Iterate through each cell and set its value to blank
+        for (int row = 0; row < rowCount; row++) {
+            for (int col = 0; col < columnCount; col++) {
+                model.setValueAt("", row, col); // Set value to empty string
+                // Alternatively, you can set it to null:
+                // model.setValueAt(null, row, col);
+            }
         }
     }
     /**
@@ -1398,6 +1419,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         this.f = new File(shortName+".class");
                         this.sourceFilePath = shortName+".class";
                         initClassComponents();
+                        emptyStackTable();
                     } else {
                         errorPopUp("Compilation Failed!");
                     }
@@ -1540,6 +1562,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 this.sourceFilePath = shortName+".class";
                 initClassComponents();
                 errorPopUp("Example selected successfully");
+                emptyStackTable();
             } else {
                 errorPopUp("Compilation Failed!");
             }
@@ -1559,6 +1582,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
         initClassComponents();
+        emptyStackTable();
     }//GEN-LAST:event_resetBtnActionPerformed
 
     private void tutorialTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_tutorialTreeValueChanged
@@ -2211,11 +2235,11 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_helpFrameTreeValueChanged
 
     private void selectBPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectBPButtonActionPerformed
+        breakPointTextArea.setText("");
         int line = bytecodeTextTable.getSelectedRow();
         TreePath methodPath = methodTree.getSelectionPath();
         Object[] path = methodPath.getPath();
         int index = methodTree.getModel().getIndexOfChild(path[path.length - 2], path[path.length - 1]);
-        breakPoint = new int[2];
         breakPoint[0] = line;
         breakPoint[1] = index;
         String text = "Method: " + methodPath.getLastPathComponent() + "\n" + "Line: " + stackFrames.get(index).keysOfInstructions.get(line);
@@ -2235,7 +2259,12 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void runToBPButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runToBPButtonActionPerformed
         if(breakPoint != null){
+            int[] bp = new int[2];
+            bp[0] = breakPoint[0];
+            bp[1] = breakPoint[1];
             initClassComponents();
+            breakPoint[0] = bp[0];
+            breakPoint[1] = bp[1];
             while(stackFrames.get(breakPoint[1]).currentLineIndex != breakPoint[0]){            
                 highlightCurrentLine();
                 if(stackFrames.get(currentStackFrameIndex).getFinished()){

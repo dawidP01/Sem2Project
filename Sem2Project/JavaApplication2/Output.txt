@@ -1,14 +1,14 @@
-Classfile /C:/Users/C00273530/Desktop/Sem2Project/Sem2Project/JavaApplication2/BinToDec.class
-  Last modified 24 Apr 2024; size 531 bytes
-  SHA-256 checksum ab5a2131f6628ba130f416c6681906609e130b9c557a7bd569f202046dd814d4
-  Compiled from "BinToDec.java"
-class BinToDec
+Classfile /C:/Users/C00273530/Desktop/Sem2Project/Sem2Project/JavaApplication2/Fibonacci.class
+  Last modified 25 Apr 2024; size 390 bytes
+  SHA-256 checksum d1d291c30b002d94e29984605fdf2a0fb412e69c8cbfd6256d69cee7579e53ed
+  Compiled from "Fibonacci.java"
+class Fibonacci
   minor version: 0
   major version: 65
   flags: (0x0020) ACC_SUPER
-  this_class: #10                         // BinToDec
+  this_class: #7                          // Fibonacci
   super_class: #2                         // java/lang/Object
-  interfaces: 0, fields: 0, methods: 3, attributes: 1
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
 Constant pool:
    #1 = Methodref          #2.#3          // java/lang/Object."<init>":()V
    #2 = Class              #4             // java/lang/Object
@@ -16,30 +16,19 @@ Constant pool:
    #4 = Utf8               java/lang/Object
    #5 = Utf8               <init>
    #6 = Utf8               ()V
-   #7 = Long               110110111l
-   #9 = Methodref          #10.#11        // BinToDec.convertBinaryToDecimal:(J)I
-  #10 = Class              #12            // BinToDec
-  #11 = NameAndType        #13:#14        // convertBinaryToDecimal:(J)I
-  #12 = Utf8               BinToDec
-  #13 = Utf8               convertBinaryToDecimal
-  #14 = Utf8               (J)I
-  #15 = Long               10l
-  #17 = Double             2.0d
-  #19 = Methodref          #20.#21        // java/lang/Math.pow:(DD)D
-  #20 = Class              #22            // java/lang/Math
-  #21 = NameAndType        #23:#24        // pow:(DD)D
-  #22 = Utf8               java/lang/Math
-  #23 = Utf8               pow
-  #24 = Utf8               (DD)D
-  #25 = Utf8               Code
-  #26 = Utf8               LineNumberTable
-  #27 = Utf8               main
-  #28 = Utf8               ([Ljava/lang/String;)V
-  #29 = Utf8               StackMapTable
-  #30 = Utf8               SourceFile
-  #31 = Utf8               BinToDec.java
+   #7 = Class              #8             // Fibonacci
+   #8 = Utf8               Fibonacci
+   #9 = Utf8               Code
+  #10 = Utf8               LineNumberTable
+  #11 = Utf8               main
+  #12 = Utf8               ([Ljava/lang/String;)V
+  #13 = Utf8               StackMapTable
+  #14 = Class              #15            // "[I"
+  #15 = Utf8               [I
+  #16 = Utf8               SourceFile
+  #17 = Utf8               Fibonacci.java
 {
-  BinToDec();
+  Fibonacci();
     descriptor: ()V
     flags: (0x0000)
     Code:
@@ -54,67 +43,71 @@ Constant pool:
     descriptor: ([Ljava/lang/String;)V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=2, locals=4, args_size=1
-         0: ldc2_w        #7                  // long 110110111l
-         3: lstore_1
-         4: lload_1
-         5: invokestatic  #9                  // Method convertBinaryToDecimal:(J)I
-         8: istore_3
-         9: return
+      stack=4, locals=4, args_size=1
+         0: bipush        8
+         2: newarray       int
+         4: dup
+         5: iconst_0
+         6: iconst_1
+         7: iastore
+         8: dup
+         9: iconst_1
+        10: iconst_1
+        11: iastore
+        12: dup
+        13: iconst_2
+        14: iconst_2
+        15: iastore
+        16: dup
+        17: iconst_3
+        18: iconst_3
+        19: iastore
+        20: dup
+        21: iconst_4
+        22: iconst_5
+        23: iastore
+        24: dup
+        25: iconst_5
+        26: bipush        8
+        28: iastore
+        29: dup
+        30: bipush        6
+        32: bipush        13
+        34: iastore
+        35: dup
+        36: bipush        7
+        38: bipush        21
+        40: iastore
+        41: astore_1
+        42: iconst_0
+        43: istore_2
+        44: iconst_0
+        45: istore_3
+        46: iload_3
+        47: aload_1
+        48: arraylength
+        49: if_icmpge     64
+        52: iload_2
+        53: aload_1
+        54: iload_3
+        55: iaload
+        56: iadd
+        57: istore_2
+        58: iinc          3, 1
+        61: goto          46
+        64: return
       LineNumberTable:
-        line 6: 0
-        line 9: 4
-        line 10: 9
-
-  public static int convertBinaryToDecimal(long);
-    descriptor: (J)I
-    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
-    Code:
-      stack=8, locals=6, args_size=1
-         0: iconst_0
-         1: istore_2
-         2: iconst_0
-         3: istore_3
-         4: lload_0
-         5: lconst_0
-         6: lcmp
-         7: ifeq          46
-        10: lload_0
-        11: ldc2_w        #15                 // long 10l
-        14: lrem
-        15: lstore        4
-        17: lload_0
-        18: ldc2_w        #15                 // long 10l
-        21: ldiv
-        22: lstore_0
-        23: iload_2
-        24: i2d
-        25: lload         4
-        27: l2d
-        28: ldc2_w        #17                 // double 2.0d
-        31: iload_3
-        32: i2d
-        33: invokestatic  #19                 // Method java/lang/Math.pow:(DD)D
-        36: dmul
-        37: dadd
-        38: d2i
-        39: istore_2
-        40: iinc          3, 1
-        43: goto          4
-        46: iload_2
-        47: ireturn
-      LineNumberTable:
-        line 13: 0
-        line 16: 4
-        line 17: 10
-        line 18: 17
-        line 19: 23
-        line 20: 40
-        line 23: 46
+        line 4: 0
+        line 5: 42
+        line 6: 44
+        line 7: 52
+        line 6: 58
+        line 9: 64
       StackMapTable: number_of_entries = 2
-        frame_type = 253 /* append */
-          offset_delta = 4
-          locals = [ int, int ]
-        frame_type = 41 /* same */
+        frame_type = 254 /* append */
+          offset_delta = 46
+          locals = [ class "[I", int, int ]
+        frame_type = 250 /* chop */
+          offset_delta = 17
 }
-SourceFile: "BinToDec.java"
+SourceFile: "Fibonacci.java"
